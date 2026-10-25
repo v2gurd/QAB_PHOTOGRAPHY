@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نمونه‌کارهای احسان نامی | قاب</title>
+
+  <style>
+    .qab-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      width: 100%;
+      margin: 0;
+    }
+
+    .qab-gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #f1f1f1;
+      aspect-ratio: 4 / 5;
+    }
+
+    .qab-gallery-item img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .35s ease;
+    }
+
+    .qab-gallery-item:hover img {
+      transform: scale(1.04);
+    }
+
+    .qab-gallery-item button {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      cursor: zoom-in;
+    }
+
+    .qab-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, .92);
+    }
+
+    .qab-lightbox.is-open {
+      display: flex;
+    }
+
+    .qab-lightbox img {
+      max-width: 95%;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .qab-lightbox-close {
+      position: absolute;
+      top: 16px;
+      left: 18px;
+      color: white;
+      font-size: 32px;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+    }
+
+    @media (min-width: 600px) {
+      .qab-gallery {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="qab-gallery" id="ehsanPortfolio"
+           aria-label="نمونه‌کارهای احسان نامی"></section>
+
+  <div class="qab-lightbox" id="qabLightbox" aria-hidden="true">
+    <button class="qab-lightbox-close" id="qabClose"
+            aria-label="بستن تصویر">&times;</button>
+    <img id="qabLightboxImage" alt="نمایش بزرگ نمونه‌کار">
+  </div>
+
+  <script>
+    const portfolioPath = [
+      "f33bfa39a174bdb9406ff31023e64412.png",
+      "IMG_3515.png",
+      "3175dbab48426274d9e2d8d5655cf2ac.jpeg",
+      "8F835A17-53B0-4BA2-A1AE-376F42095B73.png",
+      "2290AA16-5F04-497B-934E-67C72E64DDB1.jpeg"
+    ];
+
+    const gallery = document.getElementById("ehsanPortfolio");
+    const lightbox = document.getElementById("qabLightbox");
+    const lightboxImage = document.getElementById("qabLightboxImage");
+
+    portfolioPath.forEach((filename, index) => {
+      const item = document.createElement("div");
+      item.className = "qab-gallery-item";
+
+      const image = document.createElement("img");
+      image.src = "./" + filename;
+      image.alt = "نمونه‌کار " + (index + 1) + " احسان نامی";
+      image.loading = "lazy";
+
+      image.onerror = () => {
+        item.remove();
+        console.error("تصویر پیدا نشد:", filename);
+      };
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.setAttribute("aria-label", "نمایش بزرگ تصویر " + (index + 1));
+
+      button.addEventListener("click", () => {
+        lightboxImage.src = image.src;
+        lightbox.classList.add("is-open");
+        lightbox.setAttribute("aria-hidden", "false");
+      });
+
+      item.append(image, button);
+      gallery.appendChild(item);
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      lightboxImage.src = "";
+    }
+
+    document.getElementById("qabClose")
+      .addEventListener("click", closeLightbox);
+
+    lightbox.addEventListener("click", event => {
+      if (event.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeLightbox();
+    });
+  </script>
+</body>
+</html>
