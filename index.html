@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -901,6 +900,28 @@
       padding: 10px;
     }
 
+    /* Portfolio images for Ehsan's profile */
+    .sample-item {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 15px;
+      background: #20211d;
+    }
+
+    .sample-image {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      transition: transform .35s ease;
+      cursor: zoom-in;
+    }
+
+    .sample-item:hover .sample-image {
+      transform: scale(1.035);
+    }
+
     .toast {
       position: fixed;
       z-index: 200;
@@ -1717,12 +1738,40 @@
       const sampleGrid = document.createElement("div");
       sampleGrid.className = "sample-grid";
 
-      ["نمونه‌کار اول", "نمونه‌کار دوم"].forEach(label => {
-        const placeholder = document.createElement("div");
-        placeholder.className = "sample-placeholder";
-        placeholder.textContent = label + "؛ تصویر به‌زودی اضافه می‌شود";
-        sampleGrid.appendChild(placeholder);
-      });
+      if (id === "ehsan") {
+        const portfolioImages = [
+          "f33bfa39a174bdb9406ff31023e64412.png",
+          "IMG_3515.png",
+          "3175dbab48426274d9e2d8d5655cf2ac.jpeg",
+          "8F835A17-53B0-4BA2-A1AE-376F42095B73.png",
+          "2290AA16-5F04-497B-934E-67C72E64DDB1.jpeg"
+        ];
+
+        portfolioImages.forEach((filename, index) => {
+          const item = document.createElement("div");
+          item.className = "sample-item";
+
+          const image = document.createElement("img");
+          image.className = "sample-image";
+          image.src = "portfolio/" + filename;
+          image.alt = "نمونه‌کار " + (index + 1) + " از احسان نامی";
+          image.loading = "lazy";
+          image.decoding = "async";
+          image.addEventListener("click", () => {
+            window.open(image.src, "_blank", "noopener,noreferrer");
+          });
+
+          item.appendChild(image);
+          sampleGrid.appendChild(item);
+        });
+      } else {
+        ["نمونه‌کار اول", "نمونه‌کار دوم"].forEach(label => {
+          const placeholder = document.createElement("div");
+          placeholder.className = "sample-placeholder";
+          placeholder.textContent = label + "؛ تصویر به‌زودی اضافه می‌شود";
+          sampleGrid.appendChild(placeholder);
+        });
+      }
 
       const actions = document.createElement("div");
       actions.className = "form-actions";
