@@ -892,6 +892,13 @@
       line-height: 2;
     }
 
+    .card-rate {
+      margin: 0 0 17px;
+      padding: 9px 12px;
+      font-size: 11px;
+      line-height: 1.9;
+    }
+
     .profile-header {
       display: flex;
       align-items: center;
@@ -1387,6 +1394,8 @@
                 <span class="tag">آتلیه</span>
               </div>
 
+              <div class="notice card-rate">تعرفه هر شات: ۴۰۰٬۰۰۰ تومان</div>
+
               <div class="card-actions">
                 <button class="btn btn-secondary" type="button" onclick="openProfile('ehsan')">مشاهده پروفایل</button>
                 <button class="btn btn-primary" type="button" onclick="openBooking('احسان نامی')">رزرو عکاسی ↗</button>
@@ -1432,6 +1441,8 @@
                 <span class="tag">مراسم</span>
                 <span class="tag">آتلیه</span>
               </div>
+
+              <div class="notice card-rate">تعرفه هر شات: ۴۵۰٬۰۰۰ تومان</div>
 
               <div class="card-actions">
                 <button class="btn btn-secondary" type="button" onclick="openProfile('tabassom')">مشاهده پروفایل</button>
@@ -1693,7 +1704,8 @@
         image: "IMG_3579.png",
         bio: "عکاسی با تمرکز بر پرتره، ترکیب‌بندی، نور و ساخت تصویری که شخصیت و حس سوژه را حفظ کند.",
         styles: ["پرتره", "دونفره", "فشن", "آتلیه"],
-        telegram: "https://t.me/esi_as"
+        telegram: "https://t.me/esi_as",
+        shotRate: 400000
       },
       tabassom: {
         name: "تبسم اسرافیلی",
@@ -1701,7 +1713,8 @@
         image: "0077b58b80ba79b2664aec9a37c07388.png",
         bio: "عکاسی با نگاه خلاقانه و توجه به جزئیات؛ مناسب برای پرتره، ثبت خاطرات و عکاسی دونفره.",
         styles: ["پرتره", "دونفره", "مراسم", "آتلیه"],
-        telegram: "https://t.me/Tabassomes"
+        telegram: "https://t.me/Tabassomes",
+        shotRate: 450000
       }
     };
 
@@ -1837,6 +1850,10 @@
         tags.appendChild(tag);
       });
 
+      const rateNotice = document.createElement("div");
+      rateNotice.className = "notice";
+      rateNotice.textContent = "تعرفه هر شات: " + formatToman(photographer.shotRate);
+
       const sampleTitle = document.createElement("h3");
       sampleTitle.style.marginTop = "24px";
       sampleTitle.style.fontSize = "16px";
@@ -1851,7 +1868,23 @@
           "IMG_3515.png",
           "3175dbab48426274d9e2d8d5655cf2ac.jpeg",
           "8F835A17-53B0-4BA2-A1AE-376F42095B73.png",
-          "2290AA16-5F04-497B-934E-67C72E64DDB1.jpeg"
+          "2290AA16-5F04-497B-934E-67C72E64DDB1.jpeg",
+          "Ehsan/IMG_4006.jpeg",
+          "Ehsan/IMG_4010.jpeg",
+          "Ehsan/IMG_4011.jpeg",
+          "Ehsan/IMG_4012.jpeg",
+          "Ehsan/IMG_4013.jpeg",
+          "Ehsan/IMG_4014.jpeg",
+          "Ehsan/IMG_4015.jpeg",
+          "Ehsan/IMG_4016.jpeg",
+          "Ehsan/IMG_4018.jpeg",
+          "Ehsan/IMG_4019.jpeg",
+          "Ehsan/IMG_4020.jpeg",
+          "Ehsan/IMG_4021.jpeg",
+          "Ehsan/IMG_4022.jpeg",
+          "Ehsan/IMG_4023.jpeg",
+          "Ehsan/IMG_4024.jpeg",
+          "Ehsan/IMG_4025.jpeg"
         ];
 
         portfolioImages.forEach((filename, index) => {
@@ -1947,7 +1980,7 @@
         actions.appendChild(telegram);
       }
 
-      content.append(header, description, tags, sampleTitle, sampleGrid, actions);
+      content.append(header, description, tags, rateNotice, sampleTitle, sampleGrid, actions);
       openModal("profileModal");
     }
 
@@ -1973,6 +2006,11 @@
       return new Intl.NumberFormat("fa-IR").format(value) + " تومان";
     }
 
+    function getShotRate(name) {
+      const found = Object.values(photographers).find(p => p.name === name);
+      return found ? found.shotRate : null;
+    }
+
     function updatePriceEstimate() {
       const video = isVideoService();
       $("#shotCountGroup").hidden = video;
@@ -1982,19 +2020,36 @@
       const count = Number($("#shotCount").value);
       const duration = $("#videoDuration").value;
       let message = "برای محاسبه قیمت، نوع خدمات و تعداد شات یا مدت فیلم‌برداری را انتخاب کن.";
-      if (video && duration === "۳۰ ثانیه") message = "تعرفه فیلم‌برداری ۳۰ ثانیه: " + formatToman(3000000);
-      else if (video && duration === "۱ دقیقه") message = "تعرفه فیلم‌برداری ۱ دقیقه: " + formatToman(4000000);
-      else if (!video && Number.isInteger(count) && count > 0) {
-        const price = count <= 4 ? 500000 : count * 300000;
-        message = `تعرفه ${new Intl.NumberFormat("fa-IR").format(count)} شات: ${formatToman(price)}${count <= 4 ? " (تعرفه مجموع ۱ تا ۴ شات)" : " (هر شات ۳۰۰ هزار تومان)"}`;
+      let price = null;
+      if (video && duration === "۳۰ ثانیه") {
+        price = 3000000;
+        message = "تعرفه فیلم‌برداری ۳۰ ثانیه: " + formatToman(price);
+      } else if (video && duration === "۱ دقیقه") {
+        price = 4000000;
+        message = "تعرفه فیلم‌برداری ۱ دقیقه: " + formatToman(price);
+      } else if (!video) {
+        const name = $("#photographer").value;
+        const rate = getShotRate(name);
+        const rawCount = $("#shotCount").value.trim();
+        if (!rate) {
+          message = "برای محاسبه قیمت عکاسی، ابتدا یک عکاس مشخص (احسان نامی یا تبسم اسرافیلی) انتخاب کن؛ تعرفه هر شات برای هر عکاس متفاوت است.";
+        } else if (rawCount === "") {
+          message = `تعرفه هر شات ${name}: ${formatToman(rate)}. تعداد شات را وارد کن تا مبلغ کل محاسبه شود.`;
+        } else if (!Number.isInteger(count) || count < 1 || count > 500) {
+          message = "تعداد شات باید یک عدد صحیح بین ۱ تا ۵۰۰ باشد.";
+        } else {
+          price = count * rate;
+          message = `تعرفه ${new Intl.NumberFormat("fa-IR").format(count)} شات ${name}: ${formatToman(price)} (${new Intl.NumberFormat("fa-IR").format(count)} شات × ${formatToman(rate)})`;
+        }
       }
       $("#priceEstimate").textContent = message;
-      return video && duration === "۳۰ ثانیه" ? 3000000 : video && duration === "۱ دقیقه" ? 4000000 : (!video && Number.isInteger(count) && count > 0 ? (count <= 4 ? 500000 : count * 300000) : null);
+      return price;
     }
 
     $("#shootType").addEventListener("change", updatePriceEstimate);
     $("#shotCount").addEventListener("input", updatePriceEstimate);
     $("#videoDuration").addEventListener("change", updatePriceEstimate);
+    $("#photographer").addEventListener("change", updatePriceEstimate);
 
     function telegramUsernameFor(name) {
       if (name === "احسان نامی") return "esi_as";
