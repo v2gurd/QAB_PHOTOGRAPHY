@@ -1,1710 +1,810 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#111111">
-
-  <title>قاب | QĀB — دنیای عکاسی</title>
-  <meta name="description" content="قاب، دایرکتوری عکاسان و فضایی برای کشف نگاه‌های متفاوت به دنیای تصویر.">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --bg: #111111;
-      --surface: #191919;
-      --surface-2: #222222;
-      --white: #f5f5f2;
-      --muted: #929292;
-      --line: rgba(255,255,255,.13);
-      --accent: #d8d8d3;
-      --max: 1320px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 90px;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--white);
-      font-family: "Vazirmatn", sans-serif;
-      overflow-x: hidden;
-      line-height: 1.8;
-    }
-
-    body::selection {
-      background: var(--white);
-      color: var(--bg);
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button {
-      font: inherit;
-    }
-
-    img {
-      display: block;
-      width: 100%;
-    }
-
-    .container {
-      width: min(var(--max), calc(100% - 64px));
-      margin-inline: auto;
-    }
-
-    .en {
-      font-family: "DM Sans", sans-serif;
-      direction: ltr;
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
-    .eyebrow {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 2px;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 24px;
-      height: 1px;
-      background: currentColor;
-    }
-
-    .section {
-      padding-block: 110px;
-    }
-
-    .section-heading {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 25px;
-      margin-bottom: 42px;
-    }
-
-    .section-heading h2 {
-      font-size: clamp(28px, 4vw, 54px);
-      font-weight: 500;
-      line-height: 1.35;
-      margin-top: 12px;
-    }
-
-    .section-heading p {
-      max-width: 330px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .topline {
-      height: 3px;
-      background: var(--white);
-      width: 100%;
-    }
-
-    /* Navigation */
-
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(17,17,17,.87);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .nav-inner {
-      min-height: 78px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .logo {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -1px;
-      white-space: nowrap;
-    }
-
-    .logo span {
-      color: var(--muted);
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: 3px;
-      margin-right: 7px;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-      font-size: 12px;
-      color: #c5c5c5;
-    }
-
-    .nav-links a {
-      transition: color .25s;
-    }
-
-    .nav-links a:hover {
-      color: white;
-    }
-
-    .nav-cta {
-      border: 1px solid var(--line);
-      padding: 10px 17px;
-      font-size: 12px;
-      transition: .3s;
-      white-space: nowrap;
-    }
-
-    .nav-cta:hover {
-      background: var(--white);
-      color: var(--bg);
-    }
-
-    .menu-toggle {
-      display: none;
-      background: transparent;
-      border: 1px solid var(--line);
-      color: white;
-      width: 42px;
-      height: 42px;
-      cursor: pointer;
-    }
-
-    /* Hero */
-
-    .hero {
-      min-height: 650px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 50px;
-      padding-block: 65px 90px;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      border: 1px solid var(--line);
-      border-radius: 100px;
-      padding: 7px 14px;
-      color: #c7c7c7;
-      font-size: 11px;
-      margin-bottom: 30px;
-    }
-
-    .hero-tag i {
-      width: 6px;
-      height: 6px;
-      background: #e4e4df;
-      border-radius: 50%;
-      box-shadow: 0 0 12px #fff;
-    }
-
-    .hero h1 {
-      font-size: clamp(48px, 7.5vw, 100px);
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -3px;
-    }
-
-    .hero h1 .outline {
-      color: transparent;
-      -webkit-text-stroke: 1px #bdbdbd;
-    }
-
-    .hero-description {
-      max-width: 440px;
-      margin-top: 28px;
-      color: #aaa;
-      font-size: 14px;
-      line-height: 2.2;
-    }
-
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      margin-top: 34px;
-      flex-wrap: wrap;
-    }
-
-    .button-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      background: var(--white);
-      color: var(--bg);
-      padding: 14px 23px;
-      font-size: 12px;
-      transition: .3s;
-      border: 1px solid var(--white);
-    }
-
-    .button-primary:hover {
-      background: transparent;
-      color: white;
-    }
-
-    .button-primary .arrow {
-      font-size: 18px;
-      transition: transform .3s;
-    }
-
-    .button-primary:hover .arrow {
-      transform: translateX(-4px);
-    }
-
-    .text-link {
-      font-size: 12px;
-      color: #c3c3c3;
-      border-bottom: 1px solid #555;
-      padding-bottom: 4px;
-    }
-
-    .hero-visual {
-      position: relative;
-      min-width: 0;
-    }
-
-    .hero-image-wrap {
-      height: 510px;
-      position: relative;
-      overflow: hidden;
-      background: #242424;
-    }
-
-    .hero-image-wrap::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(0deg, rgba(0,0,0,.3), transparent 45%);
-      pointer-events: none;
-    }
-
-    .hero-image {
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(100%);
-      transition: transform 1s, filter .8s;
-    }
-
-    .hero-visual:hover .hero-image {
-      transform: scale(1.04);
-      filter: grayscale(40%);
-    }
-
-    .hero-image-label {
-      position: absolute;
-      bottom: 22px;
-      right: 22px;
-      z-index: 2;
-      font-size: 11px;
-      color: white;
-    }
-
-    .hero-image-number {
-      position: absolute;
-      top: 18px;
-      left: 18px;
-      z-index: 2;
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      letter-spacing: 2px;
-    }
-
-    .hero-corner {
-      position: absolute;
-      left: -18px;
-      bottom: -18px;
-      width: 90px;
-      height: 90px;
-      border-left: 1px solid #888;
-      border-bottom: 1px solid #888;
-      pointer-events: none;
-    }
-
-    .hero-side-label {
-      position: absolute;
-      right: -32px;
-      top: 40px;
-      writing-mode: vertical-rl;
-      color: #777;
-      font-family: "DM Sans", sans-serif;
-      font-size: 10px;
-      letter-spacing: 3px;
-    }
-
-    /* Stats */
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .stat {
-      padding: 26px 30px;
-      border-left: 1px solid var(--line);
-    }
-
-    .stat:last-child {
-      border-left: 0;
-    }
-
-    .stat-number {
-      font-family: "DM Sans", sans-serif;
-      font-size: 32px;
-      line-height: 1.3;
-    }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 6px;
-    }
-
-    /* Marquee */
-
-    .marquee {
-      overflow: hidden;
-      border-bottom: 1px solid var(--line);
-      padding-block: 23px;
-    }
-
-    .marquee-track {
-      display: flex;
-      width: max-content;
-      animation: marquee 32s linear infinite;
-    }
-
-    .marquee-track span {
-      font-family: "DM Sans", sans-serif;
-      font-size: 35px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      white-space: nowrap;
-      padding-inline: 22px;
-      color: #d7d7d2;
-    }
-
-    .marquee-track .dot {
-      color: #777;
-    }
-
-    @keyframes marquee {
-      to {
-        transform: translateX(-50%);
-      }
-    }
-
-    /* Featured photographer */
-
-    .featured {
-      display: grid;
-      grid-template-columns: .9fr 1.1fr;
-      gap: 70px;
-      align-items: center;
-    }
-
-    .featured-image-wrap {
-      height: 540px;
-      overflow: hidden;
-      background: var(--surface);
-      position: relative;
-    }
-
-    .featured-image {
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(100%);
-      transition: .8s;
-    }
-
-    .featured-image-wrap:hover .featured-image {
-      filter: grayscale(35%);
-      transform: scale(1.035);
-    }
-
-    .featured-stamp {
-      position: absolute;
-      left: 20px;
-      bottom: 20px;
-      border: 1px solid rgba(255,255,255,.6);
-      background: rgba(0,0,0,.35);
-      padding: 9px 13px;
-      font-size: 10px;
-      letter-spacing: 2px;
-    }
-
-    .featured-content h3 {
-      font-size: clamp(35px, 5vw, 64px);
-      font-weight: 600;
-      line-height: 1.3;
-      margin-top: 20px;
-    }
-
-    .featured-role {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 12px;
-    }
-
-    .featured-description {
-      color: #b0b0b0;
-      font-size: 13px;
-      line-height: 2.3;
-      max-width: 470px;
-      margin-top: 27px;
-    }
-
-    .featured-details {
-      display: flex;
-      gap: 32px;
-      margin-top: 30px;
-      padding-block: 20px;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .detail-label {
-      font-size: 10px;
-      color: var(--muted);
-    }
-
-    .detail-value {
-      font-size: 13px;
-      margin-top: 4px;
-    }
-
-    .featured-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 13px;
-      margin-top: 30px;
-      border-bottom: 1px solid #666;
-      padding-bottom: 7px;
-      font-size: 12px;
-    }
-
-    /* Directory */
-
-    .directory {
-      background: #151515;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .directory-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 25px;
-      margin-bottom: 35px;
-    }
-
-    .directory-title {
-      font-size: clamp(30px, 4.5vw, 57px);
-      font-weight: 500;
-      margin-top: 12px;
-    }
-
-    .directory-count {
-      color: var(--muted);
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-    }
-
-    .filters {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 35px;
-    }
-
-    .filter-btn {
-      cursor: pointer;
-      background: transparent;
-      border: 1px solid var(--line);
-      color: #aaa;
-      padding: 9px 17px;
-      font-size: 11px;
-      transition: .25s;
-    }
-
-    .filter-btn:hover,
-    .filter-btn.active {
-      background: var(--white);
-      border-color: var(--white);
-      color: var(--bg);
-    }
-
-    .photographer-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-    }
-
-    .photographer-card {
-      min-width: 0;
-      border: 1px solid var(--line);
-      background: #191919;
-      transition: border-color .3s, transform .3s;
-    }
-
-    .photographer-card:hover {
-      border-color: #777;
-      transform: translateY(-5px);
-    }
-
-    .card-image-wrap {
-      position: relative;
-      height: 400px;
-      overflow: hidden;
-      background: #252525;
-    }
-
-    .card-image {
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(100%);
-      transition: transform .8s, filter .6s;
-    }
-
-    .photographer-card:hover .card-image {
-      transform: scale(1.04);
-      filter: grayscale(35%);
-    }
-
-    .card-index {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      background: rgba(0,0,0,.55);
-      border: 1px solid rgba(255,255,255,.25);
-      padding: 5px 10px;
-      font-size: 11px;
-      font-family: "DM Sans", sans-serif;
-    }
-
-    .card-category {
-      position: absolute;
-      right: 15px;
-      bottom: 15px;
-      background: rgba(0,0,0,.6);
-      padding: 6px 11px;
-      font-size: 10px;
-    }
-
-    .card-body {
-      padding: 22px;
-    }
-
-    .card-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .card-title {
-      font-size: 23px;
-      font-weight: 500;
-    }
-
-    .card-arrow {
-      display: grid;
-      place-items: center;
-      width: 38px;
-      height: 38px;
-      border: 1px solid var(--line);
-      border-radius: 50%;
-      font-size: 18px;
-      transition: .3s;
-      flex-shrink: 0;
-    }
-
-    .photographer-card:hover .card-arrow {
-      background: white;
-      color: black;
-    }
-
-    .card-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 18px;
-      margin-top: 13px;
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .card-description {
-      color: #aaa;
-      font-size: 12px;
-      line-height: 2.2;
-      margin-top: 17px;
-    }
-
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-top: 20px;
-      padding-top: 15px;
-      border-top: 1px solid var(--line);
-    }
-
-    .card-location {
-      color: #aaa;
-      font-size: 11px;
-    }
-
-    .card-contact {
-      border-bottom: 1px solid #777;
-      font-size: 11px;
-      padding-bottom: 4px;
-    }
-
-    .empty-state {
-      display: none;
-      color: var(--muted);
-      text-align: center;
-      padding: 50px 10px;
-      border: 1px dashed var(--line);
-      font-size: 13px;
-    }
-
-    /* About */
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 70px;
-      align-items: start;
-    }
-
-    .about-heading {
-      font-size: clamp(35px, 5.5vw, 72px);
-      line-height: 1.45;
-      font-weight: 500;
-      margin-top: 18px;
-    }
-
-    .about-heading span {
-      color: #777;
-    }
-
-    .about-copy {
-      color: #aaa;
-      font-size: 13px;
-      line-height: 2.5;
-      padding-top: 45px;
-    }
-
-    .about-values {
-      margin-top: 30px;
-      border-top: 1px solid var(--line);
-    }
-
-    .about-value {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      padding-block: 15px;
-      border-bottom: 1px solid var(--line);
-      font-size: 12px;
-    }
-
-    .about-value span:last-child {
-      color: var(--muted);
-      font-family: "DM Sans", sans-serif;
-    }
-
-    /* CTA */
-
-    .cta {
-      position: relative;
-      overflow: hidden;
-      background: #e9e9e4;
-      color: #111;
-      padding: 75px 65px;
-    }
-
-    .cta::after {
-      content: "QĀB";
-      position: absolute;
-      left: -20px;
-      bottom: -100px;
-      font-family: "DM Sans", sans-serif;
-      font-size: clamp(140px, 27vw, 360px);
-      font-weight: 700;
-      color: rgba(0,0,0,.045);
-      line-height: 1;
-      pointer-events: none;
-    }
-
-    .cta-content {
-      position: relative;
-      z-index: 2;
-      max-width: 700px;
-    }
-
-    .cta .eyebrow {
-      color: #555;
-    }
-
-    .cta h2 {
-      font-size: clamp(36px, 6vw, 76px);
-      line-height: 1.35;
-      font-weight: 600;
-      margin-top: 15px;
-    }
-
-    .cta p {
-      color: #555;
-      font-size: 13px;
-      margin-top: 18px;
-      max-width: 460px;
-    }
-
-    .cta .button-primary {
-      margin-top: 25px;
-      background: #111;
-      color: white;
-      border-color: #111;
-    }
-
-    .cta .button-primary:hover {
-      background: transparent;
-      color: #111;
-    }
-
-    /* Footer */
-
-    .footer {
-      padding-top: 65px;
-    }
-
-    .footer-main {
-      display: grid;
-      grid-template-columns: 1.3fr .7fr .7fr;
-      gap: 40px;
-      padding-bottom: 50px;
-    }
-
-    .footer-logo {
-      font-size: 40px;
-      font-weight: 800;
-      line-height: 1.3;
-    }
-
-    .footer-description {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 2.2;
-      max-width: 310px;
-      margin-top: 15px;
-    }
-
-    .footer-column h4 {
-      font-size: 12px;
-      font-weight: 500;
-      margin-bottom: 17px;
-    }
-
-    .footer-column a {
-      display: block;
-      width: fit-content;
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 11px;
-      transition: color .2s;
-    }
-
-    .footer-column a:hover {
-      color: white;
-    }
-
-    .footer-bottom {
-      min-height: 70px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      border-top: 1px solid var(--line);
-      color: #777;
-      font-size: 10px;
-    }
-
-    .footer-bottom .en {
-      letter-spacing: 2px;
-    }
-
-    /* Scroll progress */
-
-    .scroll-progress {
-      position: fixed;
-      z-index: 200;
-      top: 0;
-      right: 0;
-      height: 2px;
-      width: 0%;
-      background: #fff;
-    }
-
-    /* Reveal animations */
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(25px);
-      transition: opacity .75s ease, transform .75s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .delay-1 {
-      transition-delay: .1s;
-    }
-
-    .delay-2 {
-      transition-delay: .2s;
-    }
-
-    .delay-3 {
-      transition-delay: .3s;
-    }
-
-    /* Responsive */
-
-    @media (max-width: 900px) {
-      .container {
-        width: min(100% - 40px, var(--max));
-      }
-
-      .nav-links {
-        gap: 17px;
-      }
-
-      .hero {
-        gap: 30px;
-        min-height: auto;
-      }
-
-      .hero-image-wrap {
-        height: 420px;
-      }
-
-      .featured {
-        gap: 35px;
-      }
-
-      .featured-image-wrap {
-        height: 450px;
-      }
-
-      .card-image-wrap {
-        height: 330px;
-      }
-
-      .section {
-        padding-block: 80px;
-      }
-
-      .cta {
-        padding: 55px 35px;
-      }
-    }
-
-    @media (max-width: 650px) {
-      .container {
-        width: calc(100% - 32px);
-      }
-
-      .nav-inner {
-        min-height: 68px;
-      }
-
-      .logo {
-        font-size: 25px;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-
-      .nav-cta {
-        display: none;
-      }
-
-      .nav-links {
-        position: absolute;
-        top: 68px;
-        right: 0;
-        left: 0;
-        display: none;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-        padding: 10px 20px 20px;
-        background: #141414;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      .nav-links a {
-        padding: 12px 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
-        padding-block: 55px 65px;
-        gap: 42px;
-      }
-
-      .hero h1 {
-        font-size: clamp(48px, 14vw, 76px);
-        letter-spacing: -2px;
-      }
-
-      .hero-description {
-        font-size: 13px;
-      }
-
-      .hero-image-wrap {
-        height: 410px;
-      }
-
-      .hero-side-label {
-        right: -19px;
-      }
-
-      .hero-corner {
-        display: none;
-      }
-
-      .stats {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .stat {
-        padding: 20px 10px;
-        text-align: center;
-      }
-
-      .stat-number {
-        font-size: 25px;
-      }
-
-      .stat-label {
-        font-size: 10px;
-      }
-
-      .marquee-track span {
-        font-size: 26px;
-      }
-
-      .section {
-        padding-block: 65px;
-      }
-
-      .section-heading {
-        align-items: start;
-        flex-direction: column;
-        margin-bottom: 28px;
-      }
-
-      .section-heading p {
-        max-width: 100%;
-      }
-
-      .featured {
-        grid-template-columns: 1fr;
-        gap: 30px;
-      }
-
-      .featured-image-wrap {
-        height: 430px;
-      }
-
-      .featured-content h3 {
-        font-size: 43px;
-      }
-
-      .featured-details {
-        gap: 25px;
-      }
-
-      .directory-top {
-        align-items: start;
-        flex-direction: column;
-      }
-
-      .photographer-grid {
-        grid-template-columns: 1fr;
-        gap: 18px;
-      }
-
-      .card-image-wrap {
-        height: 420px;
-      }
-
-      .card-title {
-        font-size: 21px;
-      }
-
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-
-      .about-copy {
-        padding-top: 10px;
-      }
-
-      .cta {
-        padding: 45px 24px;
-      }
-
-      .cta h2 {
-        font-size: 39px;
-      }
-
-      .footer-main {
-        grid-template-columns: 1fr 1fr;
-        gap: 35px 20px;
-      }
-
-      .footer-brand {
-        grid-column: 1 / -1;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        padding-block: 18px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-        scroll-behavior: auto !important;
-      }
-
-      .reveal {
-        opacity: 1;
-        transform: none;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0b0d">
+<title>قاب | QĀB — دنیای عکاسی</title>
+<meta name="description" content="عکاسان را کشف کن، نمونه‌کارها را ببین و جلسه عکاسی خود را رزرو کن.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b0b0d;
+  --panel:#131316;
+  --panel2:#19191e;
+  --white:#f7f7f5;
+  --muted:#92929c;
+  --line:rgba(255,255,255,.11);
+  --lime:#d6ff65;
+  --radius:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{
+  background:var(--bg);color:var(--white);
+  font-family:"Vazirmatn",sans-serif;line-height:1.9;
+  overflow-x:hidden;
+}
+body.modal-open{overflow:hidden}
+::selection{background:var(--lime);color:#111}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+img{display:block;width:100%}
+.container{width:min(1240px,calc(100% - 44px));margin:auto}
+.en{font-family:"DM Sans",sans-serif;direction:ltr}
+.muted{color:var(--muted)}
+.progress{height:3px;width:0;position:fixed;top:0;right:0;background:var(--lime);z-index:9999}
+.noise{
+  position:fixed;inset:0;pointer-events:none;z-index:1000;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+}
+.wrap{overflow:hidden}
+.eyebrow{font-size:11px;letter-spacing:2px;color:var(--lime);display:flex;align-items:center;gap:10px}
+.eyebrow:before{content:"";height:1px;width:23px;background:currentColor}
+.section{padding:110px 0}
+.section-title{font-size:clamp(34px,5vw,64px);font-weight:900;line-height:1.4;letter-spacing:-1.5px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:42px}
+.section-head p{max-width:350px;color:var(--muted);font-size:13px}
+.btn{
+  min-height:48px;padding:12px 21px;display:inline-flex;align-items:center;
+  justify-content:center;gap:12px;border:1px solid var(--line);
+  background:transparent;color:var(--white);font-size:12px;
+  transition:background .3s,color .3s,border .3s,transform .3s;
+}
+.btn:hover{transform:translateY(-3px);border-color:var(--lime)}
+.btn-primary{background:var(--lime);color:#101010;border-color:var(--lime);font-weight:800}
+.btn-primary:hover{background:#e5ff9c;border-color:#e5ff9c}
+.btn-dark{background:#111;color:#fff;border-color:#111}
+.btn-dark:hover{background:#292929;border-color:#292929}
+.pill{display:inline-flex;border:1px solid var(--line);border-radius:99px;padding:6px 12px;color:#c7c7ce;font-size:10px;gap:7px;align-items:center}
+.pill-dot{width:6px;height:6px;background:var(--lime);border-radius:50%;box-shadow:0 0 12px var(--lime)}
+/* Nav */
+.nav{position:sticky;top:0;z-index:100;background:rgba(11,11,13,.82);backdrop-filter:blur(22px);border-bottom:1px solid var(--line)}
+.nav-inner{height:78px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+.logo{font-weight:900;font-size:29px;letter-spacing:-1.5px;white-space:nowrap}
+.logo small{font-family:"DM Sans",sans-serif;font-size:11px;letter-spacing:3px;color:var(--lime);margin-right:7px}
+.nav-links{display:flex;gap:28px;align-items:center;font-size:12px;color:#c4c4cc}
+.nav-links a{transition:color .25s}
+.nav-links a:hover{color:var(--lime)}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.menu-toggle{display:none;background:transparent;color:white;border:1px solid var(--line);width:42px;height:42px}
+/* Hero */
+.hero{padding:72px 0 80px;display:grid;grid-template-columns:1fr 1fr;gap:55px;align-items:center;min-height:650px}
+.hero-copy{position:relative;z-index:2}
+.hero h1{font-size:clamp(54px,8vw,104px);font-weight:900;line-height:1.18;letter-spacing:-4px;margin:24px 0}
+.hero h1 .outline{color:transparent;-webkit-text-stroke:1px #f7f7f5}
+.hero h1 .lime{color:var(--lime)}
+.hero-desc{max-width:480px;color:#aaaab3;font-size:14px;line-height:2.3}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.hero-note{margin-top:27px;font-size:11px;color:#777782;display:flex;align-items:center;gap:9px}
+.hero-note:before{content:"";height:1px;width:28px;background:#777}
+.hero-visual{position:relative;padding:0 0 22px 22px}
+.hero-frame{height:500px;position:relative;background:#1b1b20;border-radius:3px;overflow:hidden}
+.hero-frame img{height:100%;object-fit:cover;filter:grayscale(100%);transition:transform 1s,filter .8s}
+.hero-frame:hover img{transform:scale(1.045);filter:grayscale(25%)}
+.hero-frame:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.68),transparent 52%);pointer-events:none}
+.hero-caption{position:absolute;z-index:2;bottom:23px;right:23px;left:23px;display:flex;justify-content:space-between;align-items:end;gap:15px}
+.hero-caption strong{font-size:17px}
+.hero-caption span{font-size:10px;color:#ddd}
+.hero-index{position:absolute;top:17px;left:17px;z-index:2;border:1px solid #ffffff55;padding:5px 10px;font-size:10px;letter-spacing:2px}
+.hero-visual:before{content:"";position:absolute;inset:23px 23px 0 0;border:1px solid #ffffff25;pointer-events:none}
+.hero-orb{position:absolute;width:150px;height:150px;border-radius:50%;background:var(--lime);filter:blur(100px);opacity:.15;top:-30px;right:-35px;pointer-events:none}
+/* Ticker */
+.ticker{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0}
+.ticker-track{width:max-content;display:flex;animation:ticker 35s linear infinite}
+.ticker-track span{font:700 26px "DM Sans",sans-serif;letter-spacing:3px;padding:0 23px;white-space:nowrap;color:#d9d9d9}
+.ticker-track b{color:var(--lime);font-weight:400}
+@keyframes ticker{to{transform:translateX(-50%)}}
+/* Featured */
+.featured{display:grid;grid-template-columns:.95fr 1.05fr;gap:70px;align-items:center}
+.featured-image{height:530px;position:relative;background:var(--panel2);overflow:hidden}
+.featured-image img{height:100%;object-fit:cover;filter:grayscale(100%);transition:.8s}
+.featured-image:hover img{filter:grayscale(25%);transform:scale(1.04)}
+.image-stamp{position:absolute;bottom:17px;left:17px;padding:7px 12px;background:#0b0b0dbb;border:1px solid #ffffff44;font-size:10px;letter-spacing:2px}
+.featured h3{font-size:clamp(39px,5vw,66px);font-weight:900;line-height:1.3;margin:17px 0 5px}
+.featured-role{font-size:12px;color:var(--lime)}
+.featured p{font-size:13px;color:#a5a5ae;line-height:2.5;margin-top:24px;max-width:500px}
+.featured-meta{display:flex;gap:35px;flex-wrap:wrap;margin-top:27px;padding:18px 0;border-block:1px solid var(--line)}
+.meta-label{font-size:10px;color:var(--muted)}
+.meta-value{font-size:12px;margin-top:3px}
+.featured-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+/* Directory */
+.directory{background:#101013;border-block:1px solid var(--line)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.filter{border:1px solid var(--line);background:transparent;color:#aaaab3;padding:9px 16px;font-size:11px;transition:.25s}
+.filter.active,.filter:hover{background:var(--lime);color:#101010;border-color:var(--lime)}
+.directory-count{font:12px "DM Sans",sans-serif;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.card{background:var(--panel);border:1px solid var(--line);min-width:0;transition:transform .35s,border-color .35s;cursor:pointer}
+.card:hover{transform:translateY(-6px);border-color:#68686e}
+.card-image{height:390px;position:relative;overflow:hidden;background:#1d1d22}
+.card-image img{height:100%;object-fit:cover;filter:grayscale(100%);transition:transform .8s,filter .7s}
+.card:hover .card-image img{transform:scale(1.04);filter:grayscale(35%)}
+.card-number{position:absolute;top:15px;left:15px;background:#0009;padding:4px 10px;font:11px "DM Sans",sans-serif}
+.card-tag{position:absolute;bottom:15px;right:15px;background:#000b;padding:5px 10px;font-size:10px}
+.card-body{padding:22px}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.card h3{font-size:23px;font-weight:800}
+.card-arrow{height:38px;width:38px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font-size:18px;transition:.3s}
+.card:hover .card-arrow{background:var(--lime);color:#111;border-color:var(--lime)}
+.card-sub{font-size:11px;color:var(--muted);margin-top:5px}
+.card-bottom{border-top:1px solid var(--line);margin-top:18px;padding-top:14px;display:flex;justify-content:space-between;gap:12px;font-size:11px;color:#b7b7bf}
+.empty{display:none;padding:45px;text-align:center;border:1px dashed var(--line);color:var(--muted);font-size:13px}
+/* About */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px}
+.about-title{font-size:clamp(40px,6vw,78px);line-height:1.4;font-weight:900;margin-top:18px}
+.about-title span{color:var(--lime)}
+.about-copy{color:#aaaab3;font-size:13px;line-height:2.5;padding-top:40px}
+.about-row{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:14px 0;font-size:12px}
+.about-row span:last-child{font-family:"DM Sans",sans-serif;color:var(--lime)}
+/* CTA */
+.cta{background:var(--lime);color:#111;padding:65px;position:relative;overflow:hidden}
+.cta:after{content:"QĀB";font:900 clamp(150px,28vw,360px)/1 "DM Sans",sans-serif;color:#11108;position:absolute;left:-20px;bottom:-100px;pointer-events:none}
+.cta-content{position:relative;z-index:2;max-width:750px}
+.cta .eyebrow{color:#222}
+.cta h2{font-size:clamp(37px,6vw,75px);font-weight:900;line-height:1.4;margin:14px 0}
+.cta p{font-size:13px;color:#333;max-width:480px;margin-bottom:25px}
+/* Footer */
+.footer{padding-top:65px}
+.footer-grid{display:grid;grid-template-columns:1.4fr .7fr .7fr;gap:40px;padding-bottom:45px}
+.footer-logo{font-size:40px;font-weight:900}
+.footer-desc{font-size:12px;color:var(--muted);max-width:300px;margin-top:10px}
+.footer-col h4{font-size:12px;margin-bottom:14px}
+.footer-col a{display:block;font-size:11px;color:var(--muted);margin-top:9px}
+.footer-col a:hover{color:var(--lime)}
+.footer-bottom{border-top:1px solid var(--line);padding:20px 0;display:flex;justify-content:space-between;gap:15px;color:#777782;font-size:10px}
+/* Modal */
+.modal{position:fixed;inset:0;z-index:2000;background:#000c;backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.modal.open{display:flex;animation:fadeIn .25s ease}
+.modal-box{width:min(900px,100%);max-height:calc(100vh - 40px);overflow:auto;background:#121215;border:1px solid #ffffff20;position:relative;animation:rise .35s ease;border-radius:16px}
+.modal-close{position:sticky;top:10px;float:left;z-index:5;margin:12px;width:40px;height:40px;background:#242429;border:1px solid var(--line);color:white;font-size:20px}
+.modal-inner{padding:10px 28px 30px;clear:both}
+.profile-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:30px}
+.profile-photo{height:410px;background:#222;overflow:hidden}
+.profile-photo img{height:100%;object-fit:cover;filter:grayscale(75%)}
+.profile-name{font-size:clamp(30px,5vw,49px);font-weight:900;line-height:1.35;margin:12px 0}
+.profile-bio{color:#aaaab3;font-size:13px;line-height:2.3;margin-top:15px}
+.profile-facts{display:flex;gap:20px;flex-wrap:wrap;border-block:1px solid var(--line);padding:14px 0;margin-top:20px;font-size:11px}
+.profile-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.modal-section-title{font-size:22px;font-weight:800;margin:28px 0 14px}
+.work-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.work-item{height:155px;background:#222;overflow:hidden}
+.work-item img{height:100%;object-fit:cover;filter:grayscale(65%);transition:.4s}
+.work-item:hover img{filter:none;transform:scale(1.05)}
+.work-note{font-size:11px;color:var(--muted);margin-top:10px}
+/* Booking form */
+.booking-intro{font-size:12px;color:var(--muted);margin:5px 0 22px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{font-size:11px;color:#c7c7ce}
+.field input,.field select,.field textarea{
+  width:100%;min-width:0;background:#1b1b20;color:white;border:1px solid var(--line);
+  border-radius:8px;padding:12px 13px;outline:none;font-size:12px;transition:border .2s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--lime)}
+.field select option{background:#17171a}
+.field textarea{resize:vertical;min-height:90px}
+.field input::placeholder,.field textarea::placeholder{color:#696972}
+.form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.form-message{font-size:12px;color:var(--lime);margin-top:12px;display:none;line-height:2}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(18px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:850px){
+ .hero{gap:28px}.hero h1{font-size:clamp(50px,8vw,75px)}
+ .hero-frame{height:420px}.featured{gap:35px}.featured-image{height:440px}
+ .section{padding:80px 0}.nav-links{gap:15px}.nav-links a{font-size:11px}
+ .card-image{height:320px}.cta{padding:45px}
+}
+@media(max-width:640px){
+ .container{width:calc(100% - 30px)}
+ .nav-inner{height:68px}.nav-actions>.btn{display:none}
+ .menu-toggle{display:block}
+ .nav-links{display:none;position:absolute;top:68px;right:0;left:0;background:#111;padding:12px 20px 20px;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0}
+ .nav-links.open{display:flex}.nav-links a{padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}
+ .hero{grid-template-columns:1fr;padding:48px 0 60px;gap:38px;min-height:0}
+ .hero h1{font-size:clamp(55px,15vw,85px);letter-spacing:-2.5px;margin:19px 0}
+ .hero-desc{font-size:13px}.hero-frame{height:410px}.hero-visual{padding:0 0 12px 12px}
+ .section{padding:65px 0}.section-head{align-items:start;flex-direction:column;gap:12px;margin-bottom:28px}
+ .featured{grid-template-columns:1fr;gap:27px}.featured-image{height:420px}
+ .featured h3{font-size:45px}.cards{grid-template-columns:1fr;gap:17px}
+ .card-image{height:400px}.card h3{font-size:21px}
+ .about-grid{grid-template-columns:1fr;gap:12px}.about-copy{padding-top:5px}
+ .cta{padding:36px 24px}.cta h2{font-size:40px}
+ .footer-grid{grid-template-columns:1fr 1fr;gap:30px 18px}
+ .footer-brand{grid-column:1/-1}.footer-bottom{flex-direction:column;text-align:center;align-items:center}
+ .modal{padding:8px}.modal-box{max-height:calc(100vh - 16px);border-radius:12px}
+ .modal-inner{padding:4px 16px 24px}.profile-layout{grid-template-columns:1fr;gap:20px}
+ .profile-photo{height:340px}.work-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .work-item{height:135px}.form-grid{grid-template-columns:1fr;gap:13px}
+ .field.full{grid-column:auto}.modal-section-title{font-size:20px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+ .reveal{opacity:1;transform:none}
+}
+</style>
 </head>
 
 <body>
+<div class="progress" id="progress"></div>
+<div class="noise"></div>
 
-  <div class="scroll-progress" id="scrollProgress"></div>
-  <div class="topline"></div>
-
-  <!-- Navigation -->
-  <header class="nav">
-    <div class="container nav-inner">
-
-      <a href="#home" class="logo">
-        قاب <span class="en">QĀB.</span>
-      </a>
-
-      <nav class="nav-links" id="navLinks">
-        <a href="#home">خانه</a>
-        <a href="#featured">عکاس منتخب</a>
-        <a href="#directory">عکاسان</a>
-        <a href="#about">درباره قاب</a>
-      </nav>
-
-      <a href="#directory" class="nav-cta">کشف عکاسان ↙</a>
-
-      <button class="menu-toggle" id="menuToggle" aria-label="باز کردن منو" aria-expanded="false">
-        ☰
-      </button>
-
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="#home" class="logo">قاب <small>QĀB.</small></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home">خانه</a>
+      <a href="#featured">عکاس منتخب</a>
+      <a href="#directory">عکاسان</a>
+      <a href="#about">درباره قاب</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-primary" href="#directory">کشف عکاسان <span>↙</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-label="باز کردن منو">☰</button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main>
+<main>
+<section class="container hero" id="home">
+  <div class="hero-copy reveal">
+    <span class="pill"><i class="pill-dot"></i> دایرکتوری عکاسان مستقل</span>
+    <h1>هر قاب،<br><span class="outline">یک نگاه</span><span class="lime">.</span></h1>
+    <p class="hero-desc">دنیای عکاسی را از زاویه‌ای تازه ببین. عکاس موردنظرت را پیدا کن، نمونه‌کارهایش را بررسی کن و برای ثبت لحظه‌های خودت برنامه بچین.</p>
+    <div class="hero-actions">
+      <a href="#directory" class="btn btn-primary">کشف عکاسان <span>↙</span></a>
+      <a href="#about" class="btn">داستان قاب <span>↘</span></a>
+    </div>
+    <div class="hero-note">فضایی برای نگاه‌های متفاوت و داستان‌های تصویری</div>
+  </div>
+  <div class="hero-visual reveal">
+    <div class="hero-orb"></div>
+    <div class="hero-frame">
+      <img src="IMG_2264.jpeg" alt="تصویر اصلی قاب" fetchpriority="high">
+      <span class="hero-index en">VISUAL JOURNAL / 001</span>
+      <div class="hero-caption"><strong>تصویر، فراتر از یک لحظه</strong><span class="en">QĀB STUDIO DIRECTORY</span></div>
+    </div>
+  </div>
+</section>
 
-    <!-- Hero -->
-    <section class="container hero" id="home">
+<div class="ticker"><div class="ticker-track">
+  <span>PHOTOGRAPHY</span><b>✳</b><span>VISUAL STORIES</span><b>✳</b><span>NEW PERSPECTIVES</span><b>✳</b>
+  <span>PHOTOGRAPHY</span><b>✳</b><span>VISUAL STORIES</span><b>✳</b><span>NEW PERSPECTIVES</span><b>✳</b>
+</div></div>
 
-      <div class="hero-content reveal">
-        <div class="hero-tag">
-          <i></i>
-          فضای کشف عکاسان مستقل
-        </div>
-
-        <h1>
-          هر قاب،<br>
-          <span class="outline">یک نگاه.</span>
-        </h1>
-
-        <p class="hero-description">
-          قاب، جایی برای کشف عکاس‌هایی است که دنیا را متفاوت می‌بینند.
-          پرتره‌ها، روایت‌ها و نگاه‌هایی که ارزش دیده‌شدن دارند.
-        </p>
-
-        <div class="hero-actions">
-          <a href="#directory" class="button-primary">
-            کشف عکاسان
-            <span class="arrow">↙</span>
-          </a>
-
-          <a href="#about" class="text-link">داستان قاب چیست؟</a>
-        </div>
+<section class="container section" id="featured">
+  <div class="section-head reveal">
+    <div><div class="eyebrow">THE FEATURED EYE</div><h2 class="section-title">پشت هر تصویر،<br>یک نگاه متفاوت.</h2></div>
+    <p>با عکاس‌های قاب آشنا شو و از نزدیک با سبک و دنیای تصویری آن‌ها آشنا شو.</p>
+  </div>
+  <div class="featured">
+    <div class="featured-image reveal">
+      <img src="IMG_3579.png" alt="احسان نامی" loading="lazy">
+      <span class="image-stamp en">FEATURED PHOTOGRAPHER</span>
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">PHOTOGRAPHER / 001</div>
+      <h3>احسان نامی</h3>
+      <div class="featured-role">عکاسی پرتره · روایت‌های سینمایی</div>
+      <p>عکاسی برای من راهی برای دیدن جزئیاتی است که در شلوغی روزمره از کنارشان می‌گذریم. هر پرتره فرصتی است برای ثبت شخصیت، احساس و لحظه‌ای که تکرار نمی‌شود.</p>
+      <div class="featured-meta">
+        <div><div class="meta-label">موقعیت</div><div class="meta-value">تبریز، ایران</div></div>
+        <div><div class="meta-label">سبک</div><div class="meta-value">پرتره و عکاسی هنری</div></div>
       </div>
-
-      <div class="hero-visual reveal delay-2">
-        <div class="hero-side-label en">THE ART OF SEEING</div>
-
-        <div class="hero-image-wrap">
-          <img
-            class="hero-image"
-            src="IMG_2264.jpeg"
-            alt="تصویر اصلی قاب"
-            fetchpriority="high"
-          >
-
-          <span class="hero-image-number en">FIG. 001</span>
-          <span class="hero-image-label">تصویر، فراتر از یک لحظه</span>
-        </div>
-
-        <div class="hero-corner"></div>
-      </div>
-
-    </section>
-
-    <!-- Stats -->
-    <section class="container">
-      <div class="stats reveal">
-
-        <div class="stat">
-          <div class="stat-number en">01</div>
-          <div class="stat-label">نگاه‌های متفاوت</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-number en">∞</div>
-          <div class="stat-label">روایت‌های تصویری</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-number en">01</div>
-          <div class="stat-label">مقصد برای کشف</div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Marquee -->
-    <div class="marquee" aria-label="Photography and visual storytelling">
-      <div class="marquee-track">
-        <span>PHOTOGRAPHY</span>
-        <span class="dot">✳</span>
-        <span>VISUAL STORIES</span>
-        <span class="dot">✳</span>
-        <span>NEW PERSPECTIVES</span>
-        <span class="dot">✳</span>
-
-        <span>PHOTOGRAPHY</span>
-        <span class="dot">✳</span>
-        <span>VISUAL STORIES</span>
-        <span class="dot">✳</span>
-        <span>NEW PERSPECTIVES</span>
-        <span class="dot">✳</span>
+      <div class="featured-actions">
+        <button class="btn btn-primary" onclick="openProfile('ehsan')">مشاهده پروفایل ↙</button>
+        <button class="btn" onclick="openBooking('ehsan')">رزرو عکاسی +</button>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- Featured Photographer -->
-    <section class="container section" id="featured">
+<section class="directory section" id="directory">
+  <div class="container">
+    <div class="section-head reveal">
+      <div><div class="eyebrow">THE DIRECTORY</div><h2 class="section-title">نگاه بعدی‌ات<br>را پیدا کن.</h2></div>
+      <div class="directory-count"><span id="count">02</span> / PHOTOGRAPHERS</div>
+    </div>
+    <div class="filters reveal">
+      <button class="filter active" data-filter="all">همه عکاسان</button>
+      <button class="filter" data-filter="portrait">پرتره</button>
+      <button class="filter" data-filter="fashion">فشن</button>
+      <button class="filter" data-filter="event">مراسم</button>
+    </div>
 
-      <div class="section-heading reveal">
-        <div>
-          <div class="eyebrow">THE FEATURED EYE</div>
-          <h2>یک نگاه،<br>هزار روایت.</h2>
+    <div class="cards" id="cards">
+      <article class="card reveal" data-category="portrait" onclick="openProfile('ehsan')" tabindex="0" role="button" aria-label="مشاهده پروفایل احسان نامی">
+        <div class="card-image">
+          <img src="IMG_3579.png" alt="احسان نامی" loading="lazy">
+          <span class="card-number">NO. 001</span><span class="card-tag">پرتره / عکاسی هنری</span>
         </div>
+        <div class="card-body">
+          <div class="card-top"><div><h3>احسان نامی</h3><div class="card-sub">عکاسی پرتره و سینمایی</div></div><span class="card-arrow">↙</span></div>
+          <div class="card-bottom"><span>⌖ تبریز، ایران</span><span>مشاهده جزئیات +</span></div>
+        </div>
+      </article>
 
-        <p>
-          بعضی عکس‌ها فقط ثبت یک لحظه نیستند؛
-          بخشی از نگاه عکاس به جهان‌اند.
-        </p>
-      </div>
-
-      <div class="featured">
-
-        <div class="featured-image-wrap reveal">
+      <article class="card reveal" data-category="portrait" onclick="openProfile('tabassom')" tabindex="0" role="button" aria-label="مشاهده پروفایل تبسم اسرافیلی">
+        <div class="card-image">
           <img
-            class="featured-image"
-            src="IMG_3579.png"
-            alt="پرتره احسان نامی"
+            src="0077b58b80ba79b2664aec9a37c07388.png"
+            data-fallback="0077b58b80ba79b2664aec9a37c07388.jpg"
+            alt="تبسم اسرافیلی"
             loading="lazy"
+            onerror="tryNextImage(this)"
           >
-
-          <span class="featured-stamp en">FEATURED PHOTOGRAPHER</span>
+          <span class="card-number">NO. 002</span><span class="card-tag">پرتره / عکاسی</span>
         </div>
-
-        <div class="featured-content reveal delay-1">
-
-          <div class="eyebrow">01 / PHOTOGRAPHER</div>
-
-          <h3>احسان نامی</h3>
-
-          <div class="featured-role">
-            عکاس پرتره و روایتگر لحظه‌ها
-          </div>
-
-          <p class="featured-description">
-            عکاسی برای من فقط ثبت یک تصویر نیست؛
-            تلاشی است برای پیدا کردن جزئیاتی که شاید در نگاه اول دیده نشوند.
-            از پرتره‌های ساده تا قاب‌هایی با حال‌وهوای سینمایی،
-            هر تصویر می‌تواند داستان خودش را داشته باشد.
-          </p>
-
-          <div class="featured-details">
-
-            <div>
-              <div class="detail-label">موقعیت</div>
-              <div class="detail-value">تبریز، ایران</div>
-            </div>
-
-            <div>
-              <div class="detail-label">حوزه فعالیت</div>
-              <div class="detail-value">پرتره و عکاسی هنری</div>
-            </div>
-
-          </div>
-
-          <a
-            href="https://t.me/esi_as"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="featured-link"
-          >
-            ارتباط با عکاس
-            <span>↙</span>
-          </a>
-
+        <div class="card-body">
+          <div class="card-top"><div><h3>تبسم اسرافیلی</h3><div class="card-sub">عکاسی و نگاه هنری</div></div><span class="card-arrow">↙</span></div>
+          <div class="card-bottom"><span>⌖ تبریز، ایران</span><span>مشاهده جزئیات +</span></div>
         </div>
-
-      </div>
-    </section>
-
-    <!-- Directory -->
-    <section class="directory section" id="directory">
-      <div class="container">
-
-        <div class="directory-top reveal">
-          <div>
-            <div class="eyebrow">THE DIRECTORY</div>
-            <h2 class="directory-title">عکاس موردنظرت<br>را پیدا کن.</h2>
-          </div>
-
-          <div class="directory-count">
-            <span id="visibleCount">02</span>
-            <span class="en"> / PHOTOGRAPHERS</span>
-          </div>
-        </div>
-
-        <!-- Filters -->
-        <div class="filters reveal" aria-label="فیلتر عکاسان">
-
-          <button class="filter-btn active" data-filter="all" aria-pressed="true">
-            همه عکاسان
-          </button>
-
-          <button class="filter-btn" data-filter="portrait" aria-pressed="false">
-            پرتره
-          </button>
-
-          <button class="filter-btn" data-filter="fashion" aria-pressed="false">
-            فشن
-          </button>
-
-          <button class="filter-btn" data-filter="event" aria-pressed="false">
-            مراسم
-          </button>
-
-        </div>
-
-        <!-- Photographer Cards -->
-        <div class="photographer-grid" id="photographerGrid">
-
-          <!-- Ehsan -->
-          <article class="photographer-card reveal" data-category="portrait">
-
-            <div class="card-image-wrap">
-              <img
-                class="card-image"
-                src="IMG_3579.png"
-                alt="احسان نامی، عکاس"
-                loading="lazy"
-              >
-
-              <span class="card-index en">NO. 001</span>
-              <span class="card-category">پرتره</span>
-            </div>
-
-            <div class="card-body">
-
-              <div class="card-title-row">
-                <h3 class="card-title">احسان نامی</h3>
-                <span class="card-arrow">↙</span>
-              </div>
-
-              <div class="card-meta">
-                <span>عکاسی پرتره</span>
-                <span>روایت‌های سینمایی</span>
-              </div>
-
-              <p class="card-description">
-                ثبت احساسات، جزئیات و شخصیت آدم‌ها در قاب‌هایی با
-                حال‌وهوای طبیعی و سینمایی.
-              </p>
-
-              <div class="card-footer">
-                <span class="card-location">⌖ تبریز، ایران</span>
-
-                <a
-                  class="card-contact"
-                  href="https://t.me/esi_as"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  ارتباط با عکاس ↙
-                </a>
-              </div>
-
-            </div>
-          </article>
-
-          <!-- Tabassom -->
-          <article class="photographer-card reveal delay-1" data-category="portrait">
-
-            <div class="card-image-wrap">
-              <img
-                class="card-image"
-                src="0077b58b80ba79b2664aec9a37c07388.png"
-                alt="تبسم اسرافیلی، عکاس"
-                loading="lazy"
-              >
-
-              <span class="card-index en">NO. 002</span>
-              <span class="card-category">پرتره</span>
-            </div>
-
-            <div class="card-body">
-
-              <div class="card-title-row">
-                <h3 class="card-title">تبسم اسرافیلی</h3>
-                <span class="card-arrow">↙</span>
-              </div>
-
-              <div class="card-meta">
-                <span>عکاسی</span>
-                <span>نگاه هنری</span>
-              </div>
-
-              <p class="card-description">
-                نگاهی متفاوت به تصویر و لحظه‌ها؛
-                جایی که جزئیات کوچک می‌توانند معنای یک قاب را تغییر دهند.
-              </p>
-
-              <div class="card-footer">
-                <span class="card-location">⌖ تبریز، ایران</span>
-                <span class="muted" style="font-size:11px">
-                  اطلاعات تماس ثبت نشده
-                </span>
-              </div>
-
-            </div>
-          </article>
-
-        </div>
-
-        <div class="empty-state" id="emptyState">
-          در این دسته هنوز عکاسی ثبت نشده است.
-        </div>
-
-      </div>
-    </section>
-
-    <!-- About -->
-    <section class="container section" id="about">
-
-      <div class="about-grid">
-
-        <div class="reveal">
-          <div class="eyebrow">ABOUT QĀB</div>
-
-          <h2 class="about-heading">
-            هر عکاس،<br>
-            یک جهان.<br>
-            <span>هر قاب، یک داستان.</span>
-          </h2>
-        </div>
-
-        <div class="about-copy reveal delay-1">
-
-          قاب با یک ایده ساده شکل گرفته است:
-          پیدا کردن عکاس‌ها نباید سخت باشد.
-
-          <br>
-
-          اینجا فضایی برای معرفی عکاسان، مشاهده سبک کاری آن‌ها
-          و پیدا کردن نگاه مناسب برای پروژه‌های تصویری است.
-          هدف، نزدیک‌تر کردن آدم‌ها به کسانی است که می‌توانند
-          لحظه‌های مهمشان را به تصویر بکشند.
-
-          <div class="about-values">
-
-            <div class="about-value">
-              <span>معرفی عکاسان</span>
-              <span class="en">01</span>
-            </div>
-
-            <div class="about-value">
-              <span>کشف سبک‌های تصویری</span>
-              <span class="en">02</span>
-            </div>
-
-            <div class="about-value">
-              <span>ارتباط با هنرمندان</span>
-              <span class="en">03</span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Call to action -->
-    <section class="container">
-      <div class="cta reveal">
-
-        <div class="cta-content">
-
-          <div class="eyebrow">YOUR NEXT FRAME</div>
-
-          <h2>
-            یک تصویر خوب<br>
-            از یک انتخاب خوب شروع می‌شود.
-          </h2>
-
-          <p>
-            میان عکاس‌ها بگرد، سبک موردعلاقه‌ات را پیدا کن
-            و برای ثبت قاب بعدی‌ات تصمیم بگیر.
-          </p>
-
-          <a href="#directory" class="button-primary">
-            مشاهده عکاسان
-            <span class="arrow">↙</span>
-          </a>
-
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Footer -->
-  <footer class="container footer">
-
-    <div class="footer-main">
-
-      <div class="footer-brand">
-        <a href="#home" class="footer-logo">
-          قاب<span class="en">.</span>
-        </a>
-
-        <p class="footer-description">
-          دایرکتوری عکاسان؛
-          فضایی برای کشف نگاه‌های متفاوت و روایت‌های تصویری.
-        </p>
-      </div>
-
-      <div class="footer-column">
-        <h4>دسترسی سریع</h4>
-        <a href="#home">صفحه اصلی</a>
-        <a href="#featured">عکاس منتخب</a>
-        <a href="#directory">دایرکتوری عکاسان</a>
-        <a href="#about">درباره قاب</a>
-      </div>
-
-      <div class="footer-column">
-        <h4>ارتباط</h4>
-        <a
-          href="https://t.me/esi_as"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          تلگرام احسان نامی ↙
-        </a>
-        <a href="#directory">مشاهده عکاسان</a>
-      </div>
-
+      </article>
     </div>
+    <div class="empty" id="empty">هنوز عکاسی در این دسته ثبت نشده است.</div>
+  </div>
+</section>
 
-    <div class="footer-bottom">
-      <span>قاب؛ برای نگاه‌هایی که ارزش دیده‌شدن دارند.</span>
-      <span class="en">QĀB © 2026 — ALL RIGHTS RESERVED</span>
+<section class="container section" id="about">
+  <div class="about-grid">
+    <div class="reveal"><div class="eyebrow">ABOUT QĀB</div><h2 class="about-title">هر عکاس،<br>یک جهان<span>.</span><br>هر قاب، یک داستان.</h2></div>
+    <div class="about-copy reveal">
+      قاب فضایی برای کشف عکاس‌ها، بررسی سبک کاری آن‌ها و پیدا کردن نگاه مناسب برای پروژه‌های تصویری است. ما می‌خواهیم ارتباط میان مخاطب و عکاس ساده‌تر، شفاف‌تر و زیباتر باشد.
+      <div class="about-row"><span>معرفی عکاسان مستقل</span><span>01</span></div>
+      <div class="about-row"><span>مشاهده سبک‌ها و نمونه‌کارها</span><span>02</span></div>
+      <div class="about-row"><span>درخواست رزرو عکاسی</span><span>03</span></div>
     </div>
+  </div>
+</section>
 
-  </footer>
+<section class="container">
+  <div class="cta reveal">
+    <div class="cta-content">
+      <div class="eyebrow">YOUR NEXT FRAME</div>
+      <h2>قاب بعدی‌ات<br>از اینجا شروع می‌شود.</h2>
+      <p>عکاس مناسب را پیدا کن، نمونه‌کارها را ببین و برای لحظه‌ای که می‌خواهی ماندگار شود برنامه‌ریزی کن.</p>
+      <a href="#directory" class="btn btn-dark">انتخاب عکاس <span>↙</span></a>
+    </div>
+  </div>
+</section>
+</main>
 
-  <script>
-    // Mobile menu
-    const menuToggle = document.getElementById("menuToggle");
-    const navLinks = document.getElementById("navLinks");
+<footer class="container footer">
+  <div class="footer-grid">
+    <div class="footer-brand"><a href="#home" class="footer-logo">قاب<span style="color:var(--lime)">.</span></a><p class="footer-desc">دایرکتوری عکاسان؛ برای نگاه‌هایی که ارزش دیده‌شدن دارند.</p></div>
+    <div class="footer-col"><h4>دسترسی سریع</h4><a href="#home">خانه</a><a href="#featured">عکاس منتخب</a><a href="#directory">عکاسان</a><a href="#about">درباره قاب</a></div>
+    <div class="footer-col"><h4>ارتباط</h4><a href="https://t.me/esi_as" target="_blank" rel="noopener noreferrer">تلگرام احسان نامی ↙</a><a href="#directory">مشاهده عکاسان</a></div>
+  </div>
+  <div class="footer-bottom"><span>قاب؛ برای نگاه‌هایی که ارزش دیده‌شدن دارند.</span><span class="en">QĀB © 2026</span></div>
+</footer>
 
-    menuToggle.addEventListener("click", () => {
-      const isOpen = navLinks.classList.toggle("open");
+<!-- Photographer profile modal -->
+<div class="modal" id="profileModal" role="dialog" aria-modal="true" aria-label="جزئیات عکاس" onclick="backdropClose(event,'profileModal')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('profileModal')" aria-label="بستن">×</button>
+    <div class="modal-inner">
+      <div class="profile-layout">
+        <div class="profile-photo"><img id="profileImage" src="IMG_3579.png" alt="تصویر عکاس"></div>
+        <div>
+          <div class="eyebrow" id="profileEyebrow">PHOTOGRAPHER / 001</div>
+          <h2 class="profile-name" id="profileName">احسان نامی</h2>
+          <div class="featured-role" id="profileRole">عکاسی پرتره</div>
+          <p class="profile-bio" id="profileBio"></p>
+          <div class="profile-facts">
+            <span id="profileLocation">⌖ تبریز، ایران</span>
+            <span id="profileSpecialty">پرتره</span>
+          </div>
+          <div class="profile-actions">
+            <button class="btn btn-primary" onclick="showWorks()">نمایش نمونه‌کارها ↙</button>
+            <button class="btn" onclick="bookFromProfile()">رزرو عکاسی +</button>
+          </div>
+        </div>
+      </div>
+      <div id="worksSection">
+        <h3 class="modal-section-title">نمونه‌کارها</h3>
+        <div class="work-grid" id="workGrid"></div>
+        <p class="work-note" id="workNote">تصاویر موجود در این بخش بر اساس عکس‌های آپلودشده در سایت نمایش داده می‌شوند.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-      menuToggle.setAttribute("aria-expanded", String(isOpen));
-      menuToggle.textContent = isOpen ? "✕" : "☰";
+<!-- Booking modal -->
+<div class="modal" id="bookingModal" role="dialog" aria-modal="true" aria-label="فرم رزرو عکاسی" onclick="backdropClose(event,'bookingModal')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('bookingModal')" aria-label="بستن">×</button>
+    <div class="modal-inner">
+      <div class="eyebrow">BOOK YOUR SESSION</div>
+      <h2 class="section-title" style="font-size:34px;margin-top:10px">رزرو جلسه عکاسی<span style="color:var(--lime)">.</span></h2>
+      <p class="booking-intro">اطلاعاتت رو وارد کن تا درخواست رزرو آماده بشه. زمان نهایی بعد از هماهنگی با عکاس تأیید می‌شه.</p>
+
+      <form id="bookingForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="customerName">نام و نام خانوادگی *</label>
+            <input id="customerName" name="customerName" autocomplete="name" required maxlength="100" placeholder="نام شما">
+          </div>
+          <div class="field">
+            <label for="customerPhone">شماره تماس *</label>
+            <input id="customerPhone" name="customerPhone" type="tel" autocomplete="tel" required maxlength="25" placeholder="شماره‌ای برای هماهنگی">
+          </div>
+          <div class="field">
+            <label for="bookingPhotographer">عکاس موردنظر *</label>
+            <select id="bookingPhotographer" name="photographer" required>
+              <option value="ehsan">احسان نامی</option>
+              <option value="tabassom">تبسم اسرافیلی</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="shootType">نوع عکاسی *</label>
+            <select id="shootType" name="shootType" required>
+              <option value="">انتخاب کن</option>
+              <option>پرتره شخصی</option>
+              <option>عکاسی دونفره</option>
+              <option>عکاسی خانوادگی</option>
+              <option>فشن و مدلینگ</option>
+              <option>عکاسی مراسم</option>
+              <option>عکاسی محصول</option>
+              <option>مورد دیگر</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="shootDate">تاریخ پیشنهادی *</label>
+            <input id="shootDate" name="shootDate" type="date" required>
+          </div>
+          <div class="field">
+            <label for="shootTime">ساعت پیشنهادی *</label>
+            <select id="shootTime" name="shootTime" required>
+              <option value="">انتخاب ساعت</option>
+              <option>09:00 تا 11:00</option>
+              <option>11:00 تا 13:00</option>
+              <option>13:00 تا 15:00</option>
+              <option>15:00 تا 17:00</option>
+              <option>17:00 تا 19:00</option>
+              <option>ساعت دیگر، با هماهنگی</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="shotCount">تعداد عکس نهایی موردنظر *</label>
+            <select id="shotCount" name="shotCount" required>
+              <option value="">انتخاب تعداد</option>
+              <option>۵ شات</option>
+              <option>۱۰ شات</option>
+              <option>۱۵ شات</option>
+              <option>۲۰ شات</option>
+              <option>بیشتر از ۲۰ شات</option>
+              <option>نیاز به مشاوره دارم</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sessionLength">مدت تقریبی جلسه</label>
+            <select id="sessionLength" name="sessionLength">
+              <option>۳۰ دقیقه</option>
+              <option selected>۱ ساعت</option>
+              <option>۲ ساعت</option>
+              <option>۳ ساعت یا بیشتر</option>
+              <option>با نظر عکاس</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="shootPlace">محل عکاسی *</label>
+            <select id="shootPlace" name="shootPlace" required>
+              <option value="">انتخاب کن</option>
+              <option>آتلیه</option>
+              <option>فضای باز</option>
+              <option>محل موردنظر من</option>
+              <option>هنوز تصمیم نگرفته‌ام</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="budget">بودجه تقریبی</label>
+            <select id="budget" name="budget">
+              <option>هنوز مشخص نیست</option>
+              <option>کمتر از ۱ میلیون تومان</option>
+              <option>۱ تا ۳ میلیون تومان</option>
+              <option>۳ تا ۵ میلیون تومان</option>
+              <option>بیشتر از ۵ میلیون تومان</option>
+              <option>ابتدا قیمت اعلام شود</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="reference">لینک نمونه یا سبک موردعلاقه (اختیاری)</label>
+            <input id="reference" name="reference" type="url" maxlength="500" placeholder="https://...">
+          </div>
+          <div class="field full">
+            <label for="notes">توضیحات تکمیلی</label>
+            <textarea id="notes" name="notes" maxlength="1500" placeholder="تعداد افراد، لوکیشن، سبک نور و ادیت، نیاز به میکاپ یا هر نکته دیگری..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">آماده‌سازی درخواست رزرو ↙</button>
+          <button class="btn" type="button" onclick="closeModal('bookingModal')">انصراف</button>
+        </div>
+        <div class="form-message" id="formMessage" role="status"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+const photographers = {
+  ehsan: {
+    name: "احسان نامی",
+    image: "IMG_3579.png",
+    role: "عکاسی پرتره و روایت‌های سینمایی",
+    location: "⌖ تبریز، ایران",
+    specialty: "پرتره · عکاسی هنری",
+    bio: "عکاسی برای من راهی برای ثبت شخصیت و احساس آدم‌هاست. در هر قاب تلاش می‌کنم جزئیات، نور و حال‌وهوای تصویر با هم داستانی بسازند.",
+    works: ["IMG_3579.png", "IMG_2264.jpeg"],
+    contact: "https://t.me/esi_as"
+  },
+  tabassom: {
+    name: "تبسم اسرافیلی",
+    image: "0077b58b80ba79b2664aec9a37c07388.png",
+    role: "عکاسی و نگاه هنری",
+    location: "⌖ تبریز، ایران",
+    specialty: "پرتره · عکاسی",
+    bio: "نگاهی هنری به لحظه‌ها و جزئیات؛ پروفایل این عکاس برای آشنایی با سبک کاری و درخواست هماهنگی در نظر گرفته شده است.",
+    works: ["0077b58b80ba79b2664aec9a37c07388.png"],
+    contact: ""
+  }
+};
+
+let currentPhotographer = "ehsan";
+
+function tryNextImage(img) {
+  const candidates = [
+    img.dataset.fallback,
+    "0077b58b80ba79b2664aec9a37c07388.PNG",
+    "0077b58b80ba79b2664aec9a37c07388.jpeg",
+    "0077b58b80ba79b2664aec9a37c07388.JPG"
+  ].filter(Boolean);
+
+  const next = candidates.find(src => src !== img.getAttribute("src"));
+  if (next) {
+    img.dataset.fallback = "";
+    img.src = next;
+  } else {
+    img.onerror = null;
+    img.style.opacity = ".15";
+    img.alt = "فایل عکس در مخزن GitHub پیدا نشد";
+  }
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add("open");
+  document.body.classList.add("modal-open");
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove("open");
+  if (!document.querySelector(".modal.open")) {
+    document.body.classList.remove("modal-open");
+  }
+}
+
+function backdropClose(event, id) {
+  if (event.target.id === id) closeModal(id);
+}
+
+function openProfile(id) {
+  const p = photographers[id];
+  if (!p) return;
+  currentPhotographer = id;
+
+  document.getElementById("profileImage").src = p.image;
+  document.getElementById("profileName").textContent = p.name;
+  document.getElementById("profileRole").textContent = p.role;
+  document.getElementById("profileLocation").textContent = p.location;
+  document.getElementById("profileSpecialty").textContent = p.specialty;
+  document.getElementById("profileBio").textContent = p.bio;
+  document.getElementById("profileEyebrow").textContent =
+    id === "ehsan" ? "PHOTOGRAPHER / 001" : "PHOTOGRAPHER / 002";
+
+  const grid = document.getElementById("workGrid");
+  grid.replaceChildren();
+
+  p.works.forEach(src => {
+    const item = document.createElement("div");
+    item.className = "work-item";
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "نمونه‌کار " + p.name;
+    img.loading = "lazy";
+    img.onerror = () => {
+      item.style.display = "none";
+    };
+    item.addEventListener("click", () => {
+      window.open(src, "_blank", "noopener");
+    });
+    item.style.cursor = "zoom-in";
+    item.appendChild(img);
+    grid.appendChild(item);
+  });
+
+  document.getElementById("workNote").textContent =
+    id === "ehsan"
+      ? "این گالری فعلاً عکس‌های موجود در مخزن سایت را نمایش می‌دهد. برای افزودن نمونه‌کارهای بیشتر، فایل تصاویر را در GitHub آپلود کن."
+      : "برای نمایش نمونه‌کارهای بیشتر تبسم اسرافیلی، عکس‌های دیگر را با نام فایل دقیق در مخزن GitHub آپلود و به فهرست نمونه‌کارها اضافه کن.";
+
+  closeModal("bookingModal");
+  openModal("profileModal");
+}
+
+function showWorks() {
+  document.getElementById("worksSection").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function openBooking(id) {
+  currentPhotographer = id;
+  document.getElementById("bookingPhotographer").value = id;
+  document.getElementById("formMessage").style.display = "none";
+  closeModal("profileModal");
+  openModal("bookingModal");
+}
+
+function bookFromProfile() {
+  openBooking(currentPhotographer);
+}
+
+document.querySelectorAll(".filter").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+    button.classList.add("active");
+
+    let count = 0;
+    document.querySelectorAll(".card").forEach(card => {
+      const show = button.dataset.filter === "all" ||
+                   card.dataset.category === button.dataset.filter;
+      card.style.display = show ? "" : "none";
+      if (show) count++;
     });
 
-    // Close mobile menu after clicking a link
-    navLinks.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("open");
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.textContent = "☰";
-      });
-    });
+    document.getElementById("count").textContent = String(count).padStart(2,"0");
+    document.getElementById("empty").style.display = count ? "none" : "block";
+  });
+});
 
-    // Photographer filters
-    const filterButtons = document.querySelectorAll(".filter-btn");
-    const photographerCards = document.querySelectorAll(".photographer-card");
-    const visibleCount = document.getElementById("visibleCount");
-    const emptyState = document.getElementById("emptyState");
-
-    function filterPhotographers(filter) {
-      let visible = 0;
-
-      photographerCards.forEach(card => {
-        const category = card.dataset.category;
-        const shouldShow = filter === "all" || category === filter;
-
-        card.style.display = shouldShow ? "" : "none";
-
-        if (shouldShow) {
-          visible++;
-        }
-      });
-
-      visibleCount.textContent = String(visible).padStart(2, "0");
-      emptyState.style.display = visible === 0 ? "block" : "none";
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      card.click();
     }
+  });
+});
 
-    filterButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        filterButtons.forEach(item => {
-          item.classList.remove("active");
-          item.setAttribute("aria-pressed", "false");
-        });
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
 
-        button.classList.add("active");
-        button.setAttribute("aria-pressed", "true");
+menuToggle.addEventListener("click", () => {
+  const opened = navLinks.classList.toggle("open");
+  menuToggle.textContent = opened ? "×" : "☰";
+  menuToggle.setAttribute("aria-expanded", String(opened));
+});
 
-        filterPhotographers(button.dataset.filter);
-      });
+navLinks.querySelectorAll("a").forEach(a => {
+  a.addEventListener("click", () => {
+    navLinks.classList.remove("open");
+    menuToggle.textContent = "☰";
+    menuToggle.setAttribute("aria-expanded","false");
+  });
+});
+
+const reveals = document.querySelectorAll(".reveal");
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        obs.unobserve(entry.target);
+      }
     });
+  }, {threshold:.12});
+  reveals.forEach(el => observer.observe(el));
+} else {
+  reveals.forEach(el => el.classList.add("visible"));
+}
 
-    // Reveal animations
-    const revealElements = document.querySelectorAll(".reveal");
+window.addEventListener("scroll", () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById("progress").style.width =
+    (max > 0 ? window.scrollY / max * 100 : 0) + "%";
+}, {passive:true});
 
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            obs.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.12
-      });
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    document.querySelectorAll(".modal.open").forEach(modal => closeModal(modal.id));
+  }
+});
 
-      revealElements.forEach(element => observer.observe(element));
-    } else {
-      revealElements.forEach(element => element.classList.add("visible"));
+// Set the earliest selectable date to today.
+const dateInput = document.getElementById("shootDate");
+const localToday = new Date();
+dateInput.min = [
+  localToday.getFullYear(),
+  String(localToday.getMonth()+1).padStart(2,"0"),
+  String(localToday.getDate()).padStart(2,"0")
+].join("-");
+
+// Build a reservation request and open Telegram/email-compatible text.
+// This demo does not store the request on a server.
+document.getElementById("bookingForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const form = new FormData(event.currentTarget);
+  const get = key => String(form.get(key) || "").trim();
+  const p = photographers[get("photographer")] || photographers.ehsan;
+
+  const lines = [
+    "درخواست رزرو عکاسی از سایت قاب",
+    "نام: " + get("customerName"),
+    "شماره تماس: " + get("customerPhone"),
+    "عکاس: " + p.name,
+    "نوع عکاسی: " + get("shootType"),
+    "تاریخ پیشنهادی: " + get("shootDate"),
+    "ساعت پیشنهادی: " + get("shootTime"),
+    "تعداد شات: " + get("shotCount"),
+    "مدت جلسه: " + get("sessionLength"),
+    "محل عکاسی: " + get("shootPlace"),
+    "بودجه: " + get("budget"),
+    "نمونه مرجع: " + (get("reference") || "ثبت نشده"),
+    "توضیحات: " + (get("notes") || "ندارد")
+  ];
+
+  const message = lines.join("\n");
+  const box = document.getElementById("formMessage");
+  box.textContent = "درخواست آماده شد. اکنون می‌توانی متن را کپی کنی و برای عکاس بفرستی.";
+  box.style.display = "block";
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(message).catch(() => {});
+  }
+
+  if (get("photographer") === "ehsan") {
+    const telegramUrl = "https://t.me/esi_as";
+    const go = document.createElement("a");
+    go.href = telegramUrl;
+    go.target = "_blank";
+    go.rel = "noopener noreferrer";
+    go.className = "btn btn-primary";
+    go.style.marginTop = "14px";
+    go.textContent = "رفتن به تلگرام احسان ↙";
+    box.appendChild(document.createElement("br"));
+    box.appendChild(go);
+  }
+
+  const copyButton = document.createElement("button");
+  copyButton.type = "button";
+  copyButton.className = "btn";
+  copyButton.style.marginTop = "14px";
+  copyButton.textContent = "کپی متن درخواست";
+  copyButton.onclick = async () => {
+    try {
+      await navigator.clipboard.writeText(message);
+      copyButton.textContent = "متن کپی شد ✓";
+    } catch {
+      const area = document.createElement("textarea");
+      area.value = message;
+      box.appendChild(area);
+      area.select();
+      document.execCommand("copy");
+      area.remove();
+      copyButton.textContent = "متن درخواست آماده کپی است";
     }
-
-    // Scroll progress
-    const scrollProgress = document.getElementById("scrollProgress");
-
-    function updateScrollProgress() {
-      const scrollable =
-        document.documentElement.scrollHeight - window.innerHeight;
-
-      const progress = scrollable > 0
-        ? (window.scrollY / scrollable) * 100
-        : 0;
-
-      scrollProgress.style.width = progress + "%";
-    }
-
-    window.addEventListener("scroll", updateScrollProgress, {
-      passive: true
-    });
-
-    updateScrollProgress();
-  </script>
-
+  };
+  box.appendChild(document.createElement("br"));
+  box.appendChild(copyButton);
+});
+</script>
 </body>
 </html>
