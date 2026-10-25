@@ -4,23 +4,141 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نمونه‌کارهای احسان نامی | قاب</title>
+  <meta name="theme-color" content="#10110f">
+  <meta name="description" content="مشاهده نمونه‌کارهای عکاسی احسان نامی در قاب QĀB">
+  <title>نمونه‌کارهای احسان نامی | قاب QĀB</title>
 
   <style>
+    :root {
+      --bg: #10110f;
+      --card: #1b1c18;
+      --text: #f6f6ef;
+      --muted: #a4a69a;
+      --lime: #d7ff61;
+      --border: rgba(255,255,255,.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 30px 16px 50px;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at top, rgba(215,255,97,.055), transparent 50%),
+        var(--bg);
+      font-family: Tahoma, Arial, sans-serif;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .qab-container {
+      width: 100%;
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    .qab-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .qab-brand {
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      direction: ltr;
+    }
+
+    .qab-brand span {
+      color: var(--lime);
+    }
+
+    .qab-back {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 9px 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      background: var(--card);
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    .qab-intro {
+      margin-bottom: 26px;
+    }
+
+    .qab-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--lime);
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: .7px;
+    }
+
+    .qab-eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 12px rgba(215,255,97,.5);
+    }
+
+    .qab-title {
+      margin: 12px 0 7px;
+      font-size: clamp(27px, 5vw, 43px);
+      font-weight: 900;
+      line-height: 1.5;
+    }
+
+    .qab-title span {
+      color: var(--lime);
+    }
+
+    .qab-subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 2;
+    }
+
     .qab-gallery {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
       width: 100%;
-      margin: 0;
     }
 
     .qab-gallery-item {
       position: relative;
+      min-width: 0;
       overflow: hidden;
-      border-radius: 14px;
-      background: #f1f1f1;
       aspect-ratio: 4 / 5;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #20211d;
+      animation: qabFadeIn .45s ease both;
     }
 
     .qab-gallery-item img {
@@ -28,11 +146,11 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform .35s ease;
+      transition: transform .45s ease, opacity .25s ease;
     }
 
     .qab-gallery-item:hover img {
-      transform: scale(1.04);
+      transform: scale(1.045);
     }
 
     .qab-gallery-item button {
@@ -40,12 +158,85 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      border: 0;
       padding: 0;
+      border: 0;
       background: transparent;
       cursor: zoom-in;
     }
 
+    .qab-gallery-item button:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: -4px;
+    }
+
+    .qab-gallery-item::after {
+      content: "↗";
+      position: absolute;
+      z-index: 1;
+      left: 10px;
+      bottom: 10px;
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 10px;
+      color: white;
+      background: rgba(0,0,0,.48);
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .qab-gallery-item.is-loading::before {
+      content: "در حال بارگذاری تصویر...";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 12px;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .qab-gallery-item.is-error {
+      display: grid;
+      place-items: center;
+      padding: 15px;
+      border-style: dashed;
+    }
+
+    .qab-error-message {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 2;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .qab-error-message strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--lime);
+    }
+
+    .qab-footer {
+      margin-top: 35px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+      line-height: 2;
+    }
+
+    .qab-footer strong {
+      color: var(--lime);
+      font-family: Arial, sans-serif;
+      letter-spacing: .5px;
+    }
+
+    /* نمایش بزرگ تصویر */
     .qab-lightbox {
       position: fixed;
       inset: 0;
@@ -53,52 +244,211 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, .92);
+      padding: 55px 15px 65px;
+      background: rgba(0,0,0,.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .qab-lightbox.is-open {
       display: flex;
+      animation: qabFadeIn .2s ease;
     }
 
-    .qab-lightbox img {
+    .qab-lightbox-image {
+      display: block;
       max-width: 95%;
-      max-height: 88vh;
+      max-height: 82vh;
+      width: auto;
+      height: auto;
       object-fit: contain;
       border-radius: 8px;
+      user-select: none;
+    }
+
+    .qab-lightbox-close,
+    .qab-lightbox-prev,
+    .qab-lightbox-next {
+      position: absolute;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 1px solid rgba(255,255,255,.17);
+      border-radius: 14px;
+      color: white;
+      background: rgba(255,255,255,.08);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .qab-lightbox-close {
+      top: 15px;
+      left: 15px;
+      font-size: 29px;
+    }
+
+    .qab-lightbox-prev {
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      font-size: 25px;
+    }
+
+    .qab-lightbox-next {
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      font-size: 25px;
+    }
+
+    .qab-lightbox-counter {
       position: absolute;
-      top: 16px;
-      left: 18px;
-      color: white;
-      font-size: 32px;
-      background: transparent;
-      border: 0;
-      cursor: pointer;
+      bottom: 17px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #eee;
+      font-size: 12px;
+      direction: ltr;
+    }
+
+    .qab-lightbox-close:hover,
+    .qab-lightbox-prev:hover,
+    .qab-lightbox-next:hover {
+      border-color: var(--lime);
+      color: var(--lime);
+    }
+
+    @keyframes qabFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     @media (min-width: 600px) {
+      body {
+        padding-top: 42px;
+      }
+
       .qab-gallery {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .qab-gallery-item {
+        border-radius: 19px;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .qab-gallery {
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      body {
+        padding-inline: 11px;
+      }
+
+      .qab-gallery {
+        gap: 8px;
+      }
+
+      .qab-gallery-item {
+        border-radius: 11px;
+      }
+
+      .qab-title {
+        font-size: 26px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
       }
     }
   </style>
 </head>
 
 <body>
-  <section class="qab-gallery" id="ehsanPortfolio"
-           aria-label="نمونه‌کارهای احسان نامی"></section>
+  <main class="qab-container">
+    <header class="qab-header">
+      <a class="qab-brand" href="./" aria-label="صفحه اصلی قاب">QĀ<span>B</span></a>
+      <a class="qab-back" href="./">بازگشت ↗</a>
+    </header>
 
-  <div class="qab-lightbox" id="qabLightbox" aria-hidden="true">
-    <button class="qab-lightbox-close" id="qabClose"
-            aria-label="بستن تصویر">&times;</button>
-    <img id="qabLightboxImage" alt="نمایش بزرگ نمونه‌کار">
+    <section class="qab-intro">
+      <span class="qab-eyebrow">PHOTOGRAPHER PORTFOLIO</span>
+      <h1 class="qab-title">نمونه‌کارهای <span>احسان نامی</span></h1>
+      <p class="qab-subtitle">هر تصویر، روایتی از یک لحظه. برای مشاهده جزئیات، روی عکس موردنظرت بزن.</p>
+    </section>
+
+    <section
+      class="qab-gallery"
+      id="ehsanPortfolio"
+      aria-label="نمونه‌کارهای احسان نامی"
+      aria-live="polite">
+    </section>
+
+    <footer class="qab-footer">
+      ساخته‌شده با <strong>QĀB</strong><br>
+      لحظه‌ها می‌گذرند؛ قاب‌ها می‌مانند.
+    </footer>
+  </main>
+
+  <div
+    class="qab-lightbox"
+    id="qabLightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="نمایش بزرگ تصویر"
+    aria-hidden="true">
+
+    <button
+      class="qab-lightbox-close"
+      id="qabClose"
+      type="button"
+      aria-label="بستن تصویر">&times;</button>
+
+    <button
+      class="qab-lightbox-prev"
+      id="qabPrev"
+      type="button"
+      aria-label="تصویر قبلی">›</button>
+
+    <img
+      class="qab-lightbox-image"
+      id="qabLightboxImage"
+      alt="نمایش بزرگ نمونه‌کار">
+
+    <button
+      class="qab-lightbox-next"
+      id="qabNext"
+      type="button"
+      aria-label="تصویر بعدی">‹</button>
+
+    <div class="qab-lightbox-counter" id="qabCounter">1 / 5</div>
   </div>
 
   <script>
-    const portfolioPath = [
+    "use strict";
+
+    /*
+      اگر تصاویر داخل پوشه portfolio هستند، مقدار IMAGE_FOLDER را
+      به "portfolio/" تغییر بده.
+
+      اگر تصاویر کنار همین فایل HTML هستند، مقدار را خالی بگذار.
+    */
+    const IMAGE_FOLDER = "";
+
+    const portfolioFiles = [
       "f33bfa39a174bdb9406ff31023e64412.png",
       "IMG_3515.png",
       "3175dbab48426274d9e2d8d5655cf2ac.jpeg",
@@ -109,50 +459,210 @@
     const gallery = document.getElementById("ehsanPortfolio");
     const lightbox = document.getElementById("qabLightbox");
     const lightboxImage = document.getElementById("qabLightboxImage");
+    const counter = document.getElementById("qabCounter");
+    const closeButton = document.getElementById("qabClose");
 
-    portfolioPath.forEach((filename, index) => {
-      const item = document.createElement("div");
-      item.className = "qab-gallery-item";
+    let loadedImages = [];
+    let currentIndex = 0;
+    let previousFocus = null;
+
+    /*
+      ساخت آدرس تصویر بر اساس محل فایل HTML.
+      مسیرهای جایگزین برای سایت‌هایی مثل GitHub Pages هم بررسی می‌شوند.
+    */
+    function getImageCandidates(filename) {
+      const folder = IMAGE_FOLDER.replace(/^\/+|\/+$/g, "");
+      const candidates = [];
+
+      if (folder) {
+        candidates.push(folder + "/" + filename);
+      } else {
+        candidates.push(filename);
+        candidates.push("./" + filename);
+      }
+
+      const currentPath = window.location.pathname;
+      const basePath = currentPath.endsWith("/")
+        ? currentPath
+        : currentPath.slice(0, currentPath.lastIndexOf("/") + 1);
+
+      candidates.push(basePath + (folder ? folder + "/" : "") + filename);
+
+      // جلوگیری از تلاش دوباره برای یک آدرس تکراری
+      return [...new Set(candidates)];
+    }
+
+    function loadImage(image, filename, onSuccess, onFailure) {
+      const candidates = getImageCandidates(filename);
+      let candidateIndex = 0;
+
+      function tryNext() {
+        if (candidateIndex >= candidates.length) {
+          onFailure();
+          return;
+        }
+
+        const candidate = candidates[candidateIndex++];
+        image.src = candidate;
+      }
+
+      image.addEventListener("load", () => {
+        if (image.naturalWidth > 0) {
+          onSuccess(image.currentSrc || image.src);
+        }
+      });
+
+      image.addEventListener("error", tryNext);
+      tryNext();
+    }
+
+    portfolioFiles.forEach((filename, index) => {
+      const item = document.createElement("article");
+      item.className = "qab-gallery-item is-loading";
 
       const image = document.createElement("img");
-      image.src = "./" + filename;
       image.alt = "نمونه‌کار " + (index + 1) + " احسان نامی";
-      image.loading = "lazy";
-
-      image.onerror = () => {
-        item.remove();
-        console.error("تصویر پیدا نشد:", filename);
-      };
+      image.loading = index < 2 ? "eager" : "lazy";
+      image.decoding = "async";
 
       const button = document.createElement("button");
       button.type = "button";
-      button.setAttribute("aria-label", "نمایش بزرگ تصویر " + (index + 1));
+      button.setAttribute(
+        "aria-label",
+        "نمایش بزرگ نمونه‌کار شماره " + (index + 1)
+      );
 
       button.addEventListener("click", () => {
-        lightboxImage.src = image.src;
-        lightbox.classList.add("is-open");
-        lightbox.setAttribute("aria-hidden", "false");
+        const loadedIndex = loadedImages.findIndex(
+          entry => entry.image === image
+        );
+
+        if (loadedIndex !== -1) {
+          openLightbox(loadedIndex);
+        }
       });
 
       item.append(image, button);
       gallery.appendChild(item);
+
+      loadImage(
+        image,
+        filename,
+        source => {
+          item.classList.remove("is-loading");
+          loadedImages.push({
+            image,
+            source,
+            filename,
+            originalIndex: index
+          });
+        },
+        () => {
+          item.classList.remove("is-loading");
+          item.classList.add("is-error");
+          item.replaceChildren();
+
+          const message = document.createElement("div");
+          message.className = "qab-error-message";
+
+          const heading = document.createElement("strong");
+          heading.textContent = "تصویر بارگذاری نشد";
+
+          const detail = document.createElement("span");
+          detail.textContent = filename;
+
+          message.append(heading, detail);
+          item.appendChild(message);
+
+          console.error(
+            "تصویر پیدا نشد:",
+            filename,
+            getImageCandidates(filename)
+          );
+        }
+      );
     });
 
-    function closeLightbox() {
-      lightbox.classList.remove("is-open");
-      lightbox.setAttribute("aria-hidden", "true");
-      lightboxImage.src = "";
+    function openLightbox(index) {
+      if (!loadedImages.length) return;
+
+      currentIndex =
+        (index + loadedImages.length) % loadedImages.length;
+
+      previousFocus = document.activeElement;
+      updateLightbox();
+
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      closeButton.focus();
     }
 
-    document.getElementById("qabClose")
-      .addEventListener("click", closeLightbox);
+    function updateLightbox() {
+      const entry = loadedImages[currentIndex];
+      if (!entry) return;
+
+      lightboxImage.src = entry.source;
+      lightboxImage.alt =
+        "نمونه‌کار " + (entry.originalIndex + 1) + " احسان نامی";
+
+      counter.textContent =
+        (currentIndex + 1) + " / " + loadedImages.length;
+
+      const multipleImages = loadedImages.length > 1;
+      document.getElementById("qabPrev").hidden = !multipleImages;
+      document.getElementById("qabNext").hidden = !multipleImages;
+    }
+
+    function showPrevious() {
+      if (loadedImages.length < 2) return;
+
+      currentIndex =
+        (currentIndex - 1 + loadedImages.length) % loadedImages.length;
+
+      updateLightbox();
+    }
+
+    function showNext() {
+      if (loadedImages.length < 2) return;
+
+      currentIndex = (currentIndex + 1) % loadedImages.length;
+      updateLightbox();
+    }
+
+    function closeLightbox() {
+      if (!lightbox.classList.contains("is-open")) return;
+
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      lightboxImage.removeAttribute("src");
+      document.body.style.overflow = "";
+
+      if (previousFocus && typeof previousFocus.focus === "function") {
+        previousFocus.focus();
+      }
+    }
+
+    closeButton.addEventListener("click", closeLightbox);
+    document.getElementById("qabPrev").addEventListener("click", showPrevious);
+    document.getElementById("qabNext").addEventListener("click", showNext);
 
     lightbox.addEventListener("click", event => {
-      if (event.target === lightbox) closeLightbox();
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
     });
 
     document.addEventListener("keydown", event => {
-      if (event.key === "Escape") closeLightbox();
+      if (!lightbox.classList.contains("is-open")) return;
+
+      if (event.key === "Escape") {
+        closeLightbox();
+      } else if (event.key === "ArrowLeft") {
+        showNext();
+      } else if (event.key === "ArrowRight") {
+        showPrevious();
+      }
     });
   </script>
 </body>
