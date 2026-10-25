@@ -899,6 +899,144 @@
       line-height: 1.9;
     }
 
+    /* Jalali date picker */
+    .date-group { position: relative; }
+    input.field[readonly] { cursor: pointer; }
+    .jcal {
+      position: absolute;
+      z-index: 30;
+      top: calc(100% + 6px);
+      inset-inline-start: 0;
+      width: min(300px, calc(100vw - 56px));
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+      box-shadow: 0 18px 50px rgba(0,0,0,.55);
+    }
+    .jcal[hidden] { display: none; }
+    .jcal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .jcal-title { font-size: 13px; font-weight: 800; }
+    .jcal-nav, .jcal-day, .jcal-clear {
+      border: 0;
+      color: var(--text);
+      background: transparent;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .jcal-nav {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.055);
+      font-size: 16px;
+    }
+    .jcal-nav:disabled { opacity: .3; cursor: not-allowed; }
+    .jcal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+    }
+    .jcal-wd { padding: 4px 0; color: var(--muted); font-size: 11px; }
+    .jcal-day {
+      height: 34px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    .jcal-day:hover:not(:disabled) { background: rgba(255,255,255,.09); }
+    .jcal-day:disabled { color: #55574e; cursor: not-allowed; }
+    .jcal-day.today { border: 1px solid rgba(215,255,97,.55); }
+    .jcal-day.selected { background: var(--lime); color: #11120d; font-weight: 800; }
+    .jcal-foot { display: flex; justify-content: space-between; margin-top: 10px; }
+    .jcal-clear { padding: 6px 4px; color: var(--muted); font-size: 11px; }
+
+    /* Ready-made shot packages */
+    .shot-packages {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 9px;
+    }
+    .pkg-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: #121310;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .pkg-btn small { color: var(--muted); font-size: 9px; font-weight: 400; }
+    .pkg-btn:hover { border-color: rgba(215,255,97,.4); }
+    .pkg-btn.active { border-color: rgba(215,255,97,.8); background: rgba(215,255,97,.08); }
+    .pkg-btn.active small { color: #d8e9b0; }
+
+    .form-hint { display: block; margin-top: 6px; color: var(--muted); font-size: 10px; line-height: 1.8; }
+
+    /* Compare */
+    .compare-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .compare-col {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel-2);
+    }
+    .compare-col h3 { font-size: 15px; }
+    .compare-avatar {
+      width: 64px;
+      height: 64px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #282920;
+    }
+    .compare-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .compare-label { display: block; margin-bottom: 3px; color: var(--muted); font-size: 10px; }
+    .compare-value { font-size: 12px; line-height: 1.9; }
+    .compare-best {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 3px 9px;
+      border-radius: 9px;
+      background: rgba(215,255,97,.12);
+      color: var(--lime);
+      font-size: 10px;
+    }
+    .compare-col .btn { min-height: 42px; padding: 9px 10px; font-size: 12px; }
+
+    .footer-links .soon { color: #77796f; cursor: default; }
+
     .profile-header {
       display: flex;
       align-items: center;
@@ -976,6 +1114,13 @@
 
     .sample-item:hover .sample-image {
       transform: scale(1.035);
+    }
+    .sample-video {
+      cursor: auto;
+      background: #20211d;
+    }
+    .sample-item:hover .sample-video {
+      transform: none;
     }
 
     .toast {
@@ -1354,6 +1499,11 @@
           </div>
         </div>
 
+        <div class="compare-bar reveal">
+          <span>مطمئن نیستی کدوم عکاس مناسبته؟</span>
+          <button class="btn btn-secondary" type="button" onclick="openCompare()">مقایسه عکاسان ↔</button>
+        </div>
+
         <div class="photographer-grid" id="photographerGrid">
           <article
             class="photo-card reveal"
@@ -1394,7 +1544,7 @@
                 <span class="tag">آتلیه</span>
               </div>
 
-              <div class="notice card-rate">تعرفه هر شات: ۴۰۰٬۰۰۰ تومان</div>
+              <div class="notice card-rate">تعرفه هر شات: ۴۰۰٬۰۰۰ تومان<br>🎁 متولدین بهمن: عکاسی رایگان</div>
 
               <div class="card-actions">
                 <button class="btn btn-secondary" type="button" onclick="openProfile('ehsan')">مشاهده پروفایل</button>
@@ -1518,11 +1668,33 @@
         <a href="#how">راهنما</a>
         <a href="#" onclick="openPhotographerRegistration(); return false;">ثبت‌نام عکاس</a>
         <a href="https://t.me/esi_as" target="_blank" rel="noopener noreferrer">تلگرام احسان</a>
+        <span class="soon" aria-disabled="true">اینستاگرام (به زودی)</span>
       </div>
     </div>
   </footer>
 
   <!-- Profile modal -->
+  <!-- Compare modal -->
+  <div class="modal-backdrop" id="compareModal" role="dialog" aria-modal="true" aria-labelledby="compareTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <span class="eyebrow">COMPARE</span>
+          <h2 id="compareTitle">مقایسه عکاسان</h2>
+          <p>سبک، تعرفه و امکانات ویژه را کنار هم ببین.</p>
+        </div>
+        <button class="close-btn" type="button" onclick="closeModal('compareModal')" aria-label="بستن">×</button>
+      </div>
+
+      <div class="form-group">
+        <label for="compareShots">تعداد شات برای برآورد قیمت</label>
+        <input class="field" id="compareShots" type="number" min="1" max="500" step="1" value="5">
+      </div>
+
+      <div class="compare-grid" id="compareGrid"></div>
+    </div>
+  </div>
+
   <div class="modal-backdrop" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileName">
     <div class="modal">
       <div class="modal-header">
@@ -1586,9 +1758,10 @@
             </select>
           </div>
 
-          <div class="form-group">
+          <div class="form-group date-group">
             <label for="shootDate">تاریخ موردنظر</label>
-            <input class="field" id="shootDate" name="shootDate" type="date">
+            <input class="field" id="shootDate" name="shootDate" type="text" readonly placeholder="انتخاب تاریخ (تقویم شمسی)" autocomplete="off" aria-haspopup="dialog" aria-expanded="false">
+            <div class="jcal" id="jalaliCalendar" role="dialog" aria-label="تقویم شمسی" hidden></div>
           </div>
 
           <div class="form-group">
@@ -1599,6 +1772,12 @@
           <div class="form-group" id="shotCountGroup">
             <label for="shotCount">تعداد شات</label>
             <input class="field" id="shotCount" name="shotCount" type="number" min="1" max="500" step="1" placeholder="مثلاً ۵">
+            <div class="shot-packages" id="shotPackages" role="group" aria-label="بسته‌های آماده">
+              <button class="pkg-btn" type="button" data-count="3">۳ شات<small></small></button>
+              <button class="pkg-btn" type="button" data-count="5">۵ شات<small></small></button>
+              <button class="pkg-btn" type="button" data-count="10">۱۰ شات<small></small></button>
+              <button class="pkg-btn" type="button" data-count="20">۲۰ شات<small></small></button>
+            </div>
           </div>
 
           <div class="form-group" id="videoDurationGroup" hidden>
@@ -1608,6 +1787,18 @@
               <option value="۳۰ ثانیه">۳۰ ثانیه</option>
               <option value="۱ دقیقه">۱ دقیقه</option>
             </select>
+          </div>
+
+          <div class="form-group">
+            <label for="birthMonth">ماه تولد (اختیاری)</label>
+            <select class="field" id="birthMonth" name="birthMonth">
+              <option value="">مشخص نمی‌کنم</option>
+              <option>فروردین</option><option>اردیبهشت</option><option>خرداد</option>
+              <option>تیر</option><option>مرداد</option><option>شهریور</option>
+              <option>مهر</option><option>آبان</option><option>آذر</option>
+              <option>دی</option><option>بهمن</option><option>اسفند</option>
+            </select>
+            <small class="form-hint">🎁 متولدین بهمن با رزرو عکاسی احسان نامی، رایگان عکاسی می‌شوند.</small>
           </div>
 
           <div class="form-group full">
@@ -1705,7 +1896,8 @@
         bio: "عکاسی با تمرکز بر پرتره، ترکیب‌بندی، نور و ساخت تصویری که شخصیت و حس سوژه را حفظ کند.",
         styles: ["پرتره", "دونفره", "فشن", "آتلیه"],
         telegram: "https://t.me/esi_as",
-        shotRate: 400000
+        shotRate: 400000,
+        promo: "متولدین بهمن: عکاسی رایگان (به شرط اینکه تولدشان در همین ماه باشد)"
       },
       tabassom: {
         name: "تبسم اسرافیلی",
@@ -1717,6 +1909,9 @@
         shotRate: 450000
       }
     };
+
+    // طرح هدیه تولد: عکاسی رایگان برای متولدین بهمن (فقط عکاس مشخص‌شده)
+    const BIRTH_PROMO = { photographer: "احسان نامی", month: "بهمن" };
 
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -1852,7 +2047,10 @@
 
       const rateNotice = document.createElement("div");
       rateNotice.className = "notice";
-      rateNotice.textContent = "تعرفه هر شات: " + formatToman(photographer.shotRate);
+      rateNotice.append("تعرفه هر شات: " + formatToman(photographer.shotRate));
+      if (photographer.promo) {
+        rateNotice.append(document.createElement("br"), "🎁 " + photographer.promo + " — اگر از همین حالا رزرو کنی.");
+      }
 
       const sampleTitle = document.createElement("h3");
       sampleTitle.style.marginTop = "24px";
@@ -1906,6 +2104,42 @@
 
           item.appendChild(image);
           sampleGrid.appendChild(item);
+        });
+
+        // ویدیوی نمونه‌کار احسان (پوشه Ehsan)
+        const portfolioVideos = [
+          "Ehsan/copy_48E277F6-A243-4578-BF19-88626CFC23C6.mov"
+        ];
+
+        portfolioVideos.forEach(filename => {
+          const item = document.createElement("div");
+          item.className = "sample-item";
+
+          const video = document.createElement("video");
+          video.className = "sample-image sample-video";
+          video.controls = true;
+          video.playsInline = true;
+          video.preload = "metadata";
+          video.setAttribute("aria-label", "ویدیوی نمونه‌کار از احسان نامی");
+
+          // type=video/mp4 باعث می‌شود فایل‌های .mov (H.264) در کروم هم پخش شوند
+          const source = document.createElement("source");
+          source.src = filename + "#t=0.1";
+          source.type = "video/mp4";
+          source.addEventListener("error", () => {
+            console.warn("Video failed to load:", filename);
+            const note = document.createElement("div");
+            note.className = "compare-value";
+            note.style.padding = "22px 14px";
+            note.style.textAlign = "center";
+            note.textContent = "ویدیو بارگذاری نشد. نام یا مسیر فایل را بررسی کن.";
+            item.replaceChildren(note);
+          });
+          video.appendChild(source);
+
+          item.appendChild(video);
+          // ویدیو اول گالری نمایش داده می‌شود تا دیده شود
+          sampleGrid.prepend(item);
         });
       } else if (id === "tabassom") {
         const portfolioImages = [
@@ -1984,6 +2218,110 @@
       openModal("profileModal");
     }
 
+    // Compare photographers
+    function renderCompare() {
+      const grid = $("#compareGrid");
+      grid.replaceChildren();
+      const raw = $("#compareShots").value.trim();
+      const count = Number(raw);
+      const validCount = raw !== "" && Number.isInteger(count) && count >= 1 && count <= 500;
+      const entries = Object.entries(photographers);
+      const totals = entries.map(([, p]) => (validCount ? count * p.shotRate : null));
+      const best = validCount ? Math.min(...totals) : null;
+      const allSame = validCount && totals.every(t => t === totals[0]);
+
+      entries.forEach(([id, p], index) => {
+        const col = document.createElement("div");
+        col.className = "compare-col";
+
+        const avatar = document.createElement("div");
+        avatar.className = "compare-avatar";
+        const img = document.createElement("img");
+        img.src = p.image;
+        img.alt = p.name;
+        img.loading = "lazy";
+        avatar.appendChild(img);
+
+        const title = document.createElement("div");
+        const name = document.createElement("h3");
+        name.textContent = p.name;
+        const loc = document.createElement("div");
+        loc.className = "compare-label";
+        loc.style.marginTop = "4px";
+        loc.textContent = "⌖ " + p.location;
+        title.append(name, loc);
+
+        const addRow = (label, valueNode) => {
+          const row = document.createElement("div");
+          const l = document.createElement("span");
+          l.className = "compare-label";
+          l.textContent = label;
+          const v = document.createElement("div");
+          v.className = "compare-value";
+          v.append(valueNode);
+          row.append(l, v);
+          col.appendChild(row);
+          return v;
+        };
+
+        col.append(avatar, title);
+
+        const tags = document.createElement("div");
+        tags.className = "tags";
+        tags.style.marginBottom = "0";
+        p.styles.forEach(style => {
+          const tag = document.createElement("span");
+          tag.className = "tag";
+          tag.textContent = style;
+          tags.appendChild(tag);
+        });
+        addRow("سبک‌ها", tags);
+
+        addRow("تعرفه هر شات", formatToman(p.shotRate));
+
+        const totalValue = addRow(
+          validCount ? "برآورد " + new Intl.NumberFormat("fa-IR").format(count) + " شات" : "برآورد قیمت",
+          validCount ? formatToman(totals[index]) : "تعداد شات را وارد کن"
+        );
+        if (validCount && !allSame && totals[index] === best) {
+          const badge = document.createElement("span");
+          badge.className = "compare-best";
+          badge.textContent = "مقرون‌به‌صرفه‌تر";
+          totalValue.append(document.createElement("br"), badge);
+        }
+
+        addRow("امکانات ویژه", p.promo ? "🎁 " + p.promo : "—");
+
+        const profileBtn = document.createElement("button");
+        profileBtn.type = "button";
+        profileBtn.className = "btn btn-secondary";
+        profileBtn.textContent = "مشاهده پروفایل";
+        profileBtn.addEventListener("click", () => {
+          closeModal("compareModal");
+          openProfile(id);
+        });
+
+        const bookBtn = document.createElement("button");
+        bookBtn.type = "button";
+        bookBtn.className = "btn btn-primary";
+        bookBtn.textContent = "رزرو عکاسی ↗";
+        bookBtn.addEventListener("click", () => {
+          closeModal("compareModal");
+          openBooking(p.name);
+        });
+
+        col.append(profileBtn, bookBtn);
+        grid.appendChild(col);
+      });
+    }
+
+    function openCompare() {
+      renderCompare();
+      openModal("compareModal");
+    }
+
+    $("#compareShots").addEventListener("input", renderCompare);
+
     // Booking form, pricing and Telegram handoff
     function openBooking(name = "") {
       closeModal("profileModal");
@@ -2011,8 +2349,15 @@
       return found ? found.shotRate : null;
     }
 
+    function isBirthPromo() {
+      return !isVideoService()
+        && $("#photographer").value === BIRTH_PROMO.photographer
+        && $("#birthMonth").value === BIRTH_PROMO.month;
+    }
+
     function updatePriceEstimate() {
       const video = isVideoService();
+      const promo = isBirthPromo();
       $("#shotCountGroup").hidden = video;
       $("#videoDurationGroup").hidden = !video;
       $("#shotCount").required = !video;
@@ -2034,15 +2379,26 @@
         if (!rate) {
           message = "برای محاسبه قیمت عکاسی، ابتدا یک عکاس مشخص (احسان نامی یا تبسم اسرافیلی) انتخاب کن؛ تعرفه هر شات برای هر عکاس متفاوت است.";
         } else if (rawCount === "") {
-          message = `تعرفه هر شات ${name}: ${formatToman(rate)}. تعداد شات را وارد کن تا مبلغ کل محاسبه شود.`;
+          message = promo
+            ? `🎁 طرح هدیه تولد بهمنی‌ها: عکاسی ${name} برای تو رایگان است. تعداد شات را وارد کن.`
+            : `تعرفه هر شات ${name}: ${formatToman(rate)}. تعداد شات را وارد کن تا مبلغ کل محاسبه شود.`;
         } else if (!Number.isInteger(count) || count < 1 || count > 500) {
           message = "تعداد شات باید یک عدد صحیح بین ۱ تا ۵۰۰ باشد.";
+        } else if (promo) {
+          price = 0;
+          message = `🎁 ${new Intl.NumberFormat("fa-IR").format(count)} شات ${name}: رایگان (طرح هدیه تولد بهمنی‌ها؛ تاریخ تولد هنگام هماهنگی تأیید می‌شود)`;
         } else {
           price = count * rate;
           message = `تعرفه ${new Intl.NumberFormat("fa-IR").format(count)} شات ${name}: ${formatToman(price)} (${new Intl.NumberFormat("fa-IR").format(count)} شات × ${formatToman(rate)})`;
         }
       }
       $("#priceEstimate").textContent = message;
+      const pkgRate = getShotRate($("#photographer").value);
+      $$("#shotPackages .pkg-btn").forEach(btn => {
+        const n = Number(btn.dataset.count);
+        btn.classList.toggle("active", !video && count === n);
+        $("small", btn).textContent = pkgRate ? (promo ? "رایگان" : formatToman(n * pkgRate)) : "";
+      });
       return price;
     }
 
@@ -2050,6 +2406,173 @@
     $("#shotCount").addEventListener("input", updatePriceEstimate);
     $("#videoDuration").addEventListener("change", updatePriceEstimate);
     $("#photographer").addEventListener("change", updatePriceEstimate);
+    $("#birthMonth").addEventListener("change", updatePriceEstimate);
+
+
+    // Shot packages
+    $$("#shotPackages .pkg-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        $("#shotCount").value = btn.dataset.count;
+        updatePriceEstimate();
+      });
+    });
+
+    // Jalali (Persian) date picker
+    (function () {
+      const div = (a, b) => ~~(a / b), mod = (a, b) => a - ~~(a / b) * b;
+      const JB=[-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178];
+      function jalCal(jy){
+        const bl=JB.length,gy=jy+621;let leapJ=-14,jp=JB[0],jm,jump=0,leap,leapG,march,n,i;
+        for(i=1;i<bl;i++){jm=JB[i];jump=jm-jp;if(jy<jm)break;leapJ+=div(jump,33)*8+div(mod(jump,33),4);jp=jm;}
+        n=jy-jp;
+        leapJ+=div(n,33)*8+div(mod(n,33)+3,4);
+        if(mod(jump,33)===4&&jump-n===4)leapJ+=1;
+        leapG=div(gy,4)-div((div(gy,100)+1)*3,4)-150;
+        march=20+leapJ-leapG;
+        if(jump-n<6)n=n-jump+div(jump+4,33)*33;
+        leap=mod(mod(n+1,33)-1,4);
+        if(leap===-1)leap=4;
+        return {leap,gy,march};
+      }
+      function g2d(gy,gm,gd){let d=div((gy+div(gm-8,6)+100100)*1461,4)+div(153*mod(gm+9,12)+2,5)+gd-34840408;d=d-div(div(gy+100100+div(gm-8,6),100)*3,4)+752;return d;}
+      function d2g(jdn){let j=4*jdn+139361631;j=j+div(div(4*jdn+183187720,146097)*3,4)*4-3908;const i=div(mod(j,1461),4)*5+308;const gd=div(mod(i,153),5)+1;const gm=mod(div(i,153),12)+1;const gy=div(j,1461)-100100+div(8-gm,6);return {gy,gm,gd};}
+      function j2d(jy,jm,jd){const r=jalCal(jy);return g2d(r.gy,3,r.march)+(jm-1)*31-div(jm,7)*(jm-7)+jd-1;}
+      function d2j(jdn){const gy=d2g(jdn).gy;let jy=gy-621;const r=jalCal(jy);const jdn1f=g2d(gy,3,r.march);let jd,jm,k=jdn-jdn1f;
+        if(k>=0){if(k<=185){jm=1+div(k,31);jd=mod(k,31)+1;return {jy,jm,jd};}else k-=186;}
+        else{jy-=1;k+=179;if(r.leap===1)k+=1;}
+        jm=7+div(k,30);jd=mod(k,30)+1;return {jy,jm,jd};}
+      const toJalali=(gy,gm,gd)=>d2j(g2d(gy,gm,gd));
+      const toGregorian=(jy,jm,jd)=>d2g(j2d(jy,jm,jd));
+      const jalaliMonthLength=(jy,jm)=>jm<=6?31:jm<=11?30:(jalCal(jy).leap===0?30:29);
+
+      const MONTHS = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+      const WEEKDAYS = ["شنبه","یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه"];
+      const WD_SHORT = ["ش","ی","د","س","چ","پ","ج"];
+      const faNum = new Intl.NumberFormat("fa-IR", { useGrouping: false });
+
+      const input = $("#shootDate");
+      const cal = $("#jalaliCalendar");
+      const now = new Date();
+      const today = toJalali(now.getFullYear(), now.getMonth() + 1, now.getDate());
+      const todayKey = today.jy * 10000 + today.jm * 100 + today.jd;
+      let viewY = today.jy, viewM = today.jm, selectedKey = null;
+
+      function weekdayIndex(jy, jm, jd) {
+        const g = toGregorian(jy, jm, jd);
+        return (new Date(g.gy, g.gm - 1, g.gd).getDay() + 1) % 7;
+      }
+
+      function render() {
+        cal.replaceChildren();
+
+        const head = document.createElement("div");
+        head.className = "jcal-head";
+
+        const next = document.createElement("button");
+        next.type = "button";
+        next.className = "jcal-nav";
+        next.textContent = "›";
+        next.setAttribute("aria-label", "ماه قبل");
+        next.disabled = viewY * 12 + viewM <= today.jy * 12 + today.jm;
+        next.addEventListener("click", () => shift(-1));
+
+        const title = document.createElement("div");
+        title.className = "jcal-title";
+        title.textContent = MONTHS[viewM - 1] + " " + faNum.format(viewY);
+
+        const prev = document.createElement("button");
+        prev.type = "button";
+        prev.className = "jcal-nav";
+        prev.textContent = "‹";
+        prev.setAttribute("aria-label", "ماه بعد");
+        prev.addEventListener("click", () => shift(1));
+
+        head.append(next, title, prev);
+
+        const grid = document.createElement("div");
+        grid.className = "jcal-grid";
+        WD_SHORT.forEach(w => {
+          const cell = document.createElement("div");
+          cell.className = "jcal-wd";
+          cell.textContent = w;
+          grid.appendChild(cell);
+        });
+
+        const offset = weekdayIndex(viewY, viewM, 1);
+        for (let i = 0; i < offset; i++) grid.appendChild(document.createElement("div"));
+
+        const length = jalaliMonthLength(viewY, viewM);
+        for (let d = 1; d <= length; d++) {
+          const key = viewY * 10000 + viewM * 100 + d;
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "jcal-day";
+          btn.textContent = faNum.format(d);
+          if (key < todayKey) btn.disabled = true;
+          if (key === todayKey) btn.classList.add("today");
+          if (key === selectedKey) btn.classList.add("selected");
+          btn.addEventListener("click", () => choose(viewY, viewM, d));
+          grid.appendChild(btn);
+        }
+
+        const foot = document.createElement("div");
+        foot.className = "jcal-foot";
+        const clear = document.createElement("button");
+        clear.type = "button";
+        clear.className = "jcal-clear";
+        clear.textContent = "پاک کردن تاریخ";
+        clear.addEventListener("click", () => { clearDate(); closeCal(); });
+        foot.appendChild(clear);
+
+        cal.append(head, grid, foot);
+      }
+
+      function shift(delta) {
+        viewM += delta;
+        if (viewM > 12) { viewM = 1; viewY++; }
+        if (viewM < 1) { viewM = 12; viewY--; }
+        render();
+      }
+
+      function choose(jy, jm, jd) {
+        selectedKey = jy * 10000 + jm * 100 + jd;
+        input.value = WEEKDAYS[weekdayIndex(jy, jm, jd)] + " " + faNum.format(jd) + " " + MONTHS[jm - 1] + " " + faNum.format(jy);
+        closeCal();
+      }
+
+      function clearDate() {
+        selectedKey = null;
+        input.value = "";
+      }
+
+      function openCal() {
+        render();
+        cal.hidden = false;
+        input.setAttribute("aria-expanded", "true");
+      }
+
+      function closeCal() {
+        cal.hidden = true;
+        input.setAttribute("aria-expanded", "false");
+      }
+
+      input.addEventListener("click", () => (cal.hidden ? openCal() : closeCal()));
+      input.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          cal.hidden ? openCal() : closeCal();
+        }
+      });
+      document.addEventListener("click", event => {
+        if (!cal.hidden && event.target !== input && !event.composedPath().includes(cal)) closeCal();
+      });
+      $("#bookingForm").addEventListener("reset", () => {
+        selectedKey = null;
+        viewY = today.jy;
+        viewM = today.jm;
+        closeCal();
+      });
+    })();
 
     function telegramUsernameFor(name) {
       if (name === "احسان نامی") return "esi_as";
@@ -2066,7 +2589,7 @@
       const price = updatePriceEstimate();
       const labels = {
         customerName: "نام", customerPhone: "شماره تماس", photographer: "عکاس موردنظر",
-        shootType: "نوع خدمات", shootDate: "تاریخ", shootTime: "ساعت",
+        shootType: "نوع خدمات", birthMonth: "ماه تولد", shootDate: "تاریخ", shootTime: "ساعت",
         shotCount: "تعداد شات", videoDuration: "مدت فیلم‌برداری", shootDuration: "مدت حضور/جلسه",
         shootLocation: "محل اجرا", budget: "بودجه", reference: "لینک مرجع", notes: "توضیحات"
       };
@@ -2076,7 +2599,8 @@
         const value = String(data.get(key) || "").trim();
         if (value) lines.push(`${label}: ${value}`);
       });
-      if (price !== null) lines.push("تعرفه برآوردی: " + formatToman(price));
+      if (isBirthPromo()) lines.push("تعرفه برآوردی: رایگان 🎁 (طرح هدیه تولد بهمنی‌ها؛ نیازمند تأیید تاریخ تولد)");
+      else if (price !== null) lines.push("تعرفه برآوردی: " + formatToman(price));
       lines.push("", "این درخواست از طریق وب‌سایت قاب آماده شده است. لطفاً برای تأیید زمان و جزئیات هماهنگ کنید.");
       const message = lines.join("\n");
       $("#copyBooking").dataset.text = message;
