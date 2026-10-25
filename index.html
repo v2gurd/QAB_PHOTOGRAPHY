@@ -295,6 +295,55 @@
       margin-top: 27px;
     }
 
+    .photographer-join-cta {
+      width: min(100%, 470px);
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-top: 17px;
+      padding: 15px 17px;
+      text-align: right;
+      color: var(--text);
+      background: linear-gradient(110deg, rgba(199, 255, 90, .15), rgba(199, 255, 90, .045));
+      border: 1px solid rgba(199, 255, 90, .55);
+      border-radius: 17px;
+      cursor: pointer;
+      transition: transform .2s, background .2s, border-color .2s;
+      box-shadow: 0 10px 35px rgba(0,0,0,.12);
+    }
+
+    .photographer-join-cta:hover {
+      transform: translateY(-2px);
+      background: rgba(199, 255, 90, .18);
+      border-color: var(--lime);
+    }
+
+    .join-cta-icon {
+      display: grid;
+      place-items: center;
+      flex: 0 0 42px;
+      height: 42px;
+      border-radius: 13px;
+      background: var(--lime);
+      color: #10130b;
+      font-size: 22px;
+    }
+
+    .join-cta-copy {
+      display: grid;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .join-cta-copy strong { font-size: 13px; font-weight: 800; }
+    .join-cta-copy small { color: var(--muted); font-size: 11px; line-height: 1.8; }
+    .join-cta-arrow { color: var(--lime); font-size: 22px; }
+
+    .nav-register {
+      border-color: rgba(199, 255, 90, .55) !important;
+      color: var(--lime) !important;
+    }
+
     .hero-meta {
       display: flex;
       flex-wrap: wrap;
@@ -1017,8 +1066,16 @@
         font-size: 20px;
       }
 
-      .nav-actions > .btn {
+      .nav-actions > .nav-booking {
         display: none;
+      }
+
+      .nav-actions > .nav-register {
+        display: inline-flex;
+        padding: 10px 12px;
+        min-height: 40px;
+        font-size: 11px;
+        white-space: nowrap;
       }
 
       .menu-toggle {
@@ -1171,7 +1228,10 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="btn btn-primary" type="button" onclick="openBooking()">
+        <button class="btn btn-secondary nav-register" type="button" onclick="openPhotographerRegistration()">
+          ثبت‌نام عکاس <span>＋</span>
+        </button>
+        <button class="btn btn-primary nav-booking" type="button" onclick="openBooking()">
           رزرو عکاسی <span>↗</span>
         </button>
         <button class="menu-toggle" id="menuToggle" aria-label="باز کردن منو" aria-expanded="false">☰</button>
@@ -1200,6 +1260,12 @@
             <a href="#photographers" class="btn btn-primary">پیدا کردن عکاس <span>↙</span></a>
             <button class="btn btn-secondary" type="button" onclick="openBooking()">درخواست رزرو</button>
           </div>
+
+          <button class="btn photographer-join-cta" type="button" onclick="openPhotographerRegistration()">
+            <span class="join-cta-icon">✦</span>
+            <span class="join-cta-copy"><strong>عکاسی؟ پروفایلت رو در QĀB ثبت کن</strong><small>نمونه‌کارهات رو نمایش بده و بیشتر دیده شو</small></span>
+            <span class="join-cta-arrow">↗</span>
+          </button>
 
           <div class="hero-meta">
             <div><strong>۰۲</strong> عکاس معرفی‌شده</div>
