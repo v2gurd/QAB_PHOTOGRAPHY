@@ -1,0 +1,2490 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10110f">
+  <meta name="description" content="قاب؛ دایرکتوری عکاسان حرفه‌ای، مشاهده نمونه‌کارها و ثبت درخواست رزرو عکاسی.">
+  <title>قاب | QĀB — دنیای عکاسی</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #10110f;
+      --panel: #191a17;
+      --panel-2: #20211d;
+      --line: rgba(255,255,255,.10);
+      --text: #f6f6ef;
+      --muted: #a0a197;
+      --lime: #d7ff61;
+      --lime-dark: #b6e63c;
+      --radius: 25px;
+      --font: "Vazirmatn", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 100px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(1160px, calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .lime {
+      color: var(--lime);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--lime);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .4px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: var(--lime);
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(215,255,97,.5);
+    }
+
+    .section {
+      padding: 85px 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(27px, 4vw, 43px);
+      line-height: 1.35;
+      font-weight: 900;
+      letter-spacing: -1.2px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 380px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 12px 20px;
+      border: 1px solid transparent;
+      border-radius: 15px;
+      font-size: 13px;
+      font-weight: 800;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .btn-primary {
+      background: var(--lime);
+      color: #17190f;
+    }
+
+    .btn-primary:hover {
+      background: #e5ff9d;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.045);
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(215,255,97,.5);
+    }
+
+    /* Navigation */
+
+    .navbar {
+      position: sticky;
+      z-index: 50;
+      top: 0;
+      background: rgba(16,17,15,.88);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .nav-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--lime);
+      color: #15170f;
+      font-size: 23px;
+      font-weight: 900;
+      transform: rotate(-5deg);
+    }
+
+    .brand-name {
+      font-family: "DM Sans", var(--font);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      direction: ltr;
+    }
+
+    .brand-name span {
+      color: var(--lime);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 29px;
+      color: #c5c6bd;
+      font-size: 13px;
+    }
+
+    .nav-links a {
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--lime);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 14px;
+      color: white;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      font-size: 22px;
+    }
+
+    /* Hero */
+
+    .hero {
+      padding: 58px 0 45px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr .88fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      padding: 20px 0;
+    }
+
+    .hero h1 {
+      max-width: 650px;
+      margin: 19px 0;
+      font-size: clamp(39px, 6.2vw, 76px);
+      line-height: 1.22;
+      letter-spacing: -2.7px;
+      font-weight: 900;
+    }
+
+    .hero h1 span {
+      color: var(--lime);
+      display: inline-block;
+    }
+
+    .hero-description {
+      max-width: 510px;
+      color: #b0b1a7;
+      font-size: 15px;
+      line-height: 2.2;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 27px;
+    }
+
+    .photographer-join-cta {
+      width: min(100%, 470px);
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-top: 17px;
+      padding: 15px 17px;
+      text-align: right;
+      color: var(--text);
+      background: linear-gradient(110deg, rgba(199, 255, 90, .15), rgba(199, 255, 90, .045));
+      border: 1px solid rgba(199, 255, 90, .55);
+      border-radius: 17px;
+      cursor: pointer;
+      transition: transform .2s, background .2s, border-color .2s;
+      box-shadow: 0 10px 35px rgba(0,0,0,.12);
+    }
+
+    .photographer-join-cta:hover {
+      transform: translateY(-2px);
+      background: rgba(199, 255, 90, .18);
+      border-color: var(--lime);
+    }
+
+    .join-cta-icon {
+      display: grid;
+      place-items: center;
+      flex: 0 0 42px;
+      height: 42px;
+      border-radius: 13px;
+      background: var(--lime);
+      color: #10130b;
+      font-size: 22px;
+    }
+
+    .join-cta-copy {
+      display: grid;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .join-cta-copy strong { font-size: 13px; font-weight: 800; }
+    .join-cta-copy small { color: var(--muted); font-size: 11px; line-height: 1.8; }
+    .join-cta-arrow { color: var(--lime); font-size: 22px; }
+
+    .nav-register {
+      border-color: rgba(199, 255, 90, .55) !important;
+      color: var(--lime) !important;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      margin-top: 34px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .hero-meta strong {
+      color: var(--text);
+      font-size: 19px;
+      margin-left: 5px;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-width: 0;
+    }
+
+    .hero-image-wrap {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 4.55;
+      border-radius: 34px;
+      background: #24251f;
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .hero-image-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,.52), transparent 45%);
+      pointer-events: none;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform .7s ease;
+    }
+
+    .hero-image-wrap:hover .hero-image {
+      transform: scale(1.035);
+    }
+
+    .hero-image-label {
+      position: absolute;
+      z-index: 1;
+      right: 20px;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .hero-image-label strong {
+      font-size: 17px;
+    }
+
+    .hero-image-label span {
+      display: block;
+      color: #d0d0c7;
+      font-size: 12px;
+    }
+
+    .floating-tag {
+      position: absolute;
+      z-index: 2;
+      top: 25px;
+      right: -20px;
+      padding: 13px 17px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 17px;
+      background: rgba(24,25,21,.88);
+      backdrop-filter: blur(14px);
+      font-size: 12px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.2);
+    }
+
+    .floating-tag strong {
+      display: block;
+      color: var(--lime);
+      font-size: 16px;
+    }
+
+    .availability {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #dedfd6;
+      font-size: 11px;
+    }
+
+    .availability::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--lime);
+    }
+
+    /* Ticker */
+
+    .ticker {
+      overflow: hidden;
+      padding: 16px 0;
+      border-block: 1px solid var(--line);
+      background: rgba(255,255,255,.018);
+    }
+
+    .ticker-track {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 30px;
+      min-width: max-content;
+      color: #9b9d91;
+      font-family: "DM Sans", var(--font);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .ticker-track span {
+      display: inline-flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .ticker-track span::before {
+      content: "✳";
+      color: var(--lime);
+      font-size: 18px;
+    }
+
+    /* Search */
+
+    .search-panel {
+      padding: 20px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      margin-bottom: 25px;
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr 190px auto;
+      gap: 12px;
+    }
+
+    .field {
+      width: 100%;
+      min-width: 0;
+      min-height: 49px;
+      padding: 12px 15px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px;
+      outline: none;
+      color: var(--text);
+      background: #121310;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .field:focus {
+      border-color: rgba(215,255,97,.65);
+      box-shadow: 0 0 0 3px rgba(215,255,97,.07);
+    }
+
+    .field::placeholder {
+      color: #77796f;
+    }
+
+    select.field {
+      cursor: pointer;
+    }
+
+    select.field option {
+      background: #191a17;
+    }
+
+    /* Photographer cards */
+
+    .photographer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 20px;
+    }
+
+    .photo-card {
+      min-width: 0;
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      transition: transform .25s ease, border-color .25s ease;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(215,255,97,.35);
+    }
+
+    .card-image-wrap {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 3.45;
+      background: #262720;
+    }
+
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+      transition: transform .6s ease, opacity .3s ease;
+    }
+
+    .photo-card:hover .card-image {
+      transform: scale(1.045);
+    }
+
+    .card-status {
+      position: absolute;
+      top: 13px;
+      right: 13px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 100px;
+      background: rgba(15,16,13,.76);
+      backdrop-filter: blur(10px);
+      font-size: 10px;
+    }
+
+    .card-status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--lime);
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card-top h3 {
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .card-location {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .card-number {
+      color: #77796f;
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      direction: ltr;
+    }
+
+    .card-bio {
+      min-height: 48px;
+      margin: 15px 0;
+      color: #b0b1a8;
+      font-size: 12px;
+      line-height: 2;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 19px;
+    }
+
+    .tag {
+      padding: 5px 10px;
+      border-radius: 9px;
+      background: rgba(255,255,255,.055);
+      color: #d1d2c9;
+      font-size: 10px;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .card-actions .btn {
+      min-height: 43px;
+      padding: 10px;
+      font-size: 11px;
+    }
+
+    .empty-state {
+      display: none;
+      text-align: center;
+      padding: 50px 20px;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      color: var(--muted);
+    }
+
+    /* How it works */
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 17px;
+    }
+
+    .step-card {
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(145deg, #1d1e1a, #151613);
+    }
+
+    .step-number {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(215,255,97,.1);
+      color: var(--lime);
+      font-family: "DM Sans", sans-serif;
+      font-weight: 800;
+      direction: ltr;
+    }
+
+    .step-card h3 {
+      margin-top: 21px;
+      font-size: 17px;
+    }
+
+    .step-card p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 2.1;
+    }
+
+    /* CTA */
+
+    .cta-box {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(28px, 6vw, 60px);
+      border-radius: 30px;
+      background: var(--lime);
+      color: #15170f;
+    }
+
+    .cta-box::after {
+      content: "QĀB";
+      position: absolute;
+      left: -15px;
+      bottom: -90px;
+      color: rgba(0,0,0,.055);
+      font-family: "DM Sans", sans-serif;
+      font-size: clamp(100px, 20vw, 230px);
+      font-weight: 900;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+      max-width: 650px;
+    }
+
+    .cta-content h2 {
+      font-size: clamp(29px, 5vw, 48px);
+      font-weight: 900;
+      line-height: 1.4;
+      letter-spacing: -1px;
+    }
+
+    .cta-content p {
+      max-width: 500px;
+      margin: 12px 0 23px;
+      color: #40452c;
+      font-size: 14px;
+    }
+
+    .btn-dark {
+      background: #171911;
+      color: white;
+    }
+
+    /* Footer */
+
+    footer {
+      padding: 35px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .footer-copy {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      color: #c5c6bc;
+      font-size: 12px;
+    }
+
+    /* Modal */
+
+    .modal-backdrop {
+      position: fixed;
+      z-index: 100;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0,0,0,.76);
+      backdrop-filter: blur(9px);
+      -webkit-backdrop-filter: blur(9px);
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+      animation: fadeIn .2s ease;
+    }
+
+    .modal {
+      width: min(650px, 100%);
+      max-height: min(88vh, 900px);
+      overflow-y: auto;
+      padding: 25px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 25px;
+      background: #191a17;
+      box-shadow: 0 30px 100px rgba(0,0,0,.45);
+      animation: modalIn .25s ease;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 23px;
+    }
+
+    .modal-header h2 {
+      font-size: 24px;
+      line-height: 1.5;
+    }
+
+    .modal-header p {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .close-btn {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      color: white;
+      background: #24251f;
+      font-size: 22px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 15px;
+    }
+
+    .form-group {
+      min-width: 0;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      color: #d8d9d0;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    textarea.field {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .notice {
+      margin-top: 15px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(215,255,97,.08);
+      color: #d8e9b0;
+      font-size: 12px;
+      line-height: 2;
+    }
+
+    .card-rate {
+      margin: 0 0 17px;
+      padding: 9px 12px;
+      font-size: 11px;
+      line-height: 1.9;
+    }
+
+    /* Jalali date picker */
+    .date-group { position: relative; }
+    input.field[readonly] { cursor: pointer; }
+    .jcal {
+      position: absolute;
+      z-index: 30;
+      top: calc(100% + 6px);
+      inset-inline-start: 0;
+      width: min(300px, calc(100vw - 56px));
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+      box-shadow: 0 18px 50px rgba(0,0,0,.55);
+    }
+    .jcal[hidden] { display: none; }
+    .jcal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .jcal-title { font-size: 13px; font-weight: 800; }
+    .jcal-nav, .jcal-day, .jcal-clear {
+      border: 0;
+      color: var(--text);
+      background: transparent;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .jcal-nav {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.055);
+      font-size: 16px;
+    }
+    .jcal-nav:disabled { opacity: .3; cursor: not-allowed; }
+    .jcal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+    }
+    .jcal-wd { padding: 4px 0; color: var(--muted); font-size: 11px; }
+    .jcal-day {
+      height: 34px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    .jcal-day:hover:not(:disabled) { background: rgba(255,255,255,.09); }
+    .jcal-day:disabled { color: #55574e; cursor: not-allowed; }
+    .jcal-day.today { border: 1px solid rgba(215,255,97,.55); }
+    .jcal-day.selected { background: var(--lime); color: #11120d; font-weight: 800; }
+    .jcal-foot { display: flex; justify-content: space-between; margin-top: 10px; }
+    .jcal-clear { padding: 6px 4px; color: var(--muted); font-size: 11px; }
+
+    /* Ready-made shot packages */
+    .shot-packages {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 9px;
+    }
+    .pkg-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: #121310;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .pkg-btn small { color: var(--muted); font-size: 9px; font-weight: 400; }
+    .pkg-btn:hover { border-color: rgba(215,255,97,.4); }
+    .pkg-btn.active { border-color: rgba(215,255,97,.8); background: rgba(215,255,97,.08); }
+    .pkg-btn.active small { color: #d8e9b0; }
+
+    .footer-links .soon { color: #77796f; cursor: default; }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 17px;
+      margin-bottom: 20px;
+    }
+
+    .profile-avatar {
+      width: 94px;
+      height: 94px;
+      flex-shrink: 0;
+      overflow: hidden;
+      border-radius: 20px;
+      background: #282920;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-header h2 {
+      font-size: 23px;
+    }
+
+    .profile-header p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .profile-description {
+      color: #c5c6bd;
+      font-size: 13px;
+      line-height: 2.2;
+    }
+
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .sample-placeholder {
+      display: grid;
+      place-items: center;
+      min-height: 110px;
+      border: 1px dashed rgba(255,255,255,.16);
+      border-radius: 15px;
+      color: #8c8e83;
+      background: #20211d;
+      font-size: 12px;
+      text-align: center;
+      padding: 10px;
+    }
+
+    /* Portfolio images for Ehsan's profile */
+    .sample-item {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 15px;
+      background: #20211d;
+    }
+
+    .sample-image {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      transition: transform .35s ease;
+      cursor: zoom-in;
+    }
+
+    .sample-item:hover .sample-image {
+      transform: scale(1.035);
+    }
+    .sample-video {
+      cursor: auto;
+      background: #20211d;
+    }
+    .sample-item:hover .sample-video {
+      transform: none;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 200;
+      bottom: 25px;
+      left: 50%;
+      max-width: calc(100% - 30px);
+      padding: 13px 19px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      background: #25271f;
+      color: white;
+      font-size: 12px;
+      text-align: center;
+      opacity: 0;
+      transform: translate(-50%, 15px);
+      pointer-events: none;
+      transition: opacity .25s, transform .25s;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(12px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr .85fr;
+        gap: 25px;
+      }
+
+      .hero h1 {
+        font-size: clamp(37px, 6vw, 55px);
+      }
+
+      .photographer-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+
+      .floating-tag {
+        right: -8px;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .container {
+        width: min(100% - 28px, 520px);
+      }
+
+      .nav-inner {
+        min-height: 68px;
+      }
+
+      .brand-mark {
+        width: 39px;
+        height: 39px;
+      }
+
+      .brand-name {
+        font-size: 20px;
+      }
+
+      .nav-actions > .nav-booking {
+        display: none;
+      }
+
+      .nav-actions > .nav-register {
+        display: inline-flex;
+        padding: 10px 12px;
+        min-height: 40px;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+
+      .menu-toggle {
+        display: grid;
+        place-items: center;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: calc(100% + 1px);
+        right: 0;
+        left: 0;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 10px 20px 18px;
+        background: #151612;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+      }
+
+      .hero {
+        padding-top: 30px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .hero-copy {
+        padding: 0;
+      }
+
+      .hero h1 {
+        font-size: clamp(40px, 11vw, 58px);
+        letter-spacing: -1.7px;
+      }
+
+      .hero-description {
+        font-size: 13px;
+      }
+
+      .hero-meta {
+        gap: 16px;
+        margin-top: 25px;
+      }
+
+      .hero-visual {
+        width: 90%;
+        margin-inline: auto;
+      }
+
+      .hero-image-wrap {
+        aspect-ratio: 4 / 4.4;
+        border-radius: 25px;
+      }
+
+      .floating-tag {
+        top: 16px;
+        right: -15px;
+      }
+
+      .section {
+        padding: 58px 0;
+      }
+
+      .section-heading {
+        align-items: start;
+        flex-direction: column;
+        gap: 13px;
+      }
+
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+
+      .photographer-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .card-image-wrap {
+        aspect-ratio: 4 / 3.3;
+      }
+
+      .card-content {
+        padding: 17px;
+      }
+
+      .card-bio {
+        min-height: 0;
+      }
+
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step-card {
+        padding: 21px;
+      }
+
+      .footer-inner {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full {
+        grid-column: auto;
+      }
+
+      .modal {
+        padding: 19px;
+        border-radius: 20px;
+      }
+
+      .profile-header h2 {
+        font-size: 19px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="brand" aria-label="قاب، صفحه اصلی">
+        <div class="brand-mark">ق</div>
+        <div class="brand-name">QĀ<span>B</span></div>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home">صفحه اصلی</a>
+        <a href="#photographers">عکاسان</a>
+        <a href="#how">نحوه رزرو</a>
+        <a href="#contact">ارتباط با ما</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary nav-register" type="button" onclick="openPhotographerRegistration()">
+          ثبت‌نام عکاس <span>＋</span>
+        </button>
+        <button class="btn btn-primary nav-booking" type="button" onclick="openBooking()">
+          رزرو عکاسی <span>↗</span>
+        </button>
+        <button class="menu-toggle" id="menuToggle" aria-label="باز کردن منو" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">دنیای عکاسی، یک قاب فاصله دارد</span>
+
+          <h1>
+            لحظه‌هات رو<br>
+            به <span>قاب</span> بسپار.
+          </h1>
+
+          <p class="hero-description">
+            عکاس مناسب خودت رو پیدا کن، نمونه‌کارها رو ببین و برای ثبت
+            لحظه‌های خاص زندگی‌ات درخواست رزرو بفرست.
+            همه‌چیز ساده، شیک و در یک قاب.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#photographers" class="btn btn-primary">پیدا کردن عکاس <span>↙</span></a>
+            <button class="btn btn-secondary" type="button" onclick="openBooking()">درخواست رزرو</button>
+          </div>
+
+          <button class="btn photographer-join-cta" type="button" onclick="openPhotographerRegistration()">
+            <span class="join-cta-icon">✦</span>
+            <span class="join-cta-copy"><strong>عکاسی؟ پروفایلت رو در QĀB ثبت کن</strong><small>نمونه‌کارهات رو نمایش بده و بیشتر دیده شو</small></span>
+            <span class="join-cta-arrow">↗</span>
+          </button>
+
+          <div class="hero-meta">
+            <div><strong>۰۲</strong> عکاس معرفی‌شده</div>
+            <div><strong>∞</strong> لحظه برای ثبت کردن</div>
+            <div><strong>۰۱</strong> قدم تا رزرو</div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="floating-tag">
+            <strong>YOUR MOMENT.</strong>
+            <span>YOUR STORY.</span>
+          </div>
+
+          <div class="hero-image-wrap">
+            <img
+              class="hero-image"
+              src="IMG_2264.jpeg"
+              alt="نمونه تصویری وب‌سایت قاب"
+              fetchpriority="high"
+              loading="eager"
+              decoding="async"
+              width="900"
+              height="1024"
+            >
+            <div class="hero-image-label">
+              <div>
+                <strong>هر عکس، یک داستان</strong>
+                <span>لحظه‌ها تکرار نمی‌شوند.</span>
+              </div>
+              <div class="availability">قاب بعدی تو</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="container ticker-track">
+        <span>PORTRAIT</span>
+        <span>COUPLE</span>
+        <span>EVENT</span>
+        <span>STUDIO</span>
+        <span>YOUR STORY</span>
+      </div>
+    </div>
+
+    <section class="section" id="photographers">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div>
+            <span class="eyebrow">CREATIVE PEOPLE</span>
+            <h2 style="margin-top:12px">عکاس خودت رو <span class="lime">پیدا کن.</span></h2>
+            <p>سبک‌ها رو مقایسه کن، نمونه‌کارها رو ببین و برای عکاسی موردنظرت درخواست بفرست.</p>
+          </div>
+          <span class="muted" style="font-size:12px">TABRIZ, IRAN</span>
+        </div>
+
+        <div class="search-panel reveal">
+          <div class="search-row">
+            <input
+              id="searchInput"
+              class="field"
+              type="search"
+              placeholder="جست‌وجوی نام عکاس یا سبک عکاسی..."
+              aria-label="جست‌وجوی عکاس"
+            >
+
+            <select id="styleFilter" class="field" aria-label="فیلتر سبک عکاسی">
+              <option value="all">همه سبک‌ها</option>
+              <option value="portrait">پرتره</option>
+              <option value="couple">دونفره و زوج</option>
+              <option value="fashion">فشن</option>
+              <option value="event">مراسم</option>
+              <option value="studio">آتلیه</option>
+            </select>
+
+            <button class="btn btn-primary" type="button" id="searchButton">جست‌وجو ↗</button>
+          </div>
+        </div>
+
+        <div class="photographer-grid" id="photographerGrid">
+          <article
+            class="photo-card reveal"
+            data-name="احسان نامی"
+            data-location="تبریز آذربایجان شرقی"
+            data-styles="portrait couple fashion studio"
+          >
+            <div class="card-image-wrap">
+              <img
+                class="card-image"
+                src="IMG_3579.png"
+                alt="عکاس احسان نامی"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="690"
+              >
+              <div class="card-status">عکاس معرفی‌شده</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-top">
+                <div>
+                  <h3>احسان نامی</h3>
+                  <div class="card-location">⌖ تبریز، آذربایجان شرقی</div>
+                </div>
+                <span class="card-number">01 / QĀB</span>
+              </div>
+
+              <p class="card-bio">
+                ثبت پرتره‌ها و لحظه‌های خاص با توجه به نور، ترکیب‌بندی و حس طبیعی تصویر.
+              </p>
+
+              <div class="tags">
+                <span class="tag">پرتره</span>
+                <span class="tag">دونفره</span>
+                <span class="tag">فشن</span>
+                <span class="tag">آتلیه</span>
+              </div>
+
+              <div class="notice card-rate">تعرفه هر شات: ۴۰۰٬۰۰۰ تومان</div>
+
+              <div class="card-actions">
+                <button class="btn btn-secondary" type="button" onclick="openProfile('ehsan')">مشاهده پروفایل</button>
+                <button class="btn btn-primary" type="button" onclick="openBooking('احسان نامی')">رزرو عکاسی ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="photo-card reveal"
+            data-name="تبسم اسرافیلی"
+            data-location="تبریز آذربایجان شرقی"
+            data-styles="portrait couple event studio"
+          >
+            <div class="card-image-wrap">
+              <img
+                class="card-image"
+                src="0077b58b80ba79b2664aec9a37c07388.png"
+                alt="عکاس تبسم اسرافیلی"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="690"
+              >
+              <div class="card-status">عکاس معرفی‌شده</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-top">
+                <div>
+                  <h3>تبسم اسرافیلی</h3>
+                  <div class="card-location">⌖ تبریز، آذربایجان شرقی</div>
+                </div>
+                <span class="card-number">02 / QĀB</span>
+              </div>
+
+              <p class="card-bio">
+                ثبت لحظه‌ها با نگاهی خلاقانه؛ مناسب برای پرتره، عکاسی دونفره و ثبت خاطرات.
+              </p>
+
+              <div class="tags">
+                <span class="tag">پرتره</span>
+                <span class="tag">دونفره</span>
+                <span class="tag">مراسم</span>
+                <span class="tag">آتلیه</span>
+              </div>
+
+              <div class="notice card-rate">تعرفه هر شات: ۴۵۰٬۰۰۰ تومان</div>
+
+              <div class="card-actions">
+                <button class="btn btn-secondary" type="button" onclick="openProfile('tabassom')">مشاهده پروفایل</button>
+                <button class="btn btn-primary" type="button" onclick="openBooking('تبسم اسرافیلی')">رزرو عکاسی ↗</button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="empty-state" id="emptyState">
+          عکاسی با این مشخصات پیدا نشد. عبارت جست‌وجو یا سبک انتخابی را تغییر بده.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div>
+            <span class="eyebrow">SIMPLE PROCESS</span>
+            <h2 style="margin-top:12px">از انتخاب تا <span class="lime">ثبت لحظه.</span></h2>
+            <p>فرایند ساده است. قرار نیست برای رزرو یک عکاسی، هفت مرحله احراز هویت رد کنی!</p>
+          </div>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card reveal">
+            <div class="step-number">01</div>
+            <h3>عکاس رو انتخاب کن</h3>
+            <p>پروفایل عکاس‌ها رو ببین و بر اساس سبک و سلیقه‌ات انتخاب کن.</p>
+          </div>
+
+          <div class="step-card reveal">
+            <div class="step-number">02</div>
+            <h3>جزئیات رو ثبت کن</h3>
+            <p>تاریخ، نوع عکاسی، تعداد شات و توضیحاتت رو در فرم رزرو وارد کن.</p>
+          </div>
+
+          <div class="step-card reveal">
+            <div class="step-number">03</div>
+            <h3>درخواست رو ارسال کن</h3>
+            <p>متن درخواست آماده می‌شه تا از طریق تلگرام برای هماهنگی ارسالش کنی.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="cta-box reveal">
+          <div class="cta-content">
+            <span class="eyebrow" style="color:#333a20">LET'S MAKE SOMETHING</span>
+            <h2 style="margin-top:13px">لحظه بعدی،<br>شاید بهترین قاب تو باشه.</h2>
+            <p>جزئیات عکاسی موردنظرت رو ثبت کن تا درخواستت برای هماهنگی آماده بشه.</p>
+            <button class="btn btn-dark" type="button" onclick="openBooking()">شروع درخواست رزرو ↗</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <a href="#home" class="brand">
+        <div class="brand-mark">ق</div>
+        <div class="brand-name">QĀ<span>B</span></div>
+      </a>
+
+      <div class="footer-copy">© <span id="year"></span> QĀB. تمام حقوق محفوظ است.</div>
+
+      <div class="footer-links">
+        <a href="#photographers">عکاسان</a>
+        <a href="#how">راهنما</a>
+        <a href="#" onclick="openPhotographerRegistration(); return false;">ثبت‌نام عکاس</a>
+        <a href="https://t.me/esi_as" target="_blank" rel="noopener noreferrer">تلگرام احسان</a>
+        <span class="soon" aria-disabled="true">اینستاگرام (به زودی)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Profile modal -->
+  <div class="modal-backdrop" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileName">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <span class="eyebrow">PHOTOGRAPHER PROFILE</span>
+          <p>آشنایی بیشتر با عکاس</p>
+        </div>
+        <button class="close-btn" type="button" onclick="closeModal('profileModal')" aria-label="بستن">×</button>
+      </div>
+
+      <div id="profileContent"></div>
+    </div>
+  </div>
+
+  <!-- Booking modal -->
+  <div class="modal-backdrop" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <span class="eyebrow">BOOK YOUR SESSION</span>
+          <h2 id="bookingTitle">درخواست رزرو عکاسی</h2>
+          <p>اطلاعاتت رو وارد کن تا متن درخواست آماده بشه.</p>
+        </div>
+        <button class="close-btn" type="button" onclick="closeModal('bookingModal')" aria-label="بستن">×</button>
+      </div>
+
+      <form id="bookingForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="customerName">نام و نام خانوادگی *</label>
+            <input class="field" id="customerName" name="customerName" required maxlength="100" placeholder="نام شما">
+          </div>
+
+          <div class="form-group">
+            <label for="customerPhone">شماره تماس *</label>
+            <input class="field" id="customerPhone" name="customerPhone" required type="tel" maxlength="25" placeholder="09xxxxxxxxx">
+          </div>
+
+          <div class="form-group">
+            <label for="photographer">عکاس موردنظر *</label>
+            <select class="field" id="photographer" name="photographer" required>
+              <option value="">انتخاب عکاس</option>
+              <option value="احسان نامی">احسان نامی</option>
+              <option value="تبسم اسرافیلی">تبسم اسرافیلی</option>
+              <option value="فرقی ندارد">فرقی ندارد</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="shootType">نوع عکاسی *</label>
+            <select class="field" id="shootType" name="shootType" required>
+              <option value="">انتخاب نوع</option>
+              <option>پرتره</option>
+              <option>عکاسی دونفره و زوج</option>
+              <option>فشن و مدلینگ</option>
+              <option>عکاسی آتلیه</option>
+              <option>مراسم و تولد</option>
+              <option>محصولات</option>
+              <option>فیلم‌برداری</option>
+              <option>سایر</option>
+            </select>
+          </div>
+
+          <div class="form-group date-group">
+            <label for="shootDate">تاریخ موردنظر</label>
+            <input class="field" id="shootDate" name="shootDate" type="text" readonly placeholder="انتخاب تاریخ (تقویم شمسی)" autocomplete="off" aria-haspopup="dialog" aria-expanded="false">
+            <div class="jcal" id="jalaliCalendar" role="dialog" aria-label="تقویم شمسی" hidden></div>
+          </div>
+
+          <div class="form-group">
+            <label for="shootTime">ساعت موردنظر</label>
+            <input class="field" id="shootTime" name="shootTime" type="time">
+          </div>
+
+          <div class="form-group" id="shotCountGroup">
+            <label for="shotCount">تعداد شات</label>
+            <input class="field" id="shotCount" name="shotCount" type="number" min="1" max="500" step="1" placeholder="مثلاً ۵">
+            <div class="shot-packages" id="shotPackages" role="group" aria-label="بسته‌های آماده">
+              <button class="pkg-btn" type="button" data-count="3">۳ شات<small></small></button>
+              <button class="pkg-btn" type="button" data-count="5">۵ شات<small></small></button>
+              <button class="pkg-btn" type="button" data-count="10">۱۰ شات<small></small></button>
+              <button class="pkg-btn" type="button" data-count="20">۲۰ شات<small></small></button>
+            </div>
+          </div>
+
+          <div class="form-group" id="videoDurationGroup" hidden>
+            <label for="videoDuration">مدت فیلم‌برداری</label>
+            <select class="field" id="videoDuration" name="videoDuration">
+              <option value="">انتخاب مدت</option>
+              <option value="۳۰ ثانیه">۳۰ ثانیه</option>
+              <option value="۱ دقیقه">۱ دقیقه</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label>برآورد تعرفه</label>
+            <div class="notice" id="priceEstimate" aria-live="polite">برای محاسبه قیمت، نوع خدمات و تعداد شات یا مدت فیلم‌برداری را انتخاب کن.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="shootDuration">مدت عکاسی</label>
+            <select class="field" id="shootDuration" name="shootDuration">
+              <option value="هنوز مشخص نیست">هنوز مشخص نیست</option>
+              <option>۳۰ دقیقه</option>
+              <option>۱ ساعت</option>
+              <option>۲ ساعت</option>
+              <option>بیشتر از ۲ ساعت</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="shootLocation">محل عکاسی</label>
+            <input class="field" id="shootLocation" name="shootLocation" placeholder="مثلاً آتلیه یا فضای باز">
+          </div>
+
+          <div class="form-group">
+            <label for="budget">بودجه تقریبی</label>
+            <select class="field" id="budget" name="budget">
+              <option value="مشخص نشده">مشخص نشده</option>
+              <option>کمتر از ۱ میلیون تومان</option>
+              <option>۱ تا ۳ میلیون تومان</option>
+              <option>۳ تا ۵ میلیون تومان</option>
+              <option>بیشتر از ۵ میلیون تومان</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label for="reference">لینک عکس مرجع یا ایده</label>
+            <input class="field" id="reference" name="reference" type="url" placeholder="https://...">
+          </div>
+
+          <div class="form-group full">
+            <label for="notes">توضیحات بیشتر</label>
+            <textarea class="field" id="notes" name="notes" maxlength="1500" placeholder="ایده، لوکیشن، سبک نورپردازی یا هر چیزی که لازمه..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">ساخت متن درخواست ↗</button>
+          <button class="btn btn-secondary" type="button" id="sendBookingTelegram" hidden>ارسال به تلگرام ↗</button>
+          <button class="btn btn-secondary" type="button" id="copyBooking" hidden>کپی متن</button>
+        </div>
+
+        <div class="notice" id="bookingNotice" hidden aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Photographer registration modal -->
+  <div class="modal-backdrop" id="registrationModal" role="dialog" aria-modal="true" aria-labelledby="registrationTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <span class="eyebrow">JOIN QĀB</span>
+          <h2 id="registrationTitle">درخواست ثبت نام عکاس</h2>
+          <p>اطلاعاتت را وارد کن تا درخواست عضویت برای مدیریت آماده شود.</p>
+        </div>
+        <button class="close-btn" type="button" onclick="closeModal('registrationModal')" aria-label="بستن">×</button>
+      </div>
+      <form id="registrationForm">
+        <div class="form-grid">
+          <div class="form-group"><label for="regName">نام و نام خانوادگی *</label><input class="field" id="regName" name="regName" required maxlength="100"></div>
+          <div class="form-group"><label for="regPhone">شماره تماس *</label><input class="field" id="regPhone" name="regPhone" type="tel" required maxlength="25" placeholder="09xxxxxxxxx"></div>
+          <div class="form-group"><label for="regCity">شهر محل فعالیت *</label><input class="field" id="regCity" name="regCity" required maxlength="100" placeholder="مثلاً تبریز"></div>
+          <div class="form-group"><label for="regTelegram">آیدی تلگرام</label><input class="field" id="regTelegram" name="regTelegram" placeholder="@username" maxlength="100"></div>
+          <div class="form-group full"><label for="regInstagram">لینک پیج اینستاگرام</label><input class="field" id="regInstagram" name="regInstagram" type="url" placeholder="https://instagram.com/..."></div>
+          <div class="form-group"><label for="regServices">زمینه فعالیت *</label><select class="field" id="regServices" name="regServices" required><option value="">انتخاب زمینه</option><option>پرتره</option><option>دونفره و زوج</option><option>فشن و مدلینگ</option><option>آتلیه</option><option>مراسم</option><option>فیلم‌برداری</option><option>چند زمینه</option></select></div>
+          <div class="form-group"><label for="regExperience">سابقه فعالیت</label><select class="field" id="regExperience" name="regExperience"><option>کمتر از یک سال</option><option>۱ تا ۳ سال</option><option>بیشتر از ۳ سال</option><option>تازه‌کار</option></select></div>
+          <div class="form-group full"><label for="regPortfolio">لینک نمونه‌کارها *</label><input class="field" id="regPortfolio" name="regPortfolio" type="url" required placeholder="https://..."></div>
+          <div class="form-group full"><label for="regAbout">توضیحات تکمیلی</label><textarea class="field" id="regAbout" name="regAbout" maxlength="1200" placeholder="سبک کاری، تجهیزات یا توضیحات مرتبط..."></textarea></div>
+        </div>
+        <div class="notice">ارسال درخواست به معنی عضویت قطعی نیست. شرایط نهایی و هزینه‌های احتمالی عضویت یا معرفی، جداگانه توسط مدیریت اعلام می‌شود.</div>
+        <div class="form-actions"><button class="btn btn-primary" type="submit">آماده‌سازی درخواست در تلگرام ↗</button><button class="btn btn-secondary" id="copyRegistration" type="button" hidden>کپی متن</button></div>
+        <div class="notice" id="registrationNotice" hidden aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const photographers = {
+      ehsan: {
+        name: "احسان نامی",
+        location: "تبریز، آذربایجان شرقی",
+        image: "IMG_3579.png",
+        bio: "عکاسی با تمرکز بر پرتره، ترکیب‌بندی، نور و ساخت تصویری که شخصیت و حس سوژه را حفظ کند.",
+        styles: ["پرتره", "دونفره", "فشن", "آتلیه"],
+        telegram: "https://t.me/esi_as",
+        shotRate: 400000
+      },
+      tabassom: {
+        name: "تبسم اسرافیلی",
+        location: "تبریز، آذربایجان شرقی",
+        image: "0077b58b80ba79b2664aec9a37c07388.png",
+        bio: "عکاسی با نگاه خلاقانه و توجه به جزئیات؛ مناسب برای پرتره، ثبت خاطرات و عکاسی دونفره.",
+        styles: ["پرتره", "دونفره", "مراسم", "آتلیه"],
+        telegram: "https://t.me/Tabassomes",
+        shotRate: 450000
+      }
+    };
+
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+    $("#year").textContent = new Date().getFullYear();
+
+    // Mobile navigation
+    const navLinks = $("#navLinks");
+    const menuToggle = $("#menuToggle");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.textContent = isOpen ? "×" : "☰";
+    });
+
+    $$("#navLinks a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.textContent = "☰";
+      });
+    });
+
+    // Search and filter
+    function filterPhotographers() {
+      const query = $("#searchInput").value.trim().toLocaleLowerCase("fa");
+      const selectedStyle = $("#styleFilter").value;
+      let visibleCount = 0;
+
+      $$(".photo-card").forEach(card => {
+        const name = (card.dataset.name || "").toLocaleLowerCase("fa");
+        const location = (card.dataset.location || "").toLocaleLowerCase("fa");
+        const styles = (card.dataset.styles || "").split(/\s+/);
+        const matchesQuery = !query || name.includes(query) || location.includes(query);
+        const matchesStyle = selectedStyle === "all" || styles.includes(selectedStyle);
+        const show = matchesQuery && matchesStyle;
+
+        card.style.display = show ? "" : "none";
+        if (show) visibleCount++;
+      });
+
+      $("#emptyState").style.display = visibleCount ? "none" : "block";
+    }
+
+    $("#searchButton").addEventListener("click", filterPhotographers);
+    $("#searchInput").addEventListener("input", filterPhotographers);
+    $("#styleFilter").addEventListener("change", filterPhotographers);
+
+    // Modal helpers
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+
+      modal.classList.add("active");
+      document.body.classList.add("modal-open");
+
+      const closeButton = $(".close-btn", modal);
+      if (closeButton) closeButton.focus();
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+
+      modal.classList.remove("active");
+
+      if (!$(".modal-backdrop.active")) {
+        document.body.classList.remove("modal-open");
+      }
+    }
+
+    $$(".modal-backdrop").forEach(backdrop => {
+      backdrop.addEventListener("click", event => {
+        if (event.target === backdrop) {
+          closeModal(backdrop.id);
+        }
+      });
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        $$(".modal-backdrop.active").forEach(modal => closeModal(modal.id));
+      }
+    });
+
+    // Photographer profile
+    function openProfile(id) {
+      const photographer = photographers[id];
+      if (!photographer) return;
+
+      const content = $("#profileContent");
+      content.replaceChildren();
+
+      const header = document.createElement("div");
+      header.className = "profile-header";
+
+      const avatar = document.createElement("div");
+      avatar.className = "profile-avatar";
+
+      const img = document.createElement("img");
+      img.src = photographer.image;
+      img.alt = photographer.name;
+      img.loading = "eager";
+      img.decoding = "async";
+      avatar.appendChild(img);
+
+      const identity = document.createElement("div");
+      const name = document.createElement("h2");
+      name.id = "profileName";
+      name.textContent = photographer.name;
+
+      const location = document.createElement("p");
+      location.textContent = "⌖ " + photographer.location;
+
+      identity.append(name, location);
+      header.append(avatar, identity);
+
+      const description = document.createElement("p");
+      description.className = "profile-description";
+      description.textContent = photographer.bio;
+
+      const tags = document.createElement("div");
+      tags.className = "tags";
+      tags.style.marginTop = "17px";
+
+      photographer.styles.forEach(style => {
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = style;
+        tags.appendChild(tag);
+      });
+
+      const rateNotice = document.createElement("div");
+      rateNotice.className = "notice";
+      rateNotice.textContent = "تعرفه هر شات: " + formatToman(photographer.shotRate);
+
+      const sampleTitle = document.createElement("h3");
+      sampleTitle.style.marginTop = "24px";
+      sampleTitle.style.fontSize = "16px";
+      sampleTitle.textContent = "نمونه‌کارها";
+
+      const sampleGrid = document.createElement("div");
+      sampleGrid.className = "sample-grid";
+
+      if (id === "ehsan") {
+        const portfolioImages = [
+          "f33bfa39a174bdb9406ff31023e64412.png",
+          "IMG_3515.png",
+          "3175dbab48426274d9e2d8d5655cf2ac.jpeg",
+          "8F835A17-53B0-4BA2-A1AE-376F42095B73.png",
+          "2290AA16-5F04-497B-934E-67C72E64DDB1.jpeg",
+          "Ehsan/IMG_4006.jpeg",
+          "Ehsan/IMG_4010.jpeg",
+          "Ehsan/IMG_4011.jpeg",
+          "Ehsan/IMG_4012.jpeg",
+          "Ehsan/IMG_4013.jpeg",
+          "Ehsan/IMG_4014.jpeg",
+          "Ehsan/IMG_4015.jpeg",
+          "Ehsan/IMG_4016.jpeg",
+          "Ehsan/IMG_4018.jpeg",
+          "Ehsan/IMG_4019.jpeg",
+          "Ehsan/IMG_4020.jpeg",
+          "Ehsan/IMG_4021.jpeg",
+          "Ehsan/IMG_4022.jpeg",
+          "Ehsan/IMG_4023.jpeg",
+          "Ehsan/IMG_4024.jpeg",
+          "Ehsan/IMG_4025.jpeg"
+        ];
+
+        portfolioImages.forEach((filename, index) => {
+          const item = document.createElement("div");
+          item.className = "sample-item";
+
+          const image = document.createElement("img");
+          image.className = "sample-image";
+
+          // تصاویر مستقیماً در ریشه مخزن GitHub قرار دارند
+          image.src = filename;
+
+          image.alt = "نمونه‌کار " + (index + 1) + " از احسان نامی";
+          image.loading = "lazy";
+          image.decoding = "async";
+          image.addEventListener("click", () => {
+            window.open(image.src, "_blank", "noopener,noreferrer");
+          });
+
+          item.appendChild(image);
+          sampleGrid.appendChild(item);
+        });
+
+        // ویدیوی نمونه‌کار احسان (پوشه Ehsan)
+        const portfolioVideos = [
+          "Ehsan/copy_48E277F6-A243-4578-BF19-88626CFC23C6.mov"
+        ];
+
+        portfolioVideos.forEach(filename => {
+          const item = document.createElement("div");
+          item.className = "sample-item";
+
+          const video = document.createElement("video");
+          video.className = "sample-image sample-video";
+          video.src = filename;
+          video.controls = true;
+          video.playsInline = true;
+          video.preload = "metadata";
+          video.setAttribute("aria-label", "ویدیوی نمونه‌کار از احسان نامی");
+
+          item.appendChild(video);
+          sampleGrid.appendChild(item);
+        });
+      } else if (id === "tabassom") {
+        const portfolioImages = [
+          "portfolio/IMG_3967.jpeg",
+          "portfolio/IMG_3968.jpeg",
+          "portfolio/IMG_3969.jpeg",
+          "portfolio/IMG_3970.jpeg",
+          "portfolio/IMG_3971.jpeg",
+          "portfolio/IMG_3972.jpeg",
+          "portfolio/IMG_3973.jpeg",
+          "portfolio/IMG_3974.jpeg",
+          "portfolio/IMG_3975.jpeg",
+          "portfolio/IMG_3976.jpeg",
+          "portfolio/IMG_3977.jpeg",
+          "portfolio/IMG_3978.jpeg",
+          "portfolio/IMG_3979.jpeg",
+          "portfolio/IMG_3981.jpeg",
+          "portfolio/IMG_3983.jpeg",
+          "portfolio/IMG_3984.jpeg",
+          "portfolio/IMG_3985.jpeg",
+          "portfolio/IMG_3986.jpeg",
+          "portfolio/IMG_3987.jpeg",
+          "portfolio/IMG_3988.jpeg",
+          "portfolio/IMG_3989.jpeg",
+          "portfolio/IMG_3990.jpeg",
+          "portfolio/IMG_3991.jpeg",
+          "portfolio/IMG_3992.jpeg",
+          "portfolio/IMG_3993.jpeg",
+          "portfolio/IMG_3994.jpeg"
+        ];
+
+        portfolioImages.forEach((filename, index) => {
+          const item = document.createElement("div");
+          item.className = "sample-item";
+
+          const image = document.createElement("img");
+          image.className = "sample-image";
+          image.src = filename;
+          image.alt = `نمونه‌کار ${index + 1} از تبسم اسرافیلی`;
+          image.loading = "lazy";
+          image.decoding = "async";
+          image.addEventListener("click", () => {
+            window.open(image.src, "_blank", "noopener,noreferrer");
+          });
+
+          item.appendChild(image);
+          sampleGrid.appendChild(item);
+        });
+      }
+
+      const actions = document.createElement("div");
+      actions.className = "form-actions";
+
+      const book = document.createElement("button");
+      book.type = "button";
+      book.className = "btn btn-primary";
+      book.textContent = "درخواست رزرو ↗";
+      book.addEventListener("click", () => {
+        closeModal("profileModal");
+        openBooking(photographer.name);
+      });
+
+      actions.appendChild(book);
+
+      if (photographer.telegram) {
+        const telegram = document.createElement("a");
+        telegram.className = "btn btn-secondary";
+        telegram.href = photographer.telegram;
+        telegram.target = "_blank";
+        telegram.rel = "noopener noreferrer";
+        telegram.textContent = "ارتباط در تلگرام ↗";
+        actions.appendChild(telegram);
+      }
+
+      content.append(header, description, tags, rateNotice, sampleTitle, sampleGrid, actions);
+      openModal("profileModal");
+    }
+
+    // Booking form, pricing and Telegram handoff
+    function openBooking(name = "") {
+      closeModal("profileModal");
+      $("#bookingForm").reset();
+      $("#bookingNotice").hidden = true;
+      $("#copyBooking").hidden = true;
+      $("#sendBookingTelegram").hidden = true;
+      $("#copyBooking").dataset.text = "";
+      $("#sendBookingTelegram").dataset.text = "";
+      if (name) $("#photographer").value = name;
+      updatePriceEstimate();
+      openModal("bookingModal");
+    }
+
+    function isVideoService() {
+      return $("#shootType").value === "فیلم‌برداری";
+    }
+
+    function formatToman(value) {
+      return new Intl.NumberFormat("fa-IR").format(value) + " تومان";
+    }
+
+    function getShotRate(name) {
+      const found = Object.values(photographers).find(p => p.name === name);
+      return found ? found.shotRate : null;
+    }
+
+    function updatePriceEstimate() {
+      const video = isVideoService();
+      $("#shotCountGroup").hidden = video;
+      $("#videoDurationGroup").hidden = !video;
+      $("#shotCount").required = !video;
+      $("#videoDuration").required = video;
+      const count = Number($("#shotCount").value);
+      const duration = $("#videoDuration").value;
+      let message = "برای محاسبه قیمت، نوع خدمات و تعداد شات یا مدت فیلم‌برداری را انتخاب کن.";
+      let price = null;
+      if (video && duration === "۳۰ ثانیه") {
+        price = 3000000;
+        message = "تعرفه فیلم‌برداری ۳۰ ثانیه: " + formatToman(price);
+      } else if (video && duration === "۱ دقیقه") {
+        price = 4000000;
+        message = "تعرفه فیلم‌برداری ۱ دقیقه: " + formatToman(price);
+      } else if (!video) {
+        const name = $("#photographer").value;
+        const rate = getShotRate(name);
+        const rawCount = $("#shotCount").value.trim();
+        if (!rate) {
+          message = "برای محاسبه قیمت عکاسی، ابتدا یک عکاس مشخص (احسان نامی یا تبسم اسرافیلی) انتخاب کن؛ تعرفه هر شات برای هر عکاس متفاوت است.";
+        } else if (rawCount === "") {
+          message = `تعرفه هر شات ${name}: ${formatToman(rate)}. تعداد شات را وارد کن تا مبلغ کل محاسبه شود.`;
+        } else if (!Number.isInteger(count) || count < 1 || count > 500) {
+          message = "تعداد شات باید یک عدد صحیح بین ۱ تا ۵۰۰ باشد.";
+        } else {
+          price = count * rate;
+          message = `تعرفه ${new Intl.NumberFormat("fa-IR").format(count)} شات ${name}: ${formatToman(price)} (${new Intl.NumberFormat("fa-IR").format(count)} شات × ${formatToman(rate)})`;
+        }
+      }
+      $("#priceEstimate").textContent = message;
+      const pkgRate = getShotRate($("#photographer").value);
+      $$("#shotPackages .pkg-btn").forEach(btn => {
+        const n = Number(btn.dataset.count);
+        btn.classList.toggle("active", !video && count === n);
+        $("small", btn).textContent = pkgRate ? formatToman(n * pkgRate) : "";
+      });
+      return price;
+    }
+
+    $("#shootType").addEventListener("change", updatePriceEstimate);
+    $("#shotCount").addEventListener("input", updatePriceEstimate);
+    $("#videoDuration").addEventListener("change", updatePriceEstimate);
+    $("#photographer").addEventListener("change", updatePriceEstimate);
+
+
+    // Shot packages
+    $$("#shotPackages .pkg-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        $("#shotCount").value = btn.dataset.count;
+        updatePriceEstimate();
+      });
+    });
+
+    // Jalali (Persian) date picker
+    (function () {
+      const div = (a, b) => ~~(a / b), mod = (a, b) => a - ~~(a / b) * b;
+      const JB=[-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178];
+      function jalCal(jy){
+        const bl=JB.length,gy=jy+621;let leapJ=-14,jp=JB[0],jm,jump=0,leap,leapG,march,n,i;
+        for(i=1;i<bl;i++){jm=JB[i];jump=jm-jp;if(jy<jm)break;leapJ+=div(jump,33)*8+div(mod(jump,33),4);jp=jm;}
+        n=jy-jp;
+        leapJ+=div(n,33)*8+div(mod(n,33)+3,4);
+        if(mod(jump,33)===4&&jump-n===4)leapJ+=1;
+        leapG=div(gy,4)-div((div(gy,100)+1)*3,4)-150;
+        march=20+leapJ-leapG;
+        if(jump-n<6)n=n-jump+div(jump+4,33)*33;
+        leap=mod(mod(n+1,33)-1,4);
+        if(leap===-1)leap=4;
+        return {leap,gy,march};
+      }
+      function g2d(gy,gm,gd){let d=div((gy+div(gm-8,6)+100100)*1461,4)+div(153*mod(gm+9,12)+2,5)+gd-34840408;d=d-div(div(gy+100100+div(gm-8,6),100)*3,4)+752;return d;}
+      function d2g(jdn){let j=4*jdn+139361631;j=j+div(div(4*jdn+183187720,146097)*3,4)*4-3908;const i=div(mod(j,1461),4)*5+308;const gd=div(mod(i,153),5)+1;const gm=mod(div(i,153),12)+1;const gy=div(j,1461)-100100+div(8-gm,6);return {gy,gm,gd};}
+      function j2d(jy,jm,jd){const r=jalCal(jy);return g2d(r.gy,3,r.march)+(jm-1)*31-div(jm,7)*(jm-7)+jd-1;}
+      function d2j(jdn){const gy=d2g(jdn).gy;let jy=gy-621;const r=jalCal(jy);const jdn1f=g2d(gy,3,r.march);let jd,jm,k=jdn-jdn1f;
+        if(k>=0){if(k<=185){jm=1+div(k,31);jd=mod(k,31)+1;return {jy,jm,jd};}else k-=186;}
+        else{jy-=1;k+=179;if(r.leap===1)k+=1;}
+        jm=7+div(k,30);jd=mod(k,30)+1;return {jy,jm,jd};}
+      const toJalali=(gy,gm,gd)=>d2j(g2d(gy,gm,gd));
+      const toGregorian=(jy,jm,jd)=>d2g(j2d(jy,jm,jd));
+      const jalaliMonthLength=(jy,jm)=>jm<=6?31:jm<=11?30:(jalCal(jy).leap===0?30:29);
+
+      const MONTHS = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+      const WEEKDAYS = ["شنبه","یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه"];
+      const WD_SHORT = ["ش","ی","د","س","چ","پ","ج"];
+      const faNum = new Intl.NumberFormat("fa-IR", { useGrouping: false });
+
+      const input = $("#shootDate");
+      const cal = $("#jalaliCalendar");
+      const now = new Date();
+      const today = toJalali(now.getFullYear(), now.getMonth() + 1, now.getDate());
+      const todayKey = today.jy * 10000 + today.jm * 100 + today.jd;
+      let viewY = today.jy, viewM = today.jm, selectedKey = null;
+
+      function weekdayIndex(jy, jm, jd) {
+        const g = toGregorian(jy, jm, jd);
+        return (new Date(g.gy, g.gm - 1, g.gd).getDay() + 1) % 7;
+      }
+
+      function render() {
+        cal.replaceChildren();
+
+        const head = document.createElement("div");
+        head.className = "jcal-head";
+
+        const next = document.createElement("button");
+        next.type = "button";
+        next.className = "jcal-nav";
+        next.textContent = "›";
+        next.setAttribute("aria-label", "ماه قبل");
+        next.disabled = viewY * 12 + viewM <= today.jy * 12 + today.jm;
+        next.addEventListener("click", () => shift(-1));
+
+        const title = document.createElement("div");
+        title.className = "jcal-title";
+        title.textContent = MONTHS[viewM - 1] + " " + faNum.format(viewY);
+
+        const prev = document.createElement("button");
+        prev.type = "button";
+        prev.className = "jcal-nav";
+        prev.textContent = "‹";
+        prev.setAttribute("aria-label", "ماه بعد");
+        prev.addEventListener("click", () => shift(1));
+
+        head.append(next, title, prev);
+
+        const grid = document.createElement("div");
+        grid.className = "jcal-grid";
+        WD_SHORT.forEach(w => {
+          const cell = document.createElement("div");
+          cell.className = "jcal-wd";
+          cell.textContent = w;
+          grid.appendChild(cell);
+        });
+
+        const offset = weekdayIndex(viewY, viewM, 1);
+        for (let i = 0; i < offset; i++) grid.appendChild(document.createElement("div"));
+
+        const length = jalaliMonthLength(viewY, viewM);
+        for (let d = 1; d <= length; d++) {
+          const key = viewY * 10000 + viewM * 100 + d;
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "jcal-day";
+          btn.textContent = faNum.format(d);
+          if (key < todayKey) btn.disabled = true;
+          if (key === todayKey) btn.classList.add("today");
+          if (key === selectedKey) btn.classList.add("selected");
+          btn.addEventListener("click", () => choose(viewY, viewM, d));
+          grid.appendChild(btn);
+        }
+
+        const foot = document.createElement("div");
+        foot.className = "jcal-foot";
+        const clear = document.createElement("button");
+        clear.type = "button";
+        clear.className = "jcal-clear";
+        clear.textContent = "پاک کردن تاریخ";
+        clear.addEventListener("click", () => { clearDate(); closeCal(); });
+        foot.appendChild(clear);
+
+        cal.append(head, grid, foot);
+      }
+
+      function shift(delta) {
+        viewM += delta;
+        if (viewM > 12) { viewM = 1; viewY++; }
+        if (viewM < 1) { viewM = 12; viewY--; }
+        render();
+      }
+
+      function choose(jy, jm, jd) {
+        selectedKey = jy * 10000 + jm * 100 + jd;
+        input.value = WEEKDAYS[weekdayIndex(jy, jm, jd)] + " " + faNum.format(jd) + " " + MONTHS[jm - 1] + " " + faNum.format(jy);
+        closeCal();
+      }
+
+      function clearDate() {
+        selectedKey = null;
+        input.value = "";
+      }
+
+      function openCal() {
+        render();
+        cal.hidden = false;
+        input.setAttribute("aria-expanded", "true");
+      }
+
+      function closeCal() {
+        cal.hidden = true;
+        input.setAttribute("aria-expanded", "false");
+      }
+
+      input.addEventListener("click", () => (cal.hidden ? openCal() : closeCal()));
+      input.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          cal.hidden ? openCal() : closeCal();
+        }
+      });
+      document.addEventListener("click", event => {
+        if (!cal.hidden && event.target !== input && !event.composedPath().includes(cal)) closeCal();
+      });
+      $("#bookingForm").addEventListener("reset", () => {
+        selectedKey = null;
+        viewY = today.jy;
+        viewM = today.jm;
+        closeCal();
+      });
+    })();
+
+    function telegramUsernameFor(name) {
+      if (name === "احسان نامی") return "esi_as";
+      if (name === "تبسم اسرافیلی") return "Tabassomes";
+      return "esi_as";
+    }
+
+    $("#bookingForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const video = isVideoService();
+      const price = updatePriceEstimate();
+      const labels = {
+        customerName: "نام", customerPhone: "شماره تماس", photographer: "عکاس موردنظر",
+        shootType: "نوع خدمات", shootDate: "تاریخ", shootTime: "ساعت",
+        shotCount: "تعداد شات", videoDuration: "مدت فیلم‌برداری", shootDuration: "مدت حضور/جلسه",
+        shootLocation: "محل اجرا", budget: "بودجه", reference: "لینک مرجع", notes: "توضیحات"
+      };
+      const lines = ["📸 درخواست رزرو | قاب QĀB", ""];
+      Object.entries(labels).forEach(([key, label]) => {
+        if ((!video && key === "videoDuration") || (video && key === "shotCount")) return;
+        const value = String(data.get(key) || "").trim();
+        if (value) lines.push(`${label}: ${value}`);
+      });
+      if (price !== null) lines.push("تعرفه برآوردی: " + formatToman(price));
+      lines.push("", "این درخواست از طریق وب‌سایت قاب آماده شده است. لطفاً برای تأیید زمان و جزئیات هماهنگ کنید.");
+      const message = lines.join("\n");
+      $("#copyBooking").dataset.text = message;
+      $("#sendBookingTelegram").dataset.text = message;
+      $("#copyBooking").hidden = false;
+      $("#sendBookingTelegram").hidden = false;
+      $("#bookingNotice").textContent = "متن درخواست آماده است. دکمه «ارسال به تلگرام» چت عکاس را باز می‌کند و متن را در پیام آماده می‌گذارد؛ ارسال نهایی را خودت در تلگرام تأیید می‌کنی.";
+      $("#bookingNotice").hidden = false;
+      showToast("متن درخواست آماده شد.");
+    });
+
+    $("#sendBookingTelegram").addEventListener("click", () => {
+      const text = $("#sendBookingTelegram").dataset.text;
+      if (!text) return;
+      const username = telegramUsernameFor($("#photographer").value);
+      window.open(`https://t.me/${username}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+    });
+
+    async function copyText(text, successMessage) {
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(successMessage);
+      } catch {
+        const temporary = document.createElement("textarea");
+        temporary.value = text;
+        temporary.style.position = "fixed";
+        temporary.style.opacity = "0";
+        document.body.appendChild(temporary);
+        temporary.select();
+        const copied = document.execCommand("copy");
+        temporary.remove();
+        showToast(copied ? successMessage : "کپی خودکار انجام نشد؛ متن را دستی کپی کن.");
+      }
+    }
+
+    $("#copyBooking").addEventListener("click", () => copyText($("#copyBooking").dataset.text, "متن درخواست کپی شد."));
+
+    // Photographer registration request
+    function openPhotographerRegistration() {
+      $("#registrationForm").reset();
+      $("#registrationNotice").hidden = true;
+      $("#copyRegistration").hidden = true;
+      $("#copyRegistration").dataset.text = "";
+      openModal("registrationModal");
+    }
+
+    $("#registrationForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const fields = [
+        ["regName", "نام و نام خانوادگی"], ["regPhone", "شماره تماس"], ["regCity", "شهر"],
+        ["regTelegram", "آیدی تلگرام"], ["regInstagram", "اینستاگرام"], ["regServices", "زمینه فعالیت"],
+        ["regExperience", "سابقه فعالیت"], ["regPortfolio", "نمونه‌کارها"], ["regAbout", "توضیحات"]
+      ];
+      const lines = ["📷 درخواست عضویت عکاس در دایرکتوری قاب QĀB", ""];
+      fields.forEach(([key, label]) => {
+        const value = String(data.get(key) || "").trim();
+        if (value) lines.push(`${label}: ${value}`);
+      });
+      lines.push("", "لطفاً شرایط معرفی و مراحل عضویت را اعلام کنید.");
+      const message = lines.join("\n");
+      $("#copyRegistration").dataset.text = message;
+      $("#copyRegistration").hidden = false;
+      $("#registrationNotice").textContent = "درخواست آماده شد. تلگرام مدیریت باز می‌شود؛ پیام را بررسی و ارسال کن.";
+      $("#registrationNotice").hidden = false;
+      window.open(`https://t.me/esi_as?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    });
+
+    $("#copyRegistration").addEventListener("click", () => copyText($("#copyRegistration").dataset.text, "متن درخواست عضویت کپی شد."));
+
+    // Toast
+    let toastTimer;
+
+    function showToast(message) {
+      const toast = $("#toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    // Image fallback: preserve layout if a file is missing
+    $$("img").forEach(img => {
+      img.addEventListener("error", () => {
+        img.style.opacity = "0";
+        img.setAttribute("aria-label", "تصویر در دسترس نیست");
+        const parent = img.parentElement;
+        if (parent) parent.style.background = "#292b22";
+        console.warn("Image failed to load:", img.getAttribute("src"));
+      }, { once: true });
+    });
+
+    // Scroll reveal, with a fallback for browsers without IntersectionObserver
+    const revealElements = $$(".reveal");
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries, currentObserver) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            currentObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08 });
+
+      revealElements.forEach(element => observer.observe(element));
+    } else {
+      revealElements.forEach(element => element.classList.add("visible"));
+    }
+  </script>
+</body>
+</html>
