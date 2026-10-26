@@ -963,6 +963,62 @@
     .form-hint { display: block; margin-top: 6px; color: var(--muted); font-size: 10px; line-height: 1.8; }
 
     /* Compare */
+    /* ===== Navid spotlight (تبلیغ نوید رُز) ===== */
+    .spotlight {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin: 0 0 22px;
+      padding: 16px 18px;
+      overflow: hidden;
+      border: 1px solid rgba(215,255,97,.30);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(215,255,97,.16), transparent 55%),
+        var(--panel);
+      box-shadow: 0 14px 40px rgba(0,0,0,.28);
+    }
+    .spotlight-avatar {
+      flex: 0 0 auto;
+      width: 84px;
+      height: 84px;
+      overflow: hidden;
+      border: 2px solid var(--lime);
+      border-radius: 50%;
+      background: var(--panel-2);
+    }
+    .spotlight-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .spotlight-body { flex: 1 1 auto; min-width: 0; }
+    .spotlight-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: var(--lime);
+      color: #17190f;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .spotlight h3 { margin: 0 0 4px; font-size: 19px; }
+    .spotlight p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .spotlight-actions { display: flex; flex: 0 0 auto; flex-wrap: wrap; gap: 8px; }
+    .photo-card.is-featured { border-color: rgba(215,255,97,.45); }
+    .card-status.is-new {
+      border-color: rgba(215,255,97,.55);
+      background: var(--lime);
+      color: #17190f;
+      font-weight: 800;
+    }
+    @media (max-width: 760px) {
+      .spotlight { flex-wrap: wrap; padding: 15px; gap: 14px; }
+      .spotlight-avatar { width: 68px; height: 68px; }
+      .spotlight-actions { width: 100%; }
+      .spotlight-actions .btn { flex: 1 1 0; justify-content: center; }
+    }
+
     .compare-bar {
       display: flex;
       align-items: center;
@@ -1671,7 +1727,7 @@
           </button>
 
           <div class="hero-meta">
-            <div><strong>۰۲</strong> عکاس معرفی‌شده</div>
+            <div><strong>۰۳</strong> عکاس معرفی‌شده</div>
             <div><strong>∞</strong> لحظه برای ثبت کردن</div>
             <div><strong>۰۱</strong> قدم تا رزرو</div>
           </div>
@@ -1681,9 +1737,8 @@
           <div class="hero-image-wrap">
             <img
               class="hero-image"
-              src="IMG_2264.jpeg"
-              alt="نمونه تصویری وب‌سایت قاب"
-              fetchpriority="high"
+              src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+              alt="نمونه‌کار عکاسان QĀB"
               loading="eager"
               decoding="async"
               width="900"
@@ -1743,6 +1798,21 @@
             </select>
 
             <button class="btn btn-primary" type="button" id="searchButton">جست‌وجو ↗</button>
+          </div>
+        </div>
+
+        <div class="spotlight reveal" id="navidSpotlight">
+          <div class="spotlight-avatar">
+            <img src="Navid/Profile/IMG_4032.jpeg" alt="عکاس نوید رُز" loading="lazy" decoding="async" width="84" height="84">
+          </div>
+          <div class="spotlight-body">
+            <span class="spotlight-badge">✦ تازه به QĀB پیوسته</span>
+            <h3>نوید رُز</h3>
+            <p>پرتره، فضای باز و فشن با نور طبیعی و نگاهی مدرن؛ نمونه‌کارهاش رو ببین و لحظه‌هات رو بسپار به نوید.</p>
+          </div>
+          <div class="spotlight-actions">
+            <button class="btn btn-secondary" type="button" onclick="openProfile('navid')">نمونه‌کارها</button>
+            <button class="btn btn-primary" type="button" onclick="openBooking('نوید رُز')">رزرو با نوید ↗</button>
           </div>
         </div>
 
@@ -1849,7 +1919,7 @@
           </article>
 
           <article
-            class="photo-card reveal"
+            class="photo-card reveal is-featured"
             data-name="نوید رُز"
             data-location="تبریز آذربایجان شرقی"
             data-styles="portrait outdoor fashion"
@@ -1864,7 +1934,7 @@
                 width="800"
                 height="690"
               >
-              <div class="card-status">عکاس معرفی‌شده</div>
+              <div class="card-status is-new">✦ جدید در QĀB</div>
             </div>
 
             <div class="card-content">
@@ -3134,7 +3204,7 @@
       });
     })();
 
-    // Hero carousel: nature photos enter from the left, pause in the center, exit to the right
+    // Hero carousel: ۵ نمونه‌کار تصادفی از هر عکاس (احسان، تبسم، نوید) در هر بار بارگذاری صفحه
     (function () {
       const wrap = $(".hero-image-wrap");
       if (!wrap) return;
@@ -3142,63 +3212,66 @@
       const label = $(".hero-image-label", wrap);
       if (!baseImg || !label) return;
 
-      // عکس‌های رایگان Unsplash (مجاز برای استفاده تجاری، بدون نیاز به ذکر نام)
-      const UNSPLASH_IDS = [
-        "photo-1488330890490-c291ecf62571", // جنگل سبز
-        "photo-1464822759023-fed622ff2c3b", // قله‌های برفی و دره
-        "photo-1493589976221-c2357c31ad77", // شکوفه‌های گیلاس کنار رودخانه
-        "photo-1542273917363-3b1817f69a2d", // نمای هوایی جنگل
-        "photo-1483728642387-6c3bdd6c93e5", // قله‌های بالای ابر
-        "photo-1524413840807-0c3cb6fa808d", // کانال میان شکوفه‌ها
-        "photo-1715731456131-d4c3697a20f0", // مسیر در جنگل
-        "photo-1506905925346-21bda4d32df4", // کوه‌های مه‌آلود
-        "photo-1551272744-19456affaa89",    // مسیر میان شکوفه‌ها
-        "photo-1519681393784-d120267933ba", // کوه برفی زیر ستاره‌ها
-        "photo-1503435980610-a51f3ddfee50", // جنگل از بالا
-        "photo-1480497490787-505ec076689f", // بازتاب کوه در دریاچه
-        "photo-1526344966-89049886b28d",    // آب کنار درختان شکوفه
-        "photo-1501785888041-af3ef285b470", // دریاچه و قایق‌ها
-        "photo-1605714726527-411541ab17f4", // درختان سبز
-        "photo-1500534314209-a25ddb2bd429", // کوه‌ها زیر مه
-        "photo-1462275646964-a0e3386b89fa", // درخت شکوفه
-        "photo-1486870591958-9b9d0d1dda99", // دره طلایی و قله‌ها
-        "photo-1502085671122-2d218cd434e6", // جزیره صخره‌ای در اقیانوس
-        "photo-1472791108553-c9405341e398"  // قله برفی زیر آسمان
-      ];
-      const natureImages = UNSPLASH_IDS.map(id =>
-        "https://images.unsplash.com/" + id + "?auto=format&fit=crop&w=900&h=1250&q=70"
-      );
+      const PER_PHOTOGRAPHER = 5;
       const INTERVAL = 3600;
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function build(sources) {
+      function shuffle(list) {
+        const copy = list.slice();
+        for (let i = copy.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+      }
+
+      // از هر عکاس ۵ عکس تصادفی؛ ترتیب نمایش نوبتی است (احسان، تبسم، نوید، ...)
+      function pickItems() {
+        const groups = Object.entries(portfolioData).map(([id, data]) => {
+          const name = photographers[id] ? photographers[id].name : "";
+          return shuffle(data.images || []).slice(0, PER_PHOTOGRAPHER).map(src => ({ src, name }));
+        });
+        const items = [];
+        for (let i = 0; i < PER_PHOTOGRAPHER; i++) {
+          groups.forEach(group => { if (group[i]) items.push(group[i]); });
+        }
+        return items;
+      }
+
+      function build(items) {
+        if (!items.length) return;
+
         const slides = [];
+        let total = 0;
+        let current = 0;
 
-        const first = document.createElement("div");
-        first.className = "hs";
-        first.append(baseImg, label);
-        slides.push(first);
-
-        sources.forEach(src => {
-          const slide = document.createElement("div");
+        items.forEach((item, index) => {
+          let slide, image, caption;
+          if (index === 0) {
+            slide = document.createElement("div");
+            image = baseImg;
+            caption = label;
+          } else {
+            slide = document.createElement("div");
+            image = document.createElement("img");
+            image.className = "hero-image";
+            image.loading = "eager";
+            image.decoding = "async";
+            caption = label.cloneNode(true);
+            caption.setAttribute("aria-hidden", "true");
+          }
           slide.className = "hs";
-          const image = document.createElement("img");
-          image.className = "hero-image";
-          image.src = src;
-          image.alt = "منظره طبیعت";
-          image.loading = "eager";
-          image.decoding = "async";
+          image.alt = "نمونه‌کار " + item.name;
+          image.dataset.src = item.src;
           image.addEventListener("error", () => {
-            slide.remove();
+            console.warn("Hero image failed to load:", item.src);
+            dropSlide(slide);
           }, { once: true });
-          const caption = label.cloneNode(true);
-          caption.setAttribute("aria-hidden", "true");
           slide.append(image, caption);
           slides.push(slide);
         });
 
-        const total = slides.length;
-        let current = 0;
+        total = slides.length;
 
         function layout() {
           slides.forEach((slide, i) => {
@@ -3210,9 +3283,36 @@ function build(sources) {
           });
         }
 
+        // عکس خراب را از چرخه حذف می‌کند تا جای خالی در کاروسل نماند
+        function dropSlide(slide) {
+          const i = slides.indexOf(slide);
+          if (i === -1) return;
+          slides.splice(i, 1);
+          slide.remove();
+          total = slides.length;
+          if (!total) return;
+          current = current % total;
+          layout();
+        }
+
+        function loadSlide(slide) {
+          const image = $("img", slide);
+          if (image && image.dataset.src) {
+            image.src = image.dataset.src;
+            delete image.dataset.src;
+          }
+        }
+
         layout();
         wrap.replaceChildren(...slides);
         wrap.classList.add("is-carousel");
+
+        // اول فقط عکس مرکزی و دو همسایه‌اش بارگذاری می‌شوند؛ بقیه بعد از لود صفحه
+        baseImg.fetchPriority = "high";
+        [slides[0], slides[1], slides[slides.length - 1]].forEach(slide => slide && loadSlide(slide));
+        const loadRest = () => slides.slice().forEach(loadSlide);
+        if (document.readyState === "complete") loadRest();
+        else window.addEventListener("load", loadRest, { once: true });
 
         if (reduceMotion) return;
 
@@ -3220,6 +3320,7 @@ function build(sources) {
         const start = () => {
           if (timer) return;
           timer = setInterval(() => {
+            if (!total) return;
             current = (current + 1) % total;
             layout();
           }, INTERVAL);
@@ -3235,8 +3336,7 @@ function build(sources) {
         document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
       }
 
-      // Build immediately so one slow image cannot block the entire carousel.
-      window.addEventListener("load", () => build(natureImages), { once: true });
+      build(pickItems());
     })();
 
     // Scroll reveal, with a fallback for browsers without IntersectionObserver
