@@ -3404,6 +3404,8 @@
       ].map(encodeURI);
       let sourceIndex = 0;
       let failed = false;
+      let repoLookupTried = false;
+      let lastErrorCode = 0;
       const VOLUME = 0.4;
       const STORE_KEY = "qab-music";
 
@@ -3451,9 +3453,36 @@
       audio.addEventListener("play", render);
       audio.addEventListener("pause", render);
 
-      // فایل پیدا نشد یا قابل پخش نیست: مسیر بعدی را امتحان کن؛ اگر همه شکست خوردند دکمه در حالت خطا می‌ماند
+      function giveUp() {
+        failed = true;
+        button.classList.add("is-error");
+        button.querySelector(".music-label").textContent = "موسیقی در دسترس نیست";
+        button.setAttribute("aria-label", "فایل موسیقی پیدا نشد");
+      }
+
+      // آخرین تلاش: اسم واقعی فایل را از لیست پوشه‌ی Music در GitHub می‌خوانیم
+      // (برای وقتی که اسم فایل کاراکتر نامرئی یا تفاوت ظاهری دارد).
+      function lookupFileInRepo() {
+        if (typeof fetch !== "function") { giveUp(); return; }
+        fetch("https://api.github.com/repos/v2gurd/QAB_PHOTOGRAPHY/contents/Music")
+          .then(response => (response.ok ? response.json() : Promise.reject(new Error("HTTP " + response.status))))
+          .then(list => {
+            const file = (Array.isArray(list) ? list : []).find(item => /\.(m4a|mp3|aac|ogg|wav)$/i.test(item.name));
+            if (!file) throw new Error("no audio file in Music folder");
+            audio.src = "Music/" + encodeURIComponent(file.name);
+            audio.load();
+            if (!userMuted) play();
+          })
+          .catch(error => {
+            console.warn("Music lookup failed:", error);
+            giveUp();
+          });
+      }
+
+      // فایل پیدا نشد یا قابل پخش نیست: مسیر بعدی را امتحان کن؛ بعد لیست پوشه را از ریپو بخوان؛ اگر باز هم نشد دکمه در حالت خطا می‌ماند
       audio.addEventListener("error", () => {
-        console.warn("Background music failed to load:", audio.src);
+        lastErrorCode = audio.error ? audio.error.code : 0;
+        console.warn("Background music failed to load:", audio.src, "code", lastErrorCode);
         if (sourceIndex < MUSIC_CANDIDATES.length - 1) {
           sourceIndex += 1;
           audio.src = MUSIC_CANDIDATES[sourceIndex];
@@ -3461,15 +3490,19 @@
           if (!userMuted) play();
           return;
         }
-        failed = true;
-        button.classList.add("is-error");
-        button.querySelector(".music-label").textContent = "موسیقی در دسترس نیست";
-        button.setAttribute("aria-label", "فایل موسیقی پیدا نشد");
+        if (!repoLookupTried) {
+          repoLookupTried = true;
+          lookupFileInRepo();
+          return;
+        }
+        giveUp();
       });
 
       button.addEventListener("click", () => {
         if (failed) {
-          showToast("فایل موسیقی پیدا نشد؛ مسیر Music/Endless Vaughnpk.m4a را در ریپو بررسی کن.");
+          let tried = audio.src;
+          try { tried = decodeURI(audio.src); } catch (e) {}
+          showToast("فایل موسیقی پخش نشد (کد " + lastErrorCode + "): " + tried);
           return;
         }
         if (audio.paused) {
