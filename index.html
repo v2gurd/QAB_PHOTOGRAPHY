@@ -1220,7 +1220,8 @@
       box-shadow: 0 10px 30px rgba(0,0,0,.35);
       transition: border-color .2s ease, transform .2s ease;
     }
-    .music-toggle[hidden] { display: none; }
+    .music-toggle.is-error { border-style: dashed; color: var(--muted); }
+    .music-toggle.is-error .music-bars i { background: var(--muted); height: 4px; }
     .music-toggle:hover { border-color: rgba(215,255,97,.55); transform: translateY(-1px); }
     .music-toggle:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
     .music-bars { display: inline-flex; align-items: flex-end; gap: 2px; width: 16px; height: 14px; }
@@ -2299,7 +2300,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <button class="music-toggle" id="musicToggle" type="button" aria-pressed="false" aria-label="پخش موسیقی" hidden>
+  <button class="music-toggle" id="musicToggle" type="button" aria-pressed="false" aria-label="پخش موسیقی">
     <span class="music-bars" aria-hidden="true"><i></i><i></i><i></i></span>
     <span class="music-label">موسیقی</span>
   </button>
@@ -3394,8 +3395,15 @@
 
     // Background music: پخش با ورود کاربر، قابل قطع/وصل، و تکرار از ابتدا بعد از پایان آهنگ
     (function () {
-      // فاصله‌ی داخل اسم فایل با encodeURI به شکل امن در مسیر قرار می‌گیرد
-      const MUSIC_SRC = encodeURI("Music/Endless Vaughnpk.m4a");
+      // فاصله‌ی داخل اسم فایل با encodeURI به شکل امن در مسیر قرار می‌گیرد.
+      // اگر مسیر اول پیدا نشد (مثلاً تفاوت حروف بزرگ و کوچک)، مسیرهای بعدی امتحان می‌شوند.
+      const MUSIC_CANDIDATES = [
+        "Music/Endless Vaughnpk.m4a",
+        "music/Endless Vaughnpk.m4a",
+        "Music/Endless-Vaughnpk.m4a"
+      ].map(encodeURI);
+      let sourceIndex = 0;
+      let failed = false;
       const VOLUME = 0.4;
       const STORE_KEY = "qab-music";
 
@@ -3403,7 +3411,7 @@
       if (!button) return;
 
       const audio = new Audio();
-      audio.src = MUSIC_SRC;
+      audio.src = MUSIC_CANDIDATES[sourceIndex];
       audio.loop = true;          // بعد از پایان، دوباره از اول پخش می‌شود
       audio.preload = "auto";
       audio.volume = VOLUME;
@@ -3443,14 +3451,27 @@
       audio.addEventListener("play", render);
       audio.addEventListener("pause", render);
 
-      // فایل پیدا نشد یا قابل پخش نیست: دکمه را مخفی کن، بدون خطا برای کاربر
+      // فایل پیدا نشد یا قابل پخش نیست: مسیر بعدی را امتحان کن؛ اگر همه شکست خوردند دکمه در حالت خطا می‌ماند
       audio.addEventListener("error", () => {
-        console.warn("Background music failed to load:", MUSIC_SRC);
-        button.hidden = true;
+        console.warn("Background music failed to load:", audio.src);
+        if (sourceIndex < MUSIC_CANDIDATES.length - 1) {
+          sourceIndex += 1;
+          audio.src = MUSIC_CANDIDATES[sourceIndex];
+          audio.load();
+          if (!userMuted) play();
+          return;
+        }
+        failed = true;
+        button.classList.add("is-error");
+        button.querySelector(".music-label").textContent = "موسیقی در دسترس نیست";
+        button.setAttribute("aria-label", "فایل موسیقی پیدا نشد");
       });
-      button.hidden = false;
 
       button.addEventListener("click", () => {
+        if (failed) {
+          showToast("فایل موسیقی پیدا نشد؛ مسیر Music/Endless Vaughnpk.m4a را در ریپو بررسی کن.");
+          return;
+        }
         if (audio.paused) {
           userMuted = false;
           save("on");
