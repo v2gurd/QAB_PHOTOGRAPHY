@@ -1197,6 +1197,53 @@
       transform: none;
     }
 
+    /* ===== Background music toggle ===== */
+    .music-toggle {
+      position: fixed;
+      z-index: 90;
+      left: 16px;
+      bottom: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 44px;
+      padding: 0 16px 0 14px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 100px;
+      background: rgba(25,26,23,.86);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      transition: border-color .2s ease, transform .2s ease;
+    }
+    .music-toggle[hidden] { display: none; }
+    .music-toggle:hover { border-color: rgba(215,255,97,.55); transform: translateY(-1px); }
+    .music-toggle:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+    .music-bars { display: inline-flex; align-items: flex-end; gap: 2px; width: 16px; height: 14px; }
+    .music-bars i {
+      display: block;
+      width: 3px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--lime);
+      transition: height .2s ease;
+    }
+    .music-toggle.is-playing .music-bars i { animation: musicBar 1s ease-in-out infinite; }
+    .music-toggle.is-playing .music-bars i:nth-child(2) { animation-delay: .2s; }
+    .music-toggle.is-playing .music-bars i:nth-child(3) { animation-delay: .4s; }
+    .music-toggle:not(.is-playing) .music-bars i { background: var(--muted); }
+    @keyframes musicBar { 0%, 100% { height: 4px; } 50% { height: 14px; } }
+    @media (prefers-reduced-motion: reduce) {
+      .music-toggle.is-playing .music-bars i { animation: none; height: 10px; }
+    }
+    @media (max-width: 480px) {
+      .music-toggle { left: 12px; bottom: 14px; }
+    }
+
     .toast {
       position: fixed;
       z-index: 200;
@@ -2251,6 +2298,12 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <button class="music-toggle" id="musicToggle" type="button" aria-pressed="false" aria-label="پخش موسیقی" hidden>
+    <span class="music-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="music-label">موسیقی</span>
+  </button>
+
 
   <script>
     const photographers = {
@@ -3337,6 +3390,120 @@
       }
 
       build(pickItems());
+    })();
+
+    // Background music: پخش با ورود کاربر، قابل قطع/وصل، و تکرار از ابتدا بعد از پایان آهنگ
+    (function () {
+      // فاصله‌ی داخل اسم فایل با encodeURI به شکل امن در مسیر قرار می‌گیرد
+      const MUSIC_SRC = encodeURI("Music/Endless Vaughnpk.m4a");
+      const VOLUME = 0.4;
+      const STORE_KEY = "qab-music";
+
+      const button = $("#musicToggle");
+      if (!button) return;
+
+      const audio = new Audio();
+      audio.src = MUSIC_SRC;
+      audio.loop = true;          // بعد از پایان، دوباره از اول پخش می‌شود
+      audio.preload = "auto";
+      audio.volume = VOLUME;
+
+      let userMuted = false;      // کاربر خودش قطع کرده؟
+      let pausedByVideo = false;  // موقع پخش ویدیوی نمونه‌کار موقتاً قطع شده؟
+      let unlocked = false;       // اجازه‌ی پخش (بعد از اولین تعامل) گرفته شده؟
+
+      try { userMuted = localStorage.getItem(STORE_KEY) === "off"; } catch (e) {}
+
+      function save(value) {
+        try { localStorage.setItem(STORE_KEY, value); } catch (e) {}
+      }
+
+      function render() {
+        const on = !audio.paused;
+        button.classList.toggle("is-playing", on);
+        button.setAttribute("aria-pressed", String(on));
+        button.setAttribute("aria-label", on ? "قطع موسیقی" : "پخش موسیقی");
+      }
+
+      function play() {
+        const result = audio.play();
+        if (result && typeof result.then === "function") {
+          return result.then(() => { unlocked = true; render(); }).catch(() => { render(); return false; });
+        }
+        unlocked = true;
+        render();
+        return Promise.resolve(true);
+      }
+
+      // اگر loop پشتیبانی نشد، خودمان از اول شروع می‌کنیم
+      audio.addEventListener("ended", () => {
+        audio.currentTime = 0;
+        if (!userMuted) play();
+      });
+      audio.addEventListener("play", render);
+      audio.addEventListener("pause", render);
+
+      // فایل پیدا نشد یا قابل پخش نیست: دکمه را مخفی کن، بدون خطا برای کاربر
+      audio.addEventListener("error", () => {
+        console.warn("Background music failed to load:", MUSIC_SRC);
+        button.hidden = true;
+      });
+      button.hidden = false;
+
+      button.addEventListener("click", () => {
+        if (audio.paused) {
+          userMuted = false;
+          save("on");
+          play();
+        } else {
+          userMuted = true;
+          save("off");
+          audio.pause();
+        }
+      });
+
+      // مرورگرها پخش خودکار با صدا را قبل از تعامل کاربر مسدود می‌کنند؛
+      // پس اول تلاش می‌کنیم و اگر نشد، با اولین لمس/کلیک/کلید شروع می‌شود.
+      function armFirstInteraction() {
+        const events = ["pointerdown", "touchend", "keydown", "click"];
+        const onFirst = event => {
+          if (button.contains(event.target)) return; // کلیک روی خود دکمه جداگانه مدیریت می‌شود
+          events.forEach(name => document.removeEventListener(name, onFirst, true));
+          if (!userMuted && audio.paused) play();
+        };
+        events.forEach(name => document.addEventListener(name, onFirst, true));
+      }
+
+      if (!userMuted) {
+        play().then(ok => { if (ok === false || audio.paused) armFirstInteraction(); });
+      }
+
+      // موقع پخش ویدیوی نمونه‌کار، موسیقی موقتاً قطع و بعد از آن دوباره وصل می‌شود
+      document.addEventListener("play", event => {
+        if (event.target && event.target.tagName === "VIDEO" && !audio.paused) {
+          pausedByVideo = true;
+          audio.pause();
+        }
+      }, true);
+      const resumeAfterVideo = event => {
+        if (event.target && event.target.tagName === "VIDEO" && pausedByVideo && !userMuted) {
+          pausedByVideo = false;
+          play();
+        }
+      };
+      document.addEventListener("pause", resumeAfterVideo, true);
+      document.addEventListener("ended", resumeAfterVideo, true);
+
+      // وقتی تب پنهان می‌شود (یا گوشی قفل می‌شود) قطع، و موقع برگشت دوباره وصل می‌شود
+      let pausedByHidden = false;
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          if (!audio.paused) { pausedByHidden = true; audio.pause(); }
+        } else if (pausedByHidden) {
+          pausedByHidden = false;
+          if (!userMuted && !pausedByVideo) play();
+        }
+      });
     })();
 
     // Scroll reveal, with a fallback for browsers without IntersectionObserver
