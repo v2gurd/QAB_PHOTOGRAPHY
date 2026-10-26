@@ -975,7 +975,7 @@
     }
     .compare-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 12px;
       margin-top: 16px;
     }
@@ -1737,6 +1737,7 @@
               <option value="portrait">پرتره</option>
               <option value="couple">دونفره و زوج</option>
               <option value="fashion">فشن</option>
+              <option value="outdoor">فضای باز</option>
               <option value="event">مراسم</option>
               <option value="studio">آتلیه</option>
             </select>
@@ -1843,6 +1844,53 @@
               <div class="card-actions">
                 <button class="btn btn-secondary" type="button" onclick="openProfile('tabassom')">مشاهده پروفایل</button>
                 <button class="btn btn-primary" type="button" onclick="openBooking('تبسم اسرافیلی')">رزرو عکاسی ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="photo-card reveal"
+            data-name="نوید رُز"
+            data-location="تبریز آذربایجان شرقی"
+            data-styles="portrait outdoor fashion"
+          >
+            <div class="card-image-wrap">
+              <img
+                class="card-image"
+                src="Navid/Profile/IMG_4032.jpeg"
+                alt="عکاس نوید رُز"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="690"
+              >
+              <div class="card-status">عکاس معرفی‌شده</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-top">
+                <div>
+                  <h3>نوید رُز</h3>
+                  <div class="card-location">⌖ تبریز، آذربایجان شرقی</div>
+                </div>
+                <span class="card-number">03 / QĀB</span>
+              </div>
+
+              <p class="card-bio">
+                ثبت پرتره‌ها و عکس‌های فضای باز با نگاهی مدرن، نور طبیعی و فشنِ بی‌تکلف.
+              </p>
+
+              <div class="tags">
+                <span class="tag">پرتره</span>
+                <span class="tag">فضای باز</span>
+                <span class="tag">فشن</span>
+              </div>
+
+              <div class="notice card-rate">تعرفه هر شات: ۵۰۰٬۰۰۰ تومان</div>
+
+              <div class="card-actions">
+                <button class="btn btn-secondary" type="button" onclick="openProfile('navid')">مشاهده پروفایل</button>
+                <button class="btn btn-primary" type="button" onclick="openBooking('نوید رُز')">رزرو عکاسی ↗</button>
               </div>
             </div>
           </article>
@@ -1985,6 +2033,7 @@
               <option value="">انتخاب عکاس</option>
               <option value="احسان نامی">احسان نامی</option>
               <option value="تبسم اسرافیلی">تبسم اسرافیلی</option>
+              <option value="نوید رُز">نوید رُز</option>
               <option value="فرقی ندارد">فرقی ندارد</option>
             </select>
           </div>
@@ -2153,6 +2202,15 @@
         styles: ["پرتره", "دونفره", "مراسم", "آتلیه"],
         telegram: "https://t.me/Tabassomes",
         shotRate: 450000
+      },
+      navid: {
+        name: "نوید رُز",
+        location: "تبریز، آذربایجان شرقی",
+        image: "Navid/Profile/IMG_4032.jpeg",
+        bio: "عکاسی با تمرکز بر پرتره، فضای باز و فشن؛ با نور طبیعی و نگاهی مدرن برای ساخت تصاویری که حس واقعی سوژه را حفظ می‌کند.",
+        styles: ["پرتره", "فضای باز", "فشن"],
+        telegram: "https://t.me/Navid_ros",
+        shotRate: 500000
       }
     };
 
@@ -2303,6 +2361,41 @@
           "portfolio/IMG_3992.jpeg",
           "portfolio/IMG_3993.jpeg",
           "portfolio/IMG_3994.jpeg"
+        ],
+        videos: []
+      },
+      navid: {
+        images: [
+          "Navid/IMG_4034.jpeg",
+          "Navid/IMG_4035.jpeg",
+          "Navid/IMG_4036.jpeg",
+          "Navid/IMG_4037.jpeg",
+          "Navid/IMG_4038.jpeg",
+          "Navid/IMG_4039.jpeg",
+          "Navid/IMG_4040.jpeg",
+          "Navid/IMG_4041.jpeg",
+          "Navid/IMG_4042.jpeg",
+          "Navid/IMG_4043.jpeg",
+          "Navid/IMG_4044.jpeg",
+          "Navid/IMG_4045.jpeg",
+          "Navid/IMG_4046.jpeg",
+          "Navid/IMG_4047.jpeg",
+          "Navid/IMG_4048.jpeg",
+          "Navid/IMG_4049.jpeg",
+          "Navid/IMG_4050.jpeg",
+          "Navid/IMG_4051.jpeg",
+          "Navid/IMG_4052.jpeg",
+          "Navid/IMG_4053.jpeg",
+          "Navid/IMG_4054.jpeg",
+          "Navid/IMG_4055.jpeg",
+          "Navid/IMG_4056.jpeg",
+          "Navid/IMG_4057.jpeg",
+          "Navid/IMG_4058.jpeg",
+          "Navid/IMG_4059.jpeg",
+          "Navid/IMG_4060.jpeg",
+          "Navid/IMG_4061.jpeg",
+          "Navid/IMG_4062.jpeg",
+          "Navid/IMG_4063.jpeg"
         ],
         videos: []
       }
@@ -2673,7 +2766,7 @@
         const rate = getShotRate(name);
         const rawCount = $("#shotCount").value.trim();
         if (!rate) {
-          message = "برای محاسبه قیمت عکاسی، ابتدا یک عکاس مشخص (احسان نامی یا تبسم اسرافیلی) انتخاب کن؛ تعرفه هر شات برای هر عکاس متفاوت است.";
+          message = "برای محاسبه قیمت عکاسی، ابتدا یک عکاس مشخص (احسان نامی، تبسم اسرافیلی یا نوید رُز) انتخاب کن؛ تعرفه هر شات برای هر عکاس متفاوت است.";
         } else if (rawCount === "") {
           message = promo
             ? `🎁 طرح هدیه تولد بهمنی‌ها: عکاسی ${name} برای تو رایگان است. تعداد شات را وارد کن.`
@@ -2873,6 +2966,7 @@
     function telegramUsernameFor(name) {
       if (name === "احسان نامی") return "esi_as";
       if (name === "تبسم اسرافیلی") return "Tabassomes";
+      if (name === "نوید رُز") return "Navid_ros";
       return "esi_as";
     }
 
