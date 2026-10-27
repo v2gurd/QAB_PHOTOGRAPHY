@@ -1780,7 +1780,17 @@
         font-size: 19px;
       }
     }
-  </style>
+  
+    .profile-upcoming{display:flex;align-items:flex-start;gap:16px;margin:30px 0 18px;padding:22px 24px;border:1px solid rgba(183,255,87,.28);border-radius:22px;background:linear-gradient(135deg,rgba(183,255,87,.09),rgba(18,24,16,.78));box-shadow:0 12px 36px rgba(0,0,0,.12)}
+    .profile-upcoming-icon{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:14px;background:rgba(183,255,87,.13);color:var(--lime,#c4ff65);font-size:24px}
+    .profile-upcoming-label{display:inline-block;margin-bottom:5px;color:var(--lime,#c4ff65);font-size:12px;font-weight:800;letter-spacing:.04em}
+    .profile-upcoming h3{margin:0 0 7px;font-size:18px}
+    .profile-upcoming p{margin:0;color:var(--muted,#a7ad9f);line-height:1.9;font-size:14px}
+    .footer-association-logo{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;margin-inline-start:12px;vertical-align:middle;border:1px solid rgba(183,255,87,.28);border-radius:50%;overflow:hidden;background:rgba(255,255,255,.04)}
+    .footer-association-logo img{width:100%;height:100%;object-fit:contain;padding:3px}
+    @media(max-width:600px){.profile-upcoming{padding:17px;gap:12px}.profile-upcoming-icon{flex-basis:36px;width:36px;height:36px}.profile-upcoming h3{font-size:16px}}
+
+</style>
 </head>
 
 <body>
@@ -2088,7 +2098,7 @@
             <div class="card-image-wrap">
               <img
                 class="card-image"
-                src="Komeil/Profile/IMG_4101.jpeg"
+                src="komeil/profile/IMG_4101.jpeg"
                 alt="عکاس کُمیل"
                 loading="lazy"
                 decoding="async"
@@ -2131,10 +2141,10 @@
             data-styles=""
           >
             <div class="card-image-wrap">
-              
+              <!-- TODO: عکس پروفایل آراز توکلی را جایگزین کن -->
               <img
                 class="card-image"
-                src="Araz/Profile/IMG_4146.jpeg"
+                src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>"
                 alt="آراز توکلی"
                 loading="lazy"
                 decoding="async"
@@ -2174,7 +2184,7 @@
               <!-- TODO: عکس پروفایل علی باغبان را جایگزین کن -->
               <img
                 class="card-image"
-                src="Ali/Profile/nmonekar/IMG_4149.jpeg"
+                src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>"
                 alt="علی باغبان"
                 loading="lazy"
                 decoding="async"
@@ -2258,7 +2268,7 @@
               <!-- TODO: عکس پروفایل آتلیه ایوان را جایگزین کن -->
               <img
                 class="card-image"
-                src="Evan/Profile/IMG_4157.jpeg"
+                src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>"
                 alt="آتلیه ایوان"
                 loading="lazy"
                 decoding="async"
@@ -2302,7 +2312,7 @@
               <!-- TODO: عکس پروفایل پویا حق‌بیان را جایگزین کن -->
               <img
                 class="card-image"
-                src="Pouya/Profile/IMG_4159.jpeg"
+                src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>"
                 alt="پویا حق‌بیان"
                 loading="lazy"
                 decoding="async"
@@ -2346,7 +2356,7 @@
               <!-- TODO: عکس پروفایل امید خدابنده را جایگزین کن -->
               <img
                 class="card-image"
-                src="Omid/Profile/IMG_4161.jpeg"
+                src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>"
                 alt="امید خدابنده"
                 loading="lazy"
                 decoding="async"
@@ -2377,13 +2387,23 @@
           </article>
         </div>
 
+        <div class="profile-upcoming reveal" role="status" aria-label="قابلیت‌های آینده پروفایل کاربران جدید">
+          <span class="profile-upcoming-icon" aria-hidden="true">✦</span>
+          <div>
+            <span class="profile-upcoming-label">به‌زودی در قاب</span>
+            <h3>تکمیل پروفایل کاربران جدید</h3>
+            <p>برای کاربرانی که اخیراً در قاب ثبت‌نام کرده‌اند، شماره تلفن، آدرس پیج، آیدی و راه‌های ارتباط مستقیم به پروفایل اضافه می‌شود.</p>
+          </div>
+        </div>
+
         <div class="empty-state" id="emptyState">
           عکاسی با این مشخصات پیدا نشد. عبارت جست‌وجو یا سبک انتخابی را تغییر بده.
         </div>
 
         <div class="organizer reveal" id="photoTours">
-          <div class="organizer-logo">
-            <img src="Basij/Logo/IMG_4163.jpeg" alt="لوگوی انجمن عکاسان بسیج" loading="lazy" decoding="async" width="160" height="160">
+          <div class="organizer-logo" aria-hidden="true">
+            <!-- TODO: لوگوی انجمن عکاسان بسیج را اینجا بگذار: <img src="مسیر-لوگو" alt="لوگوی انجمن عکاسان بسیج"> -->
+            📸
           </div>
           <div class="organizer-body">
             <span class="spotlight-badge">برگزارکننده تورهای عکاسی</span>
@@ -2451,7 +2471,7 @@
         <div class="brand-name">QĀ<span>B</span></div>
       </a>
 
-      <div class="footer-copy">© <span id="year"></span> QĀB. تمام حقوق محفوظ است.</div>
+      <div class="footer-copy">© <span id="year"></span> QĀB. تمام حقوق محفوظ است.<a class="footer-association-logo" href="#photoTours" aria-label="انجمن عکاسان بسیج"><img src="Basij/Logo/IMG_4163.jpeg" alt="لوگوی انجمن عکاسان بسیج" loading="lazy"></a></div>
 
       <div class="footer-links">
         <a href="#photographers">عکاسان</a>
@@ -2756,7 +2776,7 @@
         name: "آتلیه فانوس",
         location: "تبریز، آذربایجان شرقی",
         // TODO: عکس پروفایل را جایگزین کن
-        image: "Komeil/Profile/IMG_4101.jpeg",
+        image: "Fanous/Profile/IMG_4165.jpeg",
         bio: "آتلیه عکاسی در تبریز.",
         styles: ["آتلیه"],
         // TODO: لینک تلگرام؛ تا آن موقع پیام‌ها به تلگرام احسان می‌رود. تعرفه (shotRate) هم بعداً اضافه می‌شود.
