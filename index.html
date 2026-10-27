@@ -963,6 +963,41 @@
     .form-hint { display: block; margin-top: 6px; color: var(--muted); font-size: 10px; line-height: 1.8; }
 
     /* Compare */
+    /* ===== Photography tours organizer ===== */
+    .organizer {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-top: 28px;
+      padding: 18px 20px;
+      border: 1px dashed rgba(215,255,97,.45);
+      border-radius: var(--radius);
+      background: rgba(215,255,97,.05);
+    }
+    .organizer-logo {
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      width: 84px;
+      height: 84px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 20px;
+      background: var(--panel-2);
+      font-size: 36px;
+    }
+    .organizer-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .organizer-body { flex: 1 1 auto; min-width: 0; }
+    .organizer h3 { margin: 6px 0 4px; font-size: 20px; }
+    .organizer p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .organizer-actions { flex: 0 0 auto; }
+    @media (max-width: 760px) {
+      .organizer { flex-wrap: wrap; padding: 15px; gap: 14px; }
+      .organizer-logo { width: 68px; height: 68px; font-size: 30px; }
+      .organizer-actions { width: 100%; }
+      .organizer-actions .btn { width: 100%; justify-content: center; }
+    }
+
     /* ===== Photographer rating ===== */
     .rating-box {
       margin-top: 18px;
@@ -1804,7 +1839,7 @@
           </button>
 
           <div class="hero-meta">
-            <div><strong>۰۴</strong> عکاس معرفی‌شده</div>
+            <div><strong>۱۰</strong> عکاس معرفی‌شده</div>
             <div><strong>∞</strong> لحظه برای ثبت کردن</div>
             <div><strong>۰۱</strong> قدم تا رزرو</div>
           </div>
@@ -1873,6 +1908,7 @@
               <option value="religious">مذهبی</option>
               <option value="event">مراسم</option>
               <option value="studio">آتلیه</option>
+              <option value="teaching">آموزش عکاسی</option>
             </select>
 
             <button class="btn btn-primary" type="button" id="searchButton">جست‌وجو ↗</button>
@@ -2087,10 +2123,278 @@
               </div>
             </div>
           </article>
+
+          <article
+            class="photo-card reveal"
+            data-name="آراز توکلی"
+            data-location="تبریز آذربایجان شرقی"
+            data-styles=""
+          >
+            <div class="card-image-wrap">
+              <!-- TODO: عکس پروفایل آراز توکلی را جایگزین کن -->
+              <img
+                class="card-image"
+                src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>"
+                alt="آراز توکلی"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="690"
+              >
+              <div class="card-status">عکاس معرفی‌شده</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-top">
+                <div>
+                  <h3>آراز توکلی</h3>
+                  <div class="card-location">⌖ تبریز، آذربایجان شرقی</div>
+                </div>
+                <span class="card-number">05 / QĀB</span>
+              </div>
+
+              <p class="card-bio">عکاس در تبریز.</p>
+
+              <div class="notice card-rate">تعرفه: از طریق تلگرام هماهنگ می‌شود</div>
+
+              <div class="card-actions">
+                <button class="btn btn-secondary" type="button" onclick="openProfile('araz')">مشاهده پروفایل</button>
+                <button class="btn btn-primary" type="button" onclick="openBooking('آراز توکلی')">رزرو عکاسی ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="photo-card reveal"
+            data-name="علی باغبان"
+            data-location="تبریز آذربایجان شرقی"
+            data-styles=""
+          >
+            <div class="card-image-wrap">
+              <!-- TODO: عکس پروفایل علی باغبان را جایگزین کن -->
+              <img
+                class="card-image"
+                src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>"
+                alt="علی باغبان"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="690"
+              >
+              <div class="card-status">عکاس معرفی‌شده</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-top">
+                <div>
+                  <h3>علی باغبان</h3>
+                  <div class="card-location">⌖ تبریز، آذربایجان شرقی</div>
+                </div>
+                <span class="card-number">06 / QĀB</span>
+              </div>
+
+              <p class="card-bio">عکاس در تبریز.</p>
+
+              <div class="notice card-rate">تعرفه: از طریق تلگرام هماهنگ می‌شود</div>
+
+              <div class="card-actions">
+                <button class="btn btn-secondary" type="button" onclick="openProfile('ali')">مشاهده پروفایل</button>
+                <button class="btn btn-primary" type="button" onclick="openBooking('علی باغبان')">رزرو عکاسی ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="photo-card reveal"
+            data-name="آتلیه فانوس"
+            data-location="تبریز آذربایجان شرقی"
+            data-styles="studio"
+          >
+            <div class="card-image-wrap">
+              <!-- TODO: عکس پروفایل آتلیه فانوس را جایگزین کن -->
+              <img
+                class="card-image"
+                src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>"
+                alt="آتلیه فانوس"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="690"
+              >
+              <div class="card-status">عکاس معرفی‌شده</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-top">
+                <div>
+                  <h3>آتلیه فانوس</h3>
+                  <div class="card-location">⌖ تبریز، آذربایجان شرقی</div>
+                </div>
+                <span class="card-number">07 / QĀB</span>
+              </div>
+
+              <p class="card-bio">آتلیه عکاسی در تبریز.</p>
+
+              <div class="tags">
+                <span class="tag">آتلیه</span>
+              </div>
+
+              <div class="notice card-rate">تعرفه: از طریق تلگرام هماهنگ می‌شود</div>
+
+              <div class="card-actions">
+                <button class="btn btn-secondary" type="button" onclick="openProfile('fanous')">مشاهده پروفایل</button>
+                <button class="btn btn-primary" type="button" onclick="openBooking('آتلیه فانوس')">رزرو عکاسی ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="photo-card reveal"
+            data-name="آتلیه ایوان"
+            data-location="تبریز آذربایجان شرقی"
+            data-styles="studio"
+          >
+            <div class="card-image-wrap">
+              <!-- TODO: عکس پروفایل آتلیه ایوان را جایگزین کن -->
+              <img
+                class="card-image"
+                src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>"
+                alt="آتلیه ایوان"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="690"
+              >
+              <div class="card-status">عکاس معرفی‌شده</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-top">
+                <div>
+                  <h3>آتلیه ایوان</h3>
+                  <div class="card-location">⌖ تبریز، آذربایجان شرقی</div>
+                </div>
+                <span class="card-number">08 / QĀB</span>
+              </div>
+
+              <p class="card-bio">آتلیه عکاسی در تبریز.</p>
+
+              <div class="tags">
+                <span class="tag">آتلیه</span>
+              </div>
+
+              <div class="notice card-rate">تعرفه: از طریق تلگرام هماهنگ می‌شود</div>
+
+              <div class="card-actions">
+                <button class="btn btn-secondary" type="button" onclick="openProfile('evan')">مشاهده پروفایل</button>
+                <button class="btn btn-primary" type="button" onclick="openBooking('آتلیه ایوان')">رزرو عکاسی ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="photo-card reveal"
+            data-name="پویا حق‌بیان"
+            data-location="تهران"
+            data-styles="teaching"
+          >
+            <div class="card-image-wrap">
+              <!-- TODO: عکس پروفایل پویا حق‌بیان را جایگزین کن -->
+              <img
+                class="card-image"
+                src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>"
+                alt="پویا حق‌بیان"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="690"
+              >
+              <div class="card-status">عکاس معرفی‌شده</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-top">
+                <div>
+                  <h3>پویا حق‌بیان</h3>
+                  <div class="card-location">⌖ تهران</div>
+                </div>
+                <span class="card-number">09 / QĀB</span>
+              </div>
+
+              <p class="card-bio">مدرس آموزش عکاسی در تهران.</p>
+
+              <div class="tags">
+                <span class="tag">آموزش عکاسی</span>
+              </div>
+
+              <div class="notice card-rate">تعرفه: از طریق تلگرام هماهنگ می‌شود</div>
+
+              <div class="card-actions">
+                <button class="btn btn-secondary" type="button" onclick="openProfile('pouya')">مشاهده پروفایل</button>
+                <button class="btn btn-primary" type="button" onclick="openBooking('پویا حق‌بیان')">درخواست دوره ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="photo-card reveal"
+            data-name="امید خدابنده"
+            data-location="تبریز آذربایجان شرقی"
+            data-styles=""
+          >
+            <div class="card-image-wrap">
+              <!-- TODO: عکس پروفایل امید خدابنده را جایگزین کن -->
+              <img
+                class="card-image"
+                src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>"
+                alt="امید خدابنده"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="690"
+              >
+              <div class="card-status">عکاس معرفی‌شده</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-top">
+                <div>
+                  <h3>امید خدابنده</h3>
+                  <div class="card-location">⌖ تبریز، آذربایجان شرقی</div>
+                </div>
+                <span class="card-number">10 / QĀB</span>
+              </div>
+
+              <p class="card-bio">عکاس در تبریز.</p>
+
+              <div class="notice card-rate">تعرفه: از طریق تلگرام هماهنگ می‌شود</div>
+
+              <div class="card-actions">
+                <button class="btn btn-secondary" type="button" onclick="openProfile('omid')">مشاهده پروفایل</button>
+                <button class="btn btn-primary" type="button" onclick="openBooking('امید خدابنده')">رزرو عکاسی ↗</button>
+              </div>
+            </div>
+          </article>
         </div>
 
         <div class="empty-state" id="emptyState">
           عکاسی با این مشخصات پیدا نشد. عبارت جست‌وجو یا سبک انتخابی را تغییر بده.
+        </div>
+
+        <div class="organizer reveal" id="photoTours">
+          <div class="organizer-logo" aria-hidden="true">
+            <!-- TODO: لوگوی انجمن عکاسان بسیج را اینجا بگذار: <img src="مسیر-لوگو" alt="لوگوی انجمن عکاسان بسیج"> -->
+            📸
+          </div>
+          <div class="organizer-body">
+            <span class="spotlight-badge">برگزارکننده تورهای عکاسی</span>
+            <h3>انجمن عکاسان بسیج</h3>
+            <p>برگزارکننده تورهای عکاسی؛ برای اطلاع از زمان و جزئیات تورها پیام بده.</p>
+          </div>
+          <div class="organizer-actions">
+            <!-- TODO: لینک تلگرام انجمن؛ فعلاً به تلگرام احسان می‌رود -->
+            <a class="btn btn-primary" href="https://t.me/esi_as?text=%D8%B3%D9%84%D8%A7%D9%85%D8%8C%20%D8%AF%D8%B1%D8%A8%D8%A7%D8%B1%D9%87%E2%80%8C%DB%8C%20%D8%AA%D9%88%D8%B1%D9%87%D8%A7%DB%8C%20%D8%B9%DA%A9%D8%A7%D8%B3%DB%8C%20%D8%A7%D9%86%D8%AC%D9%85%D9%86%20%D8%B9%DA%A9%D8%A7%D8%B3%D8%A7%D9%86%20%D8%A8%D8%B3%DB%8C%D8%AC%20%D8%A7%D8%B7%D9%84%D8%A7%D8%B9%D8%A7%D8%AA%20%D9%85%DB%8C%E2%80%8C%D8%AE%D9%88%D8%A7%D8%B3%D8%AA%D9%85." target="_blank" rel="noopener noreferrer">اطلاعات تورها ↗</a>
+          </div>
         </div>
       </div>
     </section>
@@ -2228,6 +2532,12 @@
               <option value="تبسم اسرافیلی">تبسم اسرافیلی</option>
               <option value="نوید رُز">نوید رُز</option>
               <option value="کُمیل">کُمیل</option>
+              <option value="آراز توکلی">آراز توکلی</option>
+              <option value="علی باغبان">علی باغبان</option>
+              <option value="آتلیه فانوس">آتلیه فانوس</option>
+              <option value="آتلیه ایوان">آتلیه ایوان</option>
+              <option value="پویا حق‌بیان">پویا حق‌بیان</option>
+              <option value="امید خدابنده">امید خدابنده</option>
               <option value="فرقی ندارد">فرقی ندارد</option>
             </select>
           </div>
@@ -2422,6 +2732,66 @@
         // TODO: لینک تلگرام کُمیل را بگذار؛ تا آن موقع پیام رزرو به تلگرام احسان می‌رود
         telegram: "https://t.me/esi_as",
         shotRate: 400000
+      },
+      araz: {
+        name: "آراز توکلی",
+        location: "تبریز، آذربایجان شرقی",
+        // TODO: عکس پروفایل را جایگزین کن
+        image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>",
+        bio: "عکاس در تبریز.",
+        styles: [],
+        // TODO: لینک تلگرام؛ تا آن موقع پیام‌ها به تلگرام احسان می‌رود. تعرفه (shotRate) هم بعداً اضافه می‌شود.
+        telegram: "https://t.me/esi_as"
+      },
+      ali: {
+        name: "علی باغبان",
+        location: "تبریز، آذربایجان شرقی",
+        // TODO: عکس پروفایل را جایگزین کن
+        image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>",
+        bio: "عکاس در تبریز.",
+        styles: [],
+        // TODO: لینک تلگرام؛ تا آن موقع پیام‌ها به تلگرام احسان می‌رود. تعرفه (shotRate) هم بعداً اضافه می‌شود.
+        telegram: "https://t.me/esi_as"
+      },
+      fanous: {
+        name: "آتلیه فانوس",
+        location: "تبریز، آذربایجان شرقی",
+        // TODO: عکس پروفایل را جایگزین کن
+        image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>",
+        bio: "آتلیه عکاسی در تبریز.",
+        styles: ["آتلیه"],
+        // TODO: لینک تلگرام؛ تا آن موقع پیام‌ها به تلگرام احسان می‌رود. تعرفه (shotRate) هم بعداً اضافه می‌شود.
+        telegram: "https://t.me/esi_as"
+      },
+      evan: {
+        name: "آتلیه ایوان",
+        location: "تبریز، آذربایجان شرقی",
+        // TODO: عکس پروفایل را جایگزین کن
+        image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>",
+        bio: "آتلیه عکاسی در تبریز.",
+        styles: ["آتلیه"],
+        // TODO: لینک تلگرام؛ تا آن موقع پیام‌ها به تلگرام احسان می‌رود. تعرفه (shotRate) هم بعداً اضافه می‌شود.
+        telegram: "https://t.me/esi_as"
+      },
+      pouya: {
+        name: "پویا حق‌بیان",
+        location: "تهران",
+        // TODO: عکس پروفایل را جایگزین کن
+        image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>",
+        bio: "مدرس آموزش عکاسی در تهران.",
+        styles: ["آموزش عکاسی"],
+        // TODO: لینک تلگرام؛ تا آن موقع پیام‌ها به تلگرام احسان می‌رود. تعرفه (shotRate) هم بعداً اضافه می‌شود.
+        telegram: "https://t.me/esi_as"
+      },
+      omid: {
+        name: "امید خدابنده",
+        location: "تبریز، آذربایجان شرقی",
+        // TODO: عکس پروفایل را جایگزین کن
+        image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 690'><rect width='800' height='690' fill='%23242424'/><text x='400' y='410' font-size='190' text-anchor='middle' font-family='sans-serif'>📷</text></svg>",
+        bio: "عکاس در تبریز.",
+        styles: [],
+        // TODO: لینک تلگرام؛ تا آن موقع پیام‌ها به تلگرام احسان می‌رود. تعرفه (shotRate) هم بعداً اضافه می‌شود.
+        telegram: "https://t.me/esi_as"
       }
     };
 
@@ -3003,7 +3373,9 @@
 
       const rateNotice = document.createElement("div");
       rateNotice.className = "notice";
-      rateNotice.append("تعرفه هر شات: " + formatToman(photographer.shotRate));
+      rateNotice.append(hasRate(photographer)
+        ? "تعرفه هر شات: " + formatToman(photographer.shotRate)
+        : "تعرفه: از طریق تلگرام هماهنگ می‌شود");
       if (photographer.promo) {
         rateNotice.append(document.createElement("br"), "🎁 " + photographer.promo + " — اگر از همین حالا رزرو کنی.");
       }
@@ -3053,7 +3425,7 @@
       const raw = $("#compareShots").value.trim();
       const count = Number(raw);
       const validCount = raw !== "" && Number.isInteger(count) && count >= 1 && count <= 500;
-      const entries = Object.entries(photographers);
+      const entries = Object.entries(photographers).filter(([, p]) => hasRate(p));
       const totals = entries.map(([, p]) => (validCount ? count * p.shotRate : null));
       const best = validCount ? Math.min(...totals) : null;
       const allSame = validCount && totals.every(t => t === totals[0]);
@@ -3168,6 +3540,11 @@
       return $("#shootType").value === "فیلم‌برداری";
     }
 
+    // آیا برای این عکاس تعرفه‌ی هر شات ثبت شده است؟
+    function hasRate(p) {
+      return Number.isFinite(p && p.shotRate);
+    }
+
     function formatToman(value) {
       return new Intl.NumberFormat("fa-IR").format(value) + " تومان";
     }
@@ -3205,7 +3582,10 @@
         const rate = getShotRate(name);
         const rawCount = $("#shotCount").value.trim();
         if (!rate) {
-          message = "برای محاسبه قیمت عکاسی، ابتدا یک عکاس مشخص (احسان نامی، تبسم اسرافیلی، نوید رُز یا کُمیل) انتخاب کن؛ تعرفه هر شات برای هر عکاس متفاوت است.";
+          const chosen = Object.values(photographers).find(item => item.name === name);
+          message = chosen
+            ? "تعرفه " + name + " بعد از ارسال درخواست از طریق تلگرام هماهنگ می‌شود."
+            : "برای محاسبه قیمت عکاسی، ابتدا یک عکاس مشخص انتخاب کن؛ تعرفه هر شات برای هر عکاس متفاوت است.";
         } else if (rawCount === "") {
           message = promo
             ? `🎁 طرح هدیه تولد بهمنی‌ها: عکاسی ${name} برای تو رایگان است. تعداد شات را وارد کن.`
@@ -3741,15 +4121,40 @@
       });
     }
 
+    // مسیرهای جایگزین مشخص (اول امتحان می‌شوند، بعد لیست فایل‌های ریپو)
+    const IMAGE_ALTERNATIVES = {
+      "komeil/profile/img_4101.jpeg": [
+        "Komeil/profile/IMG_4101.jpeg",
+        "Komeil/Profile/IMG_4101.jpeg",
+        "Komeil/IMG_4101.jpeg"
+      ]
+    };
+
     function retryImageFromRepo(img, onFail) {
       const attr = img.getAttribute("src") || "";
-      if (img.dataset.repoRetried || !attr || /^(data:|https?:|blob:)/i.test(attr)) {
+      if (!attr || /^(data:|https?:|blob:)/i.test(attr)) {
+        if (onFail) onFail();
+        return;
+      }
+      let key = attr;
+      try { key = decodeURI(attr); } catch (e) {}
+
+      const alternatives = IMAGE_ALTERNATIVES[(img.dataset.altKey || key).toLowerCase()];
+      if (alternatives) {
+        const index = Number(img.dataset.altIndex || 0);
+        if (index < alternatives.length) {
+          img.dataset.altKey = img.dataset.altKey || key;
+          img.dataset.altIndex = String(index + 1);
+          img.src = alternatives[index];
+          return;
+        }
+      }
+
+      if (img.dataset.repoRetried) {
         if (onFail) onFail();
         return;
       }
       img.dataset.repoRetried = "1";
-      let key = attr;
-      try { key = decodeURI(attr); } catch (e) {}
       findRepoPath(key).then(real => {
         if (real && real !== key) {
           img.src = real.split("/").map(encodeURIComponent).join("/");
@@ -3765,6 +4170,13 @@
       if (!img || img.tagName !== "IMG" || img.dataset.ownError) return;
       retryImageFromRepo(img);
     }, true);
+
+    // عکس‌هایی که قبل از ثبت شنونده‌ی بالا خطا گرفته‌اند (خطایشان از دست رفته) را هم دوباره بررسی می‌کند
+    document.querySelectorAll("img").forEach(img => {
+      const src = img.getAttribute("src") || "";
+      if (img.dataset.ownError || !src || /\.svg(\?|$)/i.test(src)) return;
+      if (img.complete && img.naturalWidth === 0) retryImageFromRepo(img);
+    });
 
     // Background music: پخش با ورود کاربر، قابل قطع/وصل، و تکرار از ابتدا بعد از پایان آهنگ
     (function () {
