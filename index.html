@@ -3367,6 +3367,8 @@
 
       const PER_PHOTOGRAPHER = 5;
       const INTERVAL = 3600;
+      // عکاس‌هایی که نمونه‌کارشان در هدر نمایش داده نمی‌شود
+      const HERO_EXCLUDED = ["komeil"];
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       function shuffle(list) {
@@ -3380,7 +3382,7 @@
 
       // از هر عکاس ۵ عکس تصادفی؛ ترتیب نمایش نوبتی است (احسان، تبسم، نوید، ...)
       function pickItems() {
-        const groups = Object.entries(portfolioData).map(([id, data]) => {
+        const groups = Object.entries(portfolioData).filter(([id]) => !HERO_EXCLUDED.includes(id)).map(([id, data]) => {
           const name = photographers[id] ? photographers[id].name : "";
           return shuffle(data.images || []).slice(0, PER_PHOTOGRAPHER).map(src => ({ src, name }));
         });
