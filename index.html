@@ -1775,7 +1775,7 @@
           </button>
 
           <div class="hero-meta">
-            <div><strong>۰۳</strong> عکاس معرفی‌شده</div>
+            <div><strong>۰۴</strong> عکاس معرفی‌شده</div>
             <div><strong>∞</strong> لحظه برای ثبت کردن</div>
             <div><strong>۰۱</strong> قدم تا رزرو</div>
           </div>
@@ -1841,6 +1841,7 @@
               <option value="couple">دونفره و زوج</option>
               <option value="fashion">فشن</option>
               <option value="outdoor">فضای باز</option>
+              <option value="religious">مذهبی</option>
               <option value="event">مراسم</option>
               <option value="studio">آتلیه</option>
             </select>
@@ -2004,11 +2005,56 @@
                 <span class="tag">فشن</span>
               </div>
 
-              <div class="notice card-rate">تعرفه هر شات: ۵۰۰٬۰۰۰ تومان</div>
+              <div class="notice card-rate">تعرفه هر شات: ۳۵۰٬۰۰۰ تومان<br><a href="tel:09036208355" dir="ltr">☎ ۰۹۰۳ ۶۲۰ ۸۳۵۵</a></div>
 
               <div class="card-actions">
                 <button class="btn btn-secondary" type="button" onclick="openProfile('navid')">مشاهده پروفایل</button>
                 <button class="btn btn-primary" type="button" onclick="openBooking('نوید رُز')">رزرو عکاسی ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="photo-card reveal"
+            data-name="کُمیل"
+            data-location="تبریز آذربایجان شرقی"
+            data-styles="religious"
+          >
+            <div class="card-image-wrap">
+              <img
+                class="card-image"
+                src="komeil/profile/IMG_4101.jpeg"
+                alt="عکاس کُمیل"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="690"
+              >
+              <div class="card-status">عکاس معرفی‌شده</div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-top">
+                <div>
+                  <h3>کُمیل</h3>
+                  <div class="card-location">⌖ تبریز، آذربایجان شرقی</div>
+                </div>
+                <span class="card-number">04 / QĀB</span>
+              </div>
+
+              <p class="card-bio">
+                عکاس مذهبی؛ ثبت مراسم و لحظه‌های معنوی با احترام به حال‌وهوای مراسم و نگاهی آرام و دقیق.
+              </p>
+
+              <div class="tags">
+                <span class="tag">مذهبی</span>
+              </div>
+
+              <div class="notice card-rate">تعرفه هر شات: ۴۰۰٬۰۰۰ تومان</div>
+
+              <div class="card-actions">
+                <button class="btn btn-secondary" type="button" onclick="openProfile('komeil')">مشاهده پروفایل</button>
+                <button class="btn btn-primary" type="button" onclick="openBooking('کُمیل')">رزرو عکاسی ↗</button>
               </div>
             </div>
           </article>
@@ -2152,6 +2198,7 @@
               <option value="احسان نامی">احسان نامی</option>
               <option value="تبسم اسرافیلی">تبسم اسرافیلی</option>
               <option value="نوید رُز">نوید رُز</option>
+              <option value="کُمیل">کُمیل</option>
               <option value="فرقی ندارد">فرقی ندارد</option>
             </select>
           </div>
@@ -2334,7 +2381,18 @@
         bio: "عکاسی با تمرکز بر پرتره، فضای باز و فشن؛ با نور طبیعی و نگاهی مدرن برای ساخت تصاویری که حس واقعی سوژه را حفظ می‌کند.",
         styles: ["پرتره", "فضای باز", "فشن"],
         telegram: "https://t.me/Navid_ros",
-        shotRate: 500000
+        phone: "09036208355",
+        shotRate: 350000
+      },
+      komeil: {
+        name: "کُمیل",
+        location: "تبریز، آذربایجان شرقی",
+        image: "komeil/profile/IMG_4101.jpeg",
+        bio: "عکاس مذهبی؛ ثبت مراسم و لحظه‌های معنوی با احترام به حال‌وهوای مراسم و نگاهی آرام و دقیق.",
+        styles: ["مذهبی"],
+        // TODO: لینک تلگرام کُمیل را بگذار؛ تا آن موقع پیام رزرو به تلگرام احسان می‌رود
+        telegram: "https://t.me/esi_as",
+        shotRate: 400000
       }
     };
 
@@ -2522,6 +2580,18 @@
           "Navid/IMG_4063.jpeg"
         ],
         videos: []
+      },
+      komeil: {
+        images: [
+          "Komeil/IMG_4102.jpeg",
+          "Komeil/IMG_4103.jpeg",
+          "Komeil/IMG_4104.jpeg",
+          "Komeil/IMG_4105.jpeg",
+          "Komeil/IMG_4106.jpeg",
+          "Komeil/IMG_4107.jpeg",
+          "Komeil/IMG_4108.jpeg"
+        ],
+        videos: []
       }
     };
 
@@ -2648,6 +2718,15 @@
     }
 
     // Photographer profile
+    // شماره موبایل ایران (09xxxxxxxxx) را به شکل «۰۹۰۳ ۶۲۰ ۸۳۵۵» با ارقام فارسی نشان می‌دهد
+    function formatPhone(phone) {
+      const digits = String(phone).replace(/\D/g, "");
+      const grouped = digits.length === 11
+        ? digits.slice(0, 4) + " " + digits.slice(4, 7) + " " + digits.slice(7)
+        : digits;
+      return grouped.replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+    }
+
     function openProfile(id) {
       const photographer = photographers[id];
       if (!photographer) return;
@@ -2677,6 +2756,17 @@
       location.textContent = "⌖ " + photographer.location;
 
       identity.append(name, location);
+
+      if (photographer.phone) {
+        const phoneLine = document.createElement("p");
+        const phoneLink = document.createElement("a");
+        phoneLink.href = "tel:" + photographer.phone;
+        phoneLink.dir = "ltr";
+        phoneLink.textContent = "☎ " + formatPhone(photographer.phone);
+        phoneLine.appendChild(phoneLink);
+        identity.appendChild(phoneLine);
+      }
+
       header.append(avatar, identity);
 
       const description = document.createElement("p");
@@ -2725,6 +2815,14 @@
         telegram.rel = "noopener noreferrer";
         telegram.textContent = "ارتباط در تلگرام ↗";
         actions.appendChild(telegram);
+      }
+
+      if (photographer.phone) {
+        const call = document.createElement("a");
+        call.className = "btn btn-secondary";
+        call.href = "tel:" + photographer.phone;
+        call.textContent = "تماس تلفنی ☎";
+        actions.appendChild(call);
       }
 
       content.append(header, description, tags, rateNotice, gallery, actions);
@@ -2890,7 +2988,7 @@
         const rate = getShotRate(name);
         const rawCount = $("#shotCount").value.trim();
         if (!rate) {
-          message = "برای محاسبه قیمت عکاسی، ابتدا یک عکاس مشخص (احسان نامی، تبسم اسرافیلی یا نوید رُز) انتخاب کن؛ تعرفه هر شات برای هر عکاس متفاوت است.";
+          message = "برای محاسبه قیمت عکاسی، ابتدا یک عکاس مشخص (احسان نامی، تبسم اسرافیلی، نوید رُز یا کُمیل) انتخاب کن؛ تعرفه هر شات برای هر عکاس متفاوت است.";
         } else if (rawCount === "") {
           message = promo
             ? `🎁 طرح هدیه تولد بهمنی‌ها: عکاسی ${name} برای تو رایگان است. تعداد شات را وارد کن.`
@@ -3091,6 +3189,7 @@
       if (name === "احسان نامی") return "esi_as";
       if (name === "تبسم اسرافیلی") return "Tabassomes";
       if (name === "نوید رُز") return "Navid_ros";
+      if (name === "کُمیل") return "esi_as"; // TODO: آیدی تلگرام کُمیل
       return "esi_as";
     }
 
@@ -3392,6 +3491,27 @@
 
       build(pickItems());
     })();
+
+    // اگر مسیر عکسی به‌خاطر تفاوت حروف بزرگ و کوچک (مثلاً Komeil/komeil) پیدا نشد، مسیرهای جایگزین را امتحان می‌کند
+    const IMAGE_FALLBACKS = {
+      "komeil/profile/IMG_4101.jpeg": [
+        "Komeil/Profile/IMG_4101.jpeg",
+        "Komeil/profile/IMG_4101.jpeg",
+        "komeil/Profile/IMG_4101.jpeg"
+      ]
+    };
+    document.addEventListener("error", event => {
+      const img = event.target;
+      if (!img || img.tagName !== "IMG") return;
+      const key = img.dataset.fallbackKey || img.getAttribute("src");
+      const list = IMAGE_FALLBACKS[key];
+      if (!list) return;
+      const index = Number(img.dataset.fallbackIndex || 0);
+      if (index >= list.length) return;
+      img.dataset.fallbackKey = key;
+      img.dataset.fallbackIndex = String(index + 1);
+      img.src = list[index];
+    }, true);
 
     // Background music: پخش با ورود کاربر، قابل قطع/وصل، و تکرار از ابتدا بعد از پایان آهنگ
     (function () {
