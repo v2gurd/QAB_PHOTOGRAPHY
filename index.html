@@ -963,6 +963,35 @@
     .form-hint { display: block; margin-top: 6px; color: var(--muted); font-size: 10px; line-height: 1.8; }
 
     /* Compare */
+    /* ===== Photographer rating ===== */
+    .rating-box {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius-sm, 16px);
+      background: rgba(255,255,255,.03);
+    }
+    .rating-title { margin-bottom: 8px; font-size: 13px; color: var(--muted); }
+    .rating-stars { display: flex; gap: 4px; direction: rtl; }
+    .rating-stars .star {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: rgba(255,255,255,.25);
+      font-size: 30px;
+      line-height: 1;
+      cursor: pointer;
+      transition: color .15s ease, transform .15s ease;
+    }
+    .rating-stars .star.on { color: var(--lime); }
+    .rating-stars .star:hover { transform: scale(1.12); }
+    .rating-stars .star:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; border-radius: 8px; }
+    .rating-summary { margin-top: 6px; font-size: 12px; color: var(--muted); }
+    .card-rating { margin: 2px 0 10px; font-size: 12px; color: var(--muted); }
+    .card-rating b { color: var(--lime); font-weight: 700; }
+
     /* ===== Navid spotlight (تبلیغ نوید رُز) ===== */
     .spotlight {
       position: relative;
@@ -2654,11 +2683,15 @@
         image.alt = "نمونه‌کار " + (index + 1) + " از " + photographer.name;
         image.loading = "eager";
         image.decoding = "async";
+        image.dataset.ownError = "1";
         image.addEventListener("error", () => {
-          console.warn("Image failed to load:", filename);
-          item.remove();
-          photos.refresh();
-        }, { once: true });
+          retryImageFromRepo(image, () => {
+            if (!item.isConnected) return;
+            console.warn("Image failed to load:", filename);
+            item.remove();
+            photos.refresh();
+          });
+        });
         image.addEventListener("click", () => {
           window.open(image.src, "_blank", "noopener,noreferrer");
         });
@@ -2718,6 +2751,190 @@
     }
 
     // Photographer profile
+    // ===== Photographer ratings (امتیازدهی به عکاس) — ذخیره در Supabase =====
+    // آدرس پروژه و کلید عمومی (publishable / anon) Supabase را اینجا بگذار.
+    // هرگز کلید secret یا service_role را در این فایل نگذار.
+    // اگر کلید خالی باشد، امتیاز فقط روی همین مرورگر ذخیره می‌شود و برای بقیه دیده نمی‌شود.
+    const SUPABASE_URL = "https://yhjwttinwgsekgbmdijw.supabase.co";
+    const SUPABASE_ANON_KEY = ""; // TODO: کلید publishable پروژه‌ی Qab
+    const RATING_ENABLED = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+
+    function toFa(value) {
+      return String(value).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]).replace(".", "٫");
+    }
+
+    function getDeviceId() {
+      try {
+        let id = localStorage.getItem("qab-device");
+        if (!id) {
+          id = (window.crypto && crypto.randomUUID)
+            ? crypto.randomUUID().replace(/-/g, "")
+            : Math.random().toString(36).slice(2) + Date.now().toString(36) + "qab";
+          localStorage.setItem("qab-device", id);
+        }
+        return id;
+      } catch (e) {
+        return "anon" + Math.random().toString(36).slice(2) + "qab";
+      }
+    }
+
+    function getMyRating(id) {
+      try {
+        const value = Number(localStorage.getItem("qab-rating-" + id));
+        return value >= 1 && value <= 5 ? value : 0;
+      } catch (e) {
+        return 0;
+      }
+    }
+
+    function supabaseRpc(name, body) {
+      return fetch(SUPABASE_URL.replace(/\/+$/, "") + "/rest/v1/rpc/" + name, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: "Bearer " + SUPABASE_ANON_KEY
+        },
+        body: JSON.stringify(body || {})
+      }).then(response => {
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        return response.status === 204 ? null : response.json().catch(() => null);
+      });
+    }
+
+    // خلاصه‌ی امتیاز همه‌ی عکاس‌ها از سرور (یک درخواست)؛ اگر سرور در دسترس نباشد null
+    let ratingSummaryPromise = null;
+    function fetchRatingSummary(force) {
+      if (force || !ratingSummaryPromise) {
+        ratingSummaryPromise = (RATING_ENABLED && typeof fetch === "function"
+          ? supabaseRpc("get_rating_summary")
+          : Promise.resolve(null)
+        ).then(rows => (Array.isArray(rows) ? rows : null))
+          .catch(error => {
+            console.warn("Ratings unavailable:", error);
+            return null;
+          });
+      }
+      return ratingSummaryPromise;
+    }
+
+    function getRatingSummary(id) {
+      return fetchRatingSummary().then(rows => {
+        const mine = getMyRating(id);
+        if (rows) {
+          const row = rows.find(item => item.photographer === id);
+          return { count: row ? Number(row.votes) : 0, average: row ? Number(row.average) : 0, mine };
+        }
+        // حالت محلی (بدون سرور): فقط رأی همین دستگاه
+        return { count: mine ? 1 : 0, average: mine, mine };
+      });
+    }
+
+    function ratingText(summary) {
+      return summary.count
+        ? "★ " + toFa(summary.average.toFixed(1)) + " از ۵ · " + toFa(summary.count) + " رأی"
+        : "هنوز امتیازی ثبت نشده";
+    }
+
+    function submitRating(id, stars) {
+      try { localStorage.setItem("qab-rating-" + id, String(stars)); } catch (e) {}
+      if (!RATING_ENABLED || typeof fetch !== "function") return Promise.resolve(true);
+      return supabaseRpc("rate_photographer", { p_photographer: id, p_device: getDeviceId(), p_stars: stars })
+        .then(() => {
+          fetchRatingSummary(true);
+          return true;
+        })
+        .catch(error => {
+          console.warn("Rating not sent:", error);
+          return false;
+        });
+    }
+
+    function renderCardRating(id) {
+      const el = document.querySelector('.card-rating[data-for="' + id + '"]');
+      if (!el) return;
+      getRatingSummary(id).then(summary => {
+        el.hidden = !summary.count;
+        el.textContent = summary.count ? ratingText(summary) : "";
+      });
+    }
+
+    function buildRatingBlock(id, photographer) {
+      const box = document.createElement("div");
+      box.className = "rating-box";
+
+      const title = document.createElement("div");
+      title.className = "rating-title";
+      title.textContent = "به " + photographer.name + " امتیاز بده";
+
+      const group = document.createElement("div");
+      group.className = "rating-stars";
+      group.setAttribute("role", "radiogroup");
+      group.setAttribute("aria-label", "امتیاز به " + photographer.name);
+
+      const summaryEl = document.createElement("div");
+      summaryEl.className = "rating-summary";
+      summaryEl.setAttribute("aria-live", "polite");
+
+      const buttons = [];
+      const paint = value => {
+        const mine = getMyRating(id);
+        buttons.forEach((button, index) => {
+          button.classList.toggle("on", index < value);
+          button.setAttribute("aria-checked", String(index + 1 === mine));
+        });
+      };
+      const refresh = () => {
+        paint(getMyRating(id));
+        getRatingSummary(id).then(summary => {
+          summaryEl.textContent = ratingText(summary);
+        });
+        renderCardRating(id);
+      };
+
+      for (let i = 1; i <= 5; i++) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "star";
+        button.textContent = "★";
+        button.setAttribute("role", "radio");
+        button.setAttribute("aria-label", toFa(i) + " از ۵");
+        button.addEventListener("pointerenter", event => { if (event.pointerType === "mouse") paint(i); });
+        button.addEventListener("pointerleave", () => paint(getMyRating(id)));
+        button.addEventListener("click", () => {
+          submitRating(id, i).then(ok => {
+            fetchRatingSummary().then(() => refresh());
+            showToast(ok
+              ? "ممنون! امتیازت ثبت شد ★"
+              : "امتیاز روی این دستگاه ذخیره شد، ولی ارسال نشد. دوباره امتحان کن.");
+          });
+        });
+        buttons.push(button);
+        group.appendChild(button);
+      }
+
+      box.append(title, group, summaryEl);
+      refresh();
+      return box;
+    }
+
+    // خط امتیاز روی کارت هر عکاس (فقط وقتی رأیی ثبت شده باشد دیده می‌شود)
+    function initCardRatings() {
+      document.querySelectorAll(".photo-card").forEach(card => {
+        const id = Object.keys(photographers).find(key => photographers[key].name === card.dataset.name);
+        if (!id) return;
+        const line = document.createElement("div");
+        line.className = "card-rating";
+        line.dataset.for = id;
+        line.hidden = true;
+        const anchor = card.querySelector(".card-rate");
+        if (anchor) anchor.before(line);
+        else card.querySelector(".card-content").appendChild(line);
+        renderCardRating(id);
+      });
+    }
+    initCardRatings();
+
     // شماره موبایل ایران (09xxxxxxxxx) را به شکل «۰۹۰۳ ۶۲۰ ۸۳۵۵» با ارقام فارسی نشان می‌دهد
     function formatPhone(phone) {
       const digits = String(phone).replace(/\D/g, "");
@@ -2825,7 +3042,7 @@
         actions.appendChild(call);
       }
 
-      content.append(header, description, tags, rateNotice, gallery, actions);
+      content.append(header, description, tags, rateNotice, buildRatingBlock(id, photographer), gallery, actions);
       openModal("profileModal");
     }
 
@@ -3418,6 +3635,7 @@
           slide.className = "hs";
           image.alt = "نمونه‌کار " + item.name;
           image.dataset.src = item.src;
+          image.dataset.ownError = "1";
           image.addEventListener("error", () => {
             console.warn("Hero image failed to load:", item.src);
             dropSlide(slide);
@@ -3494,25 +3712,58 @@
       build(pickItems());
     })();
 
-    // اگر مسیر عکسی به‌خاطر تفاوت حروف بزرگ و کوچک (مثلاً Komeil/komeil) پیدا نشد، مسیرهای جایگزین را امتحان می‌کند
-    const IMAGE_FALLBACKS = {
-      "komeil/profile/IMG_4101.jpeg": [
-        "Komeil/Profile/IMG_4101.jpeg",
-        "Komeil/profile/IMG_4101.jpeg",
-        "komeil/Profile/IMG_4101.jpeg"
-      ]
-    };
+    // وقتی مسیر یک عکس پیدا نشود (مثلاً به‌خاطر تفاوت حروف بزرگ و کوچک در اسم پوشه)،
+    // اسم واقعی فایل از لیست فایل‌های ریپو در GitHub خوانده و عکس دوباره بارگذاری می‌شود.
+    let repoTreePromise = null;
+    function loadRepoTree() {
+      if (!repoTreePromise) {
+        repoTreePromise = (typeof fetch === "function"
+          ? fetch("https://api.github.com/repos/v2gurd/QAB_PHOTOGRAPHY/git/trees/main?recursive=1")
+              .then(response => (response.ok ? response.json() : Promise.reject(new Error("HTTP " + response.status))))
+              .then(data => (data.tree || []).filter(node => node.type === "blob").map(node => node.path))
+          : Promise.reject(new Error("fetch unavailable"))
+        ).catch(error => {
+          console.warn("Repo file list unavailable:", error);
+          return [];
+        });
+      }
+      return repoTreePromise;
+    }
+
+    function findRepoPath(path) {
+      const wanted = path.toLowerCase();
+      const baseName = wanted.split("/").pop();
+      return loadRepoTree().then(paths => {
+        const exact = paths.find(item => item.toLowerCase() === wanted);
+        if (exact) return exact;
+        const sameName = paths.filter(item => item.toLowerCase().split("/").pop() === baseName);
+        return sameName.length === 1 ? sameName[0] : null;
+      });
+    }
+
+    function retryImageFromRepo(img, onFail) {
+      const attr = img.getAttribute("src") || "";
+      if (img.dataset.repoRetried || !attr || /^(data:|https?:|blob:)/i.test(attr)) {
+        if (onFail) onFail();
+        return;
+      }
+      img.dataset.repoRetried = "1";
+      let key = attr;
+      try { key = decodeURI(attr); } catch (e) {}
+      findRepoPath(key).then(real => {
+        if (real && real !== key) {
+          img.src = real.split("/").map(encodeURIComponent).join("/");
+        } else if (onFail) {
+          onFail();
+        }
+      });
+    }
+
+    // عکس‌هایی که خودشان مدیریت خطا دارند (گالری و هدر) data-own-error دارند و اینجا نادیده گرفته می‌شوند
     document.addEventListener("error", event => {
       const img = event.target;
-      if (!img || img.tagName !== "IMG") return;
-      const key = img.dataset.fallbackKey || img.getAttribute("src");
-      const list = IMAGE_FALLBACKS[key];
-      if (!list) return;
-      const index = Number(img.dataset.fallbackIndex || 0);
-      if (index >= list.length) return;
-      img.dataset.fallbackKey = key;
-      img.dataset.fallbackIndex = String(index + 1);
-      img.src = list[index];
+      if (!img || img.tagName !== "IMG" || img.dataset.ownError) return;
+      retryImageFromRepo(img);
     }, true);
 
     // Background music: پخش با ورود کاربر، قابل قطع/وصل، و تکرار از ابتدا بعد از پایان آهنگ
