@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#10110f">
+  <title>مدیریت پروفایل | QĀB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #10110f;
+      --panel: #191a17;
+      --panel-2: #20211d;
+      --line: rgba(255,255,255,.10);
+      --text: #f6f6ef;
+      --muted: #a0a197;
+      --lime: #d7ff61;
+      --danger: #ff7a6b;
+      --radius: 20px;
+      --font: "Vazirmatn", Tahoma, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.8;
+      padding: calc(18px + env(safe-area-inset-top, 0px)) 16px calc(40px + env(safe-area-inset-bottom, 0px));
+    }
+    .wrap { max-width: 760px; margin: 0 auto; }
+    header.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+    .brand { font-weight: 800; font-size: 22px; direction: ltr; }
+    .brand span { color: var(--lime); }
+    .site-link { color: var(--muted); font-size: 13px; text-decoration: none; border: 1px solid var(--line); padding: 6px 14px; border-radius: 100px; }
+    h1 { font-size: 22px; margin-bottom: 4px; }
+    .sub { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .card h2 { font-size: 16px; margin-bottom: 12px; }
+    .card h2 small { color: var(--muted); font-weight: 500; font-size: 12px; margin-inline-start: 8px; }
+    .avatar-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .avatar {
+      width: 92px; height: 92px; border-radius: 50%;
+      overflow: hidden; background: var(--panel-2);
+      border: 2px solid var(--lime);
+      display: grid; place-items: center;
+      color: var(--lime); font-size: 34px; font-weight: 800;
+      flex: 0 0 auto;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; }
+    label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 5px; }
+    input[type="text"], input[type="tel"], input[type="number"], textarea {
+      width: 100%;
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font: inherit;
+      font-size: 15px;
+    }
+    input.ltr { direction: ltr; text-align: left; }
+    textarea { min-height: 110px; resize: vertical; }
+    input:focus, textarea:focus { outline: 2px solid var(--lime); outline-offset: 1px; }
+    .hint { color: var(--muted); font-size: 12px; margin-top: 4px; }
+    .btn {
+      font: inherit; font-size: 14px; font-weight: 700;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      color: var(--text);
+      padding: 10px 16px;
+      border-radius: 100px;
+      cursor: pointer;
+    }
+    .btn:disabled { opacity: .5; cursor: default; }
+    .btn.primary { background: var(--lime); color: #17190f; border-color: transparent; }
+    .btn.danger { color: var(--danger); }
+    .btn.small { padding: 6px 12px; font-size: 13px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 14px; }
+    .grid.videos { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+    .item { background: var(--panel-2); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+    .item .media { aspect-ratio: 4 / 5; background: #000; display: block; width: 100%; object-fit: cover; }
+    .videos .item .media { aspect-ratio: 9 / 16; max-height: 360px; object-fit: contain; }
+    .item .tools { display: flex; gap: 6px; padding: 8px; justify-content: space-between; }
+    .item .tools .btn { flex: 1; padding: 6px 0; text-align: center; }
+    .empty { color: var(--muted); font-size: 13px; padding: 16px 0 4px; }
+    .uploads { margin-top: 12px; display: grid; gap: 6px; font-size: 13px; }
+    .uploads div { background: var(--panel-2); border-radius: 12px; padding: 8px 12px; display: flex; justify-content: space-between; gap: 10px; }
+    .uploads .ok { color: var(--lime); }
+    .uploads .err { color: var(--danger); }
+    .toast {
+      position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      transform: translate(-50%, 20px);
+      background: #25271f; border: 1px solid var(--line); color: #fff;
+      padding: 12px 18px; border-radius: 14px; font-size: 13px;
+      opacity: 0; pointer-events: none; transition: .25s; max-width: calc(100% - 32px); text-align: center; z-index: 50;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .gate { text-align: center; padding: 60px 10px; color: var(--muted); }
+    .gate b { color: var(--text); display: block; font-size: 18px; margin-bottom: 8px; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">QĀ<span>B</span></div>
+      <a class="site-link" href="./">بازگشت به سایت</a>
+    </header>
+
+    <div class="gate" id="gate"><b>در حال بارگذاری…</b>لطفاً صبر کن.</div>
+
+    <main id="panel" hidden>
+      <h1 id="who">—</h1>
+      <p class="sub">اینجا می‌توانی پروفایل و نمونه‌کارهای خودت را مدیریت کنی. تغییرات بعد از ذخیره در سایت دیده می‌شود. این لینک مخصوص خودت است؛ برای کسی نفرست.</p>
+
+      <section class="card">
+        <h2>عکس پروفایل</h2>
+        <div class="avatar-row">
+          <div class="avatar" id="avatar"></div>
+          <div class="row">
+            <button class="btn primary" type="button" id="avatarPick">تغییر عکس</button>
+            <button class="btn danger" type="button" id="avatarClear">حذف عکس</button>
+          </div>
+        </div>
+        <input type="file" id="avatarFile" accept="image/*" hidden>
+        <p class="hint">اگر عکسی انتخاب نکنی، همان عکس فعلی سایت می‌ماند.</p>
+      </section>
+
+      <section class="card">
+        <h2>اطلاعات پروفایل</h2>
+        <label for="rate">تعرفه هر شات (تومان)</label>
+        <input type="text" id="rate" inputmode="numeric" placeholder="مثلاً ۴۰۰۰۰۰">
+        <p class="hint">خالی بگذاری، تعرفه‌ای نشان داده نمی‌شود و «با هماهنگی» می‌نویسد.</p>
+
+        <label for="bio">درباره‌ی من</label>
+        <textarea id="bio" maxlength="600" placeholder="چند جمله درباره‌ی خودت و سبک کارت"></textarea>
+
+        <label for="phone">شماره تماس (اختیاری)</label>
+        <input class="ltr" type="tel" id="phone" inputmode="tel" placeholder="09123456789">
+
+        <label for="telegram">آیدی تلگرام</label>
+        <input class="ltr" type="text" id="telegram" placeholder="@username">
+
+        <div class="row" style="margin-top:16px">
+          <button class="btn primary" type="button" id="saveProfile">ذخیره اطلاعات</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>نمونه‌کارهای عکس <small id="photoCount"></small></h2>
+        <div class="row">
+          <button class="btn primary" type="button" id="photoPick">افزودن عکس</button>
+        </div>
+        <input type="file" id="photoFile" accept="image/*" multiple hidden>
+        <div class="grid" id="photoGrid"></div>
+        <p class="empty" id="photoEmpty" hidden>هنوز عکسی اضافه نکرده‌ای.</p>
+      </section>
+
+      <section class="card">
+        <h2>نمونه‌کارهای ویدیو <small id="videoCount"></small></h2>
+        <div class="row">
+          <button class="btn primary" type="button" id="videoPick">افزودن ویدیو</button>
+        </div>
+        <input type="file" id="videoFile" accept="video/mp4,video/quicktime,.mp4,.mov" multiple hidden>
+        <p class="hint">فرمت MP4 یا MOV، حداکثر ۵۰ مگابایت برای هر ویدیو.</p>
+        <div class="grid videos" id="videoGrid"></div>
+        <p class="empty" id="videoEmpty" hidden>هنوز ویدیویی اضافه نکرده‌ای.</p>
+      </section>
+
+      <div class="uploads" id="uploads"></div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script>
+    const SUPABASE_URL = "https://yhjwttinwgsekgbmdijw.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_KbGaMcx2t7kndWIx27giag_LYsKjtVc";
+    const FN_URL = SUPABASE_URL + "/functions/v1/manage";
+    const PUBLIC_BASE = SUPABASE_URL + "/storage/v1/object/public/portfolio/";
+    const MAX_VIDEO_BYTES = 50 * 1024 * 1024;
+
+    const NAMES = {
+      ehsan: "احسان نامی", tabassom: "تبسم اسرافیلی", navid: "نوید رُز", komeil: "کُمیل",
+      araz: "آراز توکلی", ali: "علی باغبان", fanous: "آتلیه فانوس", evan: "آتلیه ایوان",
+      pouya: "پویا حق‌بیان", omid: "امید خدابنده"
+    };
+
+    const $ = selector => document.querySelector(selector);
+    let token = "";
+    let state = null;
+    let sb = null;
+    let busy = false;
+
+    function readToken() {
+      let raw = "";
+      try { raw = decodeURIComponent((location.hash || "").replace(/^#/, "")); } catch (e) {}
+      return raw.replace(/^t=/, "").trim();
+    }
+
+    function publicUrl(path) {
+      return PUBLIC_BASE + path.split("/").map(encodeURIComponent).join("/");
+    }
+
+    function toEnglishDigits(value) {
+      return String(value)
+        .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+        .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+    }
+
+    function toFa(value) {
+      return String(value).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+    }
+
+    let toastTimer;
+    function toast(message) {
+      const el = $("#toast");
+      el.textContent = message;
+      el.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove("show"), 3200);
+    }
+
+    async function api(action, extra) {
+      let response;
+      try {
+        response = await fetch(FN_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", apikey: SUPABASE_KEY },
+          body: JSON.stringify(Object.assign({ action, token }, extra || {}))
+        });
+      } catch (e) {
+        throw new Error("اتصال اینترنت یا سرور برقرار نشد.");
+      }
+      let data = null;
+      try { data = await response.json(); } catch (e) {}
+      if (!response.ok) throw new Error((data && data.error) || "خطا در ارتباط با سرور.");
+      return data;
+    }
+
+    // ---------- Rendering ----------
+    function render() {
+      const id = state.photographer;
+      const profile = state.profile || {};
+      const name = NAMES[id] || id;
+
+      $("#who").textContent = name;
+      document.title = "مدیریت پروفایل | " + name;
+
+      const avatar = $("#avatar");
+      avatar.textContent = "";
+      if (profile.avatar_path) {
+        const img = document.createElement("img");
+        img.alt = name;
+        img.src = publicUrl(profile.avatar_path);
+        avatar.appendChild(img);
+      } else {
+        avatar.textContent = name.trim().charAt(0);
+      }
+
+      if (document.activeElement !== $("#rate")) $("#rate").value = profile.shot_rate != null ? toFa(Number(profile.shot_rate)) : "";
+      if (document.activeElement !== $("#bio")) $("#bio").value = profile.bio || "";
+      if (document.activeElement !== $("#phone")) $("#phone").value = profile.phone || "";
+      if (document.activeElement !== $("#telegram")) $("#telegram").value = profile.telegram ? "@" + profile.telegram.replace(/^https?:\/\/t\.me\//i, "") : "";
+
+      renderGrid("image", $("#photoGrid"), $("#photoEmpty"), $("#photoCount"));
+      renderGrid("video", $("#videoGrid"), $("#videoEmpty"), $("#videoCount"));
+    }
+
+    function renderGrid(kind, grid, empty, counter) {
+      const list = state.items.filter(item => item.kind === kind);
+      grid.textContent = "";
+      empty.hidden = list.length > 0;
+      counter.textContent = list.length ? "(" + toFa(list.length) + ")" : "";
+
+      list.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.className = "item";
+
+        let media;
+        if (kind === "video") {
+          media = document.createElement("video");
+          media.controls = true;
+          media.playsInline = true;
+          media.preload = "metadata";
+          const source = document.createElement("source");
+          source.src = publicUrl(item.path) + "#t=0.1";
+          source.type = "video/mp4";
+          media.appendChild(source);
+        } else {
+          media = document.createElement("img");
+          media.loading = "lazy";
+          media.alt = "نمونه‌کار";
+          media.src = publicUrl(item.path);
+        }
+        media.className = "media";
+
+        const tools = document.createElement("div");
+        tools.className = "tools";
+
+        const up = document.createElement("button");
+        up.type = "button"; up.className = "btn small"; up.textContent = "→"; up.title = "جابه‌جایی به قبل";
+        up.disabled = index === 0;
+        up.addEventListener("click", () => moveItem(item, list[index - 1]));
+
+        const down = document.createElement("button");
+        down.type = "button"; down.className = "btn small"; down.textContent = "←"; down.title = "جابه‌جایی به بعد";
+        down.disabled = index === list.length - 1;
+        down.addEventListener("click", () => moveItem(item, list[index + 1]));
+
+        const del = document.createElement("button");
+        del.type = "button"; del.className = "btn small danger"; del.textContent = "حذف";
+        del.addEventListener("click", () => deleteItem(item));
+
+        tools.append(up, down, del);
+        card.append(media, tools);
+        grid.appendChild(card);
+      });
+    }
+
+    // ---------- Actions ----------
+    async function guarded(task) {
+      if (busy) { toast("یک کار در حال انجام است؛ کمی صبر کن."); return; }
+      busy = true;
+      try { await task(); }
+      catch (error) { toast(error.message || "خطایی رخ داد."); }
+      finally { busy = false; }
+    }
+
+    async function saveProfile() {
+      await guarded(async () => {
+        const rateDigits = toEnglishDigits($("#rate").value).replace(/[^\d]/g, "");
+        const profile = {
+          shot_rate: rateDigits ? Number(rateDigits) : null,
+          bio: $("#bio").value,
+          phone: toEnglishDigits($("#phone").value),
+          telegram: $("#telegram").value
+        };
+        state = await api("update_profile", { profile });
+        render();
+        toast("اطلاعات ذخیره شد ✓");
+      });
+    }
+
+    async function deleteItem(item) {
+      if (!confirm("این مورد برای همیشه حذف شود؟")) return;
+      await guarded(async () => {
+        state = await api("delete_item", { item_id: item.id });
+        render();
+        toast("حذف شد.");
+      });
+    }
+
+    async function moveItem(item, neighbor) {
+      if (!neighbor) return;
+      await guarded(async () => {
+        const order = id => state.items.findIndex(x => x.id === id);
+        const from = order(item.id);
+        const to = order(neighbor.id);
+        const direction = to < from ? "up" : "down";
+        const steps = Math.abs(to - from);
+        for (let i = 0; i < steps; i++) {
+          state = await api("move_item", { item_id: item.id, direction });
+        }
+        render();
+      });
+    }
+
+    async function clearAvatar() {
+      if (!state.profile || !state.profile.avatar_path) { toast("عکس پروفایلی برای حذف نیست."); return; }
+      if (!confirm("عکس پروفایل حذف شود؟")) return;
+      await guarded(async () => {
+        state = await api("clear_avatar");
+        render();
+        toast("عکس پروفایل حذف شد.");
+      });
+    }
+
+    // ---------- Upload helpers ----------
+    function decodeImage(file) {
+      if (window.createImageBitmap) {
+        return createImageBitmap(file, { imageOrientation: "from-image" }).catch(() => decodeViaElement(file));
+      }
+      return decodeViaElement(file);
+    }
+
+    function decodeViaElement(file) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("decode")); };
+        img.src = url;
+      });
+    }
+
+    // عکس را کوچک می‌کند (حداکثر ۲۲۰۰ پیکسل) تا آپلود سریع‌تر و سایت سبک‌تر باشد
+    async function prepareImage(file) {
+      try {
+        const bitmap = await decodeImage(file);
+        const width = bitmap.width || bitmap.naturalWidth;
+        const height = bitmap.height || bitmap.naturalHeight;
+        const scale = Math.min(1, 2200 / Math.max(width, height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(width * scale));
+        canvas.height = Math.max(1, Math.round(height * scale));
+        canvas.getContext("2d").drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.86));
+        if (blob && blob.size) return { blob, type: "image/jpeg" };
+      } catch (e) {}
+      if (["image/jpeg", "image/png", "image/webp"].includes(file.type)) return { blob: file, type: file.type };
+      throw new Error("این عکس قابل پردازش نیست؛ یک عکس JPG یا PNG انتخاب کن.");
+    }
+
+    function videoType(file) {
+      const name = (file.name || "").toLowerCase();
+      if (file.type === "video/mp4" || name.endsWith(".mp4")) return "video/mp4";
+      if (file.type === "video/quicktime" || name.endsWith(".mov")) return "video/quicktime";
+      throw new Error("فرمت ویدیو پشتیبانی نمی‌شود (MP4 یا MOV).");
+    }
+
+    async function uploadBlob(blob, contentType, purpose) {
+      const info = await api("create_upload", { content_type: contentType, size: blob.size, purpose });
+      const result = await sb.storage.from("portfolio").uploadToSignedUrl(info.path, info.token, blob, { contentType });
+      if (result.error) throw new Error("آپلود فایل ناموفق بود؛ دوباره امتحان کن.");
+      return info;
+    }
+
+    function logUpload(text) {
+      const row = document.createElement("div");
+      const label = document.createElement("span");
+      label.textContent = text;
+      const status = document.createElement("span");
+      status.textContent = "در حال آپلود…";
+      row.append(label, status);
+      $("#uploads").prepend(row);
+      return {
+        ok() { status.textContent = "✓ انجام شد"; status.className = "ok"; },
+        fail(message) { status.textContent = message; status.className = "err"; }
+      };
+    }
+
+    async function uploadMany(kind, files) {
+      await guarded(async () => {
+        for (const file of Array.from(files)) {
+          const log = logUpload(file.name || (kind === "video" ? "ویدیو" : "عکس"));
+          try {
+            let blob = file;
+            let contentType;
+            if (kind === "video") {
+              contentType = videoType(file);
+              if (file.size > MAX_VIDEO_BYTES) throw new Error("حجم ویدیو بیشتر از ۵۰ مگابایت است.");
+            } else {
+              const prepared = await prepareImage(file);
+              blob = prepared.blob;
+              contentType = prepared.type;
+            }
+            const info = await uploadBlob(blob, contentType, "portfolio");
+            state = await api("add_item", { path: info.path });
+            render();
+            log.ok();
+          } catch (error) {
+            log.fail(error.message || "ناموفق");
+          }
+        }
+      });
+    }
+
+    async function uploadAvatar(file) {
+      await guarded(async () => {
+        const log = logUpload("عکس پروفایل");
+        try {
+          const prepared = await prepareImage(file);
+          const info = await uploadBlob(prepared.blob, prepared.type, "avatar");
+          state = await api("set_avatar", { path: info.path });
+          render();
+          log.ok();
+          toast("عکس پروفایل عوض شد ✓");
+        } catch (error) {
+          log.fail(error.message || "ناموفق");
+          throw error;
+        }
+      });
+    }
+
+    // ---------- Init ----------
+    function bind() {
+      $("#saveProfile").addEventListener("click", saveProfile);
+      $("#avatarClear").addEventListener("click", clearAvatar);
+
+      $("#avatarPick").addEventListener("click", () => $("#avatarFile").click());
+      $("#avatarFile").addEventListener("change", event => {
+        const file = event.target.files && event.target.files[0];
+        event.target.value = "";
+        if (file) uploadAvatar(file);
+      });
+
+      $("#photoPick").addEventListener("click", () => $("#photoFile").click());
+      $("#photoFile").addEventListener("change", event => {
+        const files = event.target.files;
+        const list = files ? Array.from(files) : [];
+        event.target.value = "";
+        if (list.length) uploadMany("image", list);
+      });
+
+      $("#videoPick").addEventListener("click", () => $("#videoFile").click());
+      $("#videoFile").addEventListener("change", event => {
+        const files = event.target.files;
+        const list = files ? Array.from(files) : [];
+        event.target.value = "";
+        if (list.length) uploadMany("video", list);
+      });
+    }
+
+    async function init() {
+      token = readToken();
+      const gate = $("#gate");
+      if (!token) {
+        gate.innerHTML = "<b>لینک مدیریت معتبر نیست</b>از همان لینک اختصاصی که برایت فرستاده شده استفاده کن.";
+        return;
+      }
+      if (!window.supabase) {
+        gate.innerHTML = "<b>بارگذاری ناقص بود</b>صفحه را دوباره باز کن.";
+        return;
+      }
+      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
+      try {
+        state = await api("me");
+      } catch (error) {
+        gate.innerHTML = "";
+        const title = document.createElement("b");
+        title.textContent = "ورود ممکن نشد";
+        gate.append(title, document.createTextNode(error.message));
+        return;
+      }
+      gate.hidden = true;
+      $("#panel").hidden = false;
+      bind();
+      render();
+    }
+
+    init();
+  </script>
+</body>
+</html>
