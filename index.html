@@ -3339,6 +3339,77 @@
     }
     initCardRatings();
 
+    // ===== Live profile data (هر عکاس از صفحه‌ی manage.html پروفایل خودش را ویرایش می‌کند) =====
+    const STORAGE_PUBLIC_BASE = SUPABASE_URL.replace(/\/+$/, "") + "/storage/v1/object/public/portfolio/";
+
+    function storageUrl(path) {
+      return STORAGE_PUBLIC_BASE + String(path).split("/").map(encodeURIComponent).join("/");
+    }
+
+    function supabaseSelect(table, query) {
+      return fetch(SUPABASE_URL.replace(/\/+$/, "") + "/rest/v1/" + table + "?" + query, {
+        headers: { apikey: SUPABASE_ANON_KEY, Authorization: "Bearer " + SUPABASE_ANON_KEY }
+      }).then(response => (response.ok ? response.json() : Promise.reject(new Error("HTTP " + response.status))));
+    }
+
+    // کارت عکاس در لیست را با اطلاعات به‌روز می‌کند
+    function updateCardFromData(id) {
+      const p = photographers[id];
+      if (!p) return;
+      const card = Array.from(document.querySelectorAll(".photo-card")).find(el => el.dataset.name === p.name);
+      if (!card) return;
+
+      const image = card.querySelector(".card-image");
+      if (image && p.image && image.getAttribute("src") !== p.image) image.src = p.image;
+
+      const bio = card.querySelector(".card-bio");
+      if (bio && p.bio) bio.textContent = p.bio;
+
+      const rate = card.querySelector(".card-rate");
+      if (rate) {
+        rate.textContent = hasRate(p)
+          ? "تعرفه هر شات: " + formatToman(p.shotRate)
+          : "تعرفه: از طریق تلگرام هماهنگ می‌شود";
+        if (p.phone) {
+          rate.appendChild(document.createElement("br"));
+          const call = document.createElement("a");
+          call.href = "tel:" + p.phone;
+          call.dir = "ltr";
+          call.textContent = "☎ " + formatPhone(p.phone);
+          rate.appendChild(call);
+        }
+      }
+    }
+
+    function applyLiveData() {
+      if (!RATING_ENABLED || typeof fetch !== "function") return;
+      Promise.all([
+        supabaseSelect("photographer_profiles", "select=*"),
+        supabaseSelect("portfolio_items", "select=photographer,kind,path,position,created_at&order=position.asc,created_at.asc")
+      ]).then(([profiles, items]) => {
+        (profiles || []).forEach(row => {
+          const p = photographers[row.photographer];
+          if (!p) return;
+          if (row.shot_rate !== null && row.shot_rate !== undefined) p.shotRate = Number(row.shot_rate);
+          else delete p.shotRate;
+          if (row.bio) p.bio = row.bio;
+          if (row.phone) p.phone = row.phone;
+          else delete p.phone;
+          if (row.telegram) p.telegram = row.telegram;
+          if (row.avatar_path) p.image = storageUrl(row.avatar_path);
+          updateCardFromData(row.photographer);
+        });
+        (items || []).forEach(item => {
+          if (!photographers[item.photographer]) return;
+          const data = portfolioData[item.photographer] || (portfolioData[item.photographer] = { images: [], videos: [] });
+          const url = storageUrl(item.path);
+          if (item.kind === "video") data.videos.push([url]);
+          else data.images.push(url);
+        });
+      }).catch(error => console.warn("Live profile data unavailable:", error));
+    }
+    applyLiveData();
+
     // شماره موبایل ایران (09xxxxxxxxx) را به شکل «۰۹۰۳ ۶۲۰ ۸۳۵۵» با ارقام فارسی نشان می‌دهد
     function formatPhone(phone) {
       const digits = String(phone).replace(/\D/g, "");
@@ -3817,10 +3888,12 @@
     })();
 
     function telegramUsernameFor(name) {
+      const person = Object.values(photographers).find(item => item.name === name);
+      const match = person && person.telegram && String(person.telegram).match(/t\.me\/([A-Za-z0-9_]+)/i);
+      if (match) return match[1];
       if (name === "احسان نامی") return "esi_as";
       if (name === "تبسم اسرافیلی") return "Tabassomes";
       if (name === "نوید رُز") return "Navid_ros";
-      if (name === "کُمیل") return "esi_as"; // TODO: آیدی تلگرام کُمیل
       return "esi_as";
     }
 
