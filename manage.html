@@ -252,6 +252,42 @@
       return PUBLIC_BASE + path.split("/").map(encodeURIComponent).join("/");
     }
 
+    function relativeUrl(path) {
+      return path.split("/").map(encodeURIComponent).join("/");
+    }
+
+    // نمونه‌کارهای قدیمی (source = repo) فایل‌هایشان کنار سایت است، نه در Supabase
+    function itemUrls(item) {
+      if (item.source === "repo") {
+        return [item.path].concat(Array.isArray(item.fallback_paths) ? item.fallback_paths : []).map(relativeUrl);
+      }
+      return [publicUrl(item.path)];
+    }
+
+    function makeItemMedia(item) {
+      const urls = itemUrls(item);
+      let media;
+      if (item.kind === "video") {
+        media = document.createElement("video");
+        media.controls = true;
+        media.playsInline = true;
+        media.preload = "metadata";
+        urls.forEach(url => {
+          const source = document.createElement("source");
+          source.src = url + "#t=0.1";
+          source.type = "video/mp4";
+          media.appendChild(source);
+        });
+      } else {
+        media = document.createElement("img");
+        media.loading = "lazy";
+        media.alt = "نمونه‌کار";
+        media.src = urls[0];
+      }
+      media.className = "media";
+      return media;
+    }
+
     function toEnglishDigits(value) {
       return String(value)
         .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
@@ -329,23 +365,7 @@
         const card = document.createElement("div");
         card.className = "item";
 
-        let media;
-        if (kind === "video") {
-          media = document.createElement("video");
-          media.controls = true;
-          media.playsInline = true;
-          media.preload = "metadata";
-          const source = document.createElement("source");
-          source.src = publicUrl(item.path) + "#t=0.1";
-          source.type = "video/mp4";
-          media.appendChild(source);
-        } else {
-          media = document.createElement("img");
-          media.loading = "lazy";
-          media.alt = "نمونه‌کار";
-          media.src = publicUrl(item.path);
-        }
-        media.className = "media";
+        const media = makeItemMedia(item);
 
         const tools = document.createElement("div");
         tools.className = "tools";
@@ -430,7 +450,7 @@
           button("بازگردانی", "", () => archiveItem(item, false)),
           button("حذف", "danger", () => deleteItem(item))
         );
-        card.append(makeMedia(item.kind, item.path), tag, tools);
+        card.append(makeItemMedia(item), tag, tools);
         grid.appendChild(card);
       });
     }
