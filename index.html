@@ -3536,7 +3536,7 @@
       if (!RATING_ENABLED || typeof fetch !== "function") return;
       Promise.all([
         supabaseSelect("photographer_profiles", "select=*"),
-        supabaseSelect("portfolio_items", "select=photographer,kind,path,position,created_at&order=position.asc,created_at.asc"),
+        supabaseSelect("portfolio_items", "select=photographer,kind,path,position,created_at,source,fallback_paths&order=position.asc,created_at.asc"),
         supabaseSelect("stories", "select=*&order=created_at.asc").catch(() => [])
       ]).then(([profiles, items, stories]) => {
         (profiles || []).forEach(row => {
@@ -3549,14 +3549,19 @@
           else delete p.phone;
           if (row.telegram) p.telegram = row.telegram;
           if (row.avatar_path) p.image = storageUrl(row.avatar_path);
+          // وقتی نمونه‌کارها به پنل منتقل شده‌اند، لیست ثابت داخل سایت کنار گذاشته می‌شود و فقط دیتابیس ملاک است
+          if (row.portfolio_managed) portfolioData[row.photographer] = { images: [], videos: [] };
           updateCardFromData(row.photographer);
         });
         (items || []).forEach(item => {
           if (!photographers[item.photographer]) return;
           const data = portfolioData[item.photographer] || (portfolioData[item.photographer] = { images: [], videos: [] });
-          const url = storageUrl(item.path);
-          if (item.kind === "video") data.videos.push([url]);
-          else data.images.push(url);
+          const isRepo = item.source === "repo";
+          if (item.kind === "video") {
+            data.videos.push(isRepo ? [item.path].concat(item.fallback_paths || []) : [storageUrl(item.path)]);
+          } else {
+            data.images.push(isRepo ? item.path : storageUrl(item.path));
+          }
         });
         liveStories = Array.isArray(stories) ? stories : [];
         renderStoriesBar();
