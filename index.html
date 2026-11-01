@@ -1030,6 +1030,139 @@
     .card-rating { margin: 2px 0 10px; font-size: 12px; color: var(--muted); }
     .card-rating b { color: var(--lime); font-weight: 700; }
 
+    /* ===== Stories & highlights ===== */
+    .stories-bar {
+      display: flex;
+      gap: 14px;
+      margin: 0 0 18px;
+      padding: 4px 2px 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .stories-bar::-webkit-scrollbar { display: none; }
+    .stories-bar[hidden] { display: none; }
+    .story-chip {
+      flex: 0 0 auto;
+      width: 74px;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+      text-align: center;
+    }
+    .story-ring {
+      display: block;
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 6px;
+      padding: 3px;
+      border-radius: 50%;
+      background: conic-gradient(var(--lime), #8ee05b, var(--lime));
+    }
+    .story-chip.seen .story-ring { background: rgba(255,255,255,.22); }
+    .story-ring img, .story-ring span.fill {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid var(--bg, #10110f);
+      object-fit: cover;
+      background: var(--panel-2);
+    }
+    .story-ring span.fill { display: grid; place-items: center; font-size: 22px; color: var(--lime); }
+    .story-chip small {
+      display: block;
+      max-width: 74px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .highlights-row { margin-top: 16px; }
+    .highlights-row .rating-title { margin-bottom: 8px; }
+    .highlights-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+    .highlights-scroll::-webkit-scrollbar { display: none; }
+    .highlights-scroll .story-ring { background: rgba(255,255,255,.25); }
+
+    .story-viewer {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: grid;
+      place-items: center;
+      background: rgba(0,0,0,.94);
+    }
+    .story-viewer[hidden] { display: none; }
+    .story-frame {
+      position: relative;
+      width: min(100vw, 460px);
+      height: min(100dvh, 880px);
+      overflow: hidden;
+      background: #000;
+      border-radius: 0;
+    }
+    @media (min-width: 520px) { .story-frame { border-radius: 22px; } }
+    .story-progress {
+      position: absolute;
+      top: calc(10px + env(safe-area-inset-top, 0px));
+      left: 12px;
+      right: 12px;
+      z-index: 5;
+      display: flex;
+      gap: 4px;
+      direction: ltr;
+    }
+    .story-progress i {
+      flex: 1;
+      height: 3px;
+      overflow: hidden;
+      border-radius: 3px;
+      background: rgba(255,255,255,.3);
+    }
+    .story-progress i b { display: block; width: 0; height: 100%; background: #fff; }
+    .story-head {
+      position: absolute;
+      top: calc(22px + env(safe-area-inset-top, 0px));
+      left: 12px;
+      right: 12px;
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+    }
+    .story-head img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255,255,255,.4); }
+    .story-head div { flex: 1; min-width: 0; line-height: 1.5; }
+    .story-head b { display: block; font-size: 14px; }
+    .story-head small { color: rgba(255,255,255,.75); font-size: 11px; }
+    .story-head button {
+      width: 38px; height: 38px;
+      border: 0; border-radius: 50%;
+      background: rgba(0,0,0,.45);
+      color: #fff; font-size: 24px; line-height: 1; cursor: pointer;
+    }
+    .story-media { position: absolute; inset: 0; display: grid; place-items: center; }
+    .story-media img, .story-media video { width: 100%; height: 100%; object-fit: contain; background: #000; }
+    .story-caption {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      z-index: 5;
+      padding: 40px 18px calc(22px + env(safe-area-inset-bottom, 0px));
+      background: linear-gradient(transparent, rgba(0,0,0,.75));
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.8;
+      text-align: center;
+    }
+    .story-caption[hidden] { display: none; }
+    .story-nav { position: absolute; top: 70px; bottom: 0; width: 38%; z-index: 4; border: 0; background: none; cursor: pointer; }
+    .story-nav.prev { left: 0; }
+    .story-nav.next { right: 0; }
+    html.story-open { overflow: hidden; }
+
     /* ===== Navid spotlight (تبلیغ نوید رُز) ===== */
     .spotlight {
       position: relative;
@@ -1920,6 +2053,8 @@
           <span class="muted" style="font-size:12px">TABRIZ, IRAN</span>
         </div>
 
+        <div class="stories-bar reveal" id="storiesBar" hidden aria-label="استوری عکاسان"></div>
+
         <div class="search-panel reveal">
           <div class="search-row">
             <input
@@ -2720,6 +2855,22 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <div class="story-viewer" id="storyViewer" hidden role="dialog" aria-modal="true" aria-label="استوری">
+    <div class="story-frame">
+      <div class="story-progress" id="storyProgress"></div>
+      <div class="story-head">
+        <img id="storyAvatar" alt="" width="36" height="36">
+        <div><b id="storyName"></b><small id="storyTime"></small></div>
+        <button type="button" id="storyClose" aria-label="بستن">×</button>
+      </div>
+      <div class="story-media" id="storyMedia"></div>
+      <div class="story-caption" id="storyCaption" hidden></div>
+      <button type="button" class="story-nav prev" id="storyPrev" aria-label="قبلی"></button>
+      <button type="button" class="story-nav next" id="storyNext" aria-label="بعدی"></button>
+    </div>
+  </div>
+
+
   <button class="music-toggle" id="musicToggle" type="button" aria-pressed="false" aria-label="پخش موسیقی">
     <span class="music-bars" aria-hidden="true"><i></i><i></i><i></i></span>
     <span class="music-label">موسیقی</span>
@@ -3385,8 +3536,9 @@
       if (!RATING_ENABLED || typeof fetch !== "function") return;
       Promise.all([
         supabaseSelect("photographer_profiles", "select=*"),
-        supabaseSelect("portfolio_items", "select=photographer,kind,path,position,created_at&order=position.asc,created_at.asc")
-      ]).then(([profiles, items]) => {
+        supabaseSelect("portfolio_items", "select=photographer,kind,path,position,created_at&order=position.asc,created_at.asc"),
+        supabaseSelect("stories", "select=*&order=created_at.asc").catch(() => [])
+      ]).then(([profiles, items, stories]) => {
         (profiles || []).forEach(row => {
           const p = photographers[row.photographer];
           if (!p) return;
@@ -3406,8 +3558,246 @@
           if (item.kind === "video") data.videos.push([url]);
           else data.images.push(url);
         });
+        liveStories = Array.isArray(stories) ? stories : [];
+        renderStoriesBar();
       }).catch(error => console.warn("Live profile data unavailable:", error));
     }
+    // ===== Stories (استوری ۴۸ ساعته) و هایلایت =====
+    let liveStories = [];
+    const storyState = { queue: [], index: 0, timer: null, person: "", title: "", opener: null };
+    const SEEN_KEY = "qab-seen-stories";
+    const IMAGE_STORY_MS = 5000;
+
+    function getSeenStories() {
+      try { return JSON.parse(localStorage.getItem(SEEN_KEY) || "[]"); } catch (e) { return []; }
+    }
+    function markStorySeen(id) {
+      const seen = getSeenStories();
+      if (seen.includes(id)) return;
+      seen.push(id);
+      try { localStorage.setItem(SEEN_KEY, JSON.stringify(seen.slice(-300))); } catch (e) {}
+    }
+    function activeStoriesOf(id) {
+      const now = Date.now();
+      return liveStories.filter(story => story.photographer === id && new Date(story.expires_at).getTime() > now);
+    }
+    function highlightsOf(id) {
+      return liveStories.filter(story => story.photographer === id && story.highlight);
+    }
+
+    function timeAgo(iso) {
+      const minutes = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+      if (minutes < 1) return "همین الان";
+      if (minutes < 60) return toFa(minutes) + " دقیقه پیش";
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return toFa(hours) + " ساعت پیش";
+      return toFa(Math.floor(hours / 24)) + " روز پیش";
+    }
+
+    function renderStoriesBar() {
+      const bar = document.getElementById("storiesBar");
+      if (!bar) return;
+      bar.textContent = "";
+      const seen = getSeenStories();
+      Object.keys(photographers).forEach(id => {
+        const stories = activeStoriesOf(id);
+        if (!stories.length) return;
+        const person = photographers[id];
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "story-chip" + (stories.every(story => seen.includes(story.id)) ? " seen" : "");
+        chip.setAttribute("aria-label", "استوری " + person.name);
+
+        const ring = document.createElement("span");
+        ring.className = "story-ring";
+        const img = document.createElement("img");
+        img.src = person.image;
+        img.alt = "";
+        img.loading = "lazy";
+        ring.appendChild(img);
+
+        const label = document.createElement("small");
+        label.textContent = person.name;
+        chip.append(ring, label);
+        chip.addEventListener("click", () => {
+          const firstUnseen = stories.findIndex(story => !seen.includes(story.id));
+          openStories(id, stories, firstUnseen === -1 ? 0 : firstUnseen, "");
+        });
+        bar.appendChild(chip);
+      });
+      bar.hidden = !bar.children.length;
+    }
+
+    // ردیف هایلایت‌ها در پروفایل عکاس (بر اساس عنوان گروه‌بندی می‌شود)
+    function buildHighlightsRow(id) {
+      const fragment = document.createDocumentFragment();
+      const stories = highlightsOf(id);
+      if (!stories.length) return fragment;
+
+      const groups = new Map();
+      stories.forEach(story => {
+        const title = story.highlight_title || "هایلایت";
+        if (!groups.has(title)) groups.set(title, []);
+        groups.get(title).push(story);
+      });
+
+      const row = document.createElement("div");
+      row.className = "highlights-row";
+      const heading = document.createElement("div");
+      heading.className = "rating-title";
+      heading.textContent = "هایلایت‌ها";
+      const scroller = document.createElement("div");
+      scroller.className = "highlights-scroll";
+
+      groups.forEach((list, title) => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "story-chip";
+        const ring = document.createElement("span");
+        ring.className = "story-ring";
+        const cover = list.find(story => story.kind === "image");
+        if (cover) {
+          const img = document.createElement("img");
+          img.src = storageUrl(cover.path);
+          img.alt = "";
+          img.loading = "lazy";
+          ring.appendChild(img);
+        } else {
+          const fill = document.createElement("span");
+          fill.className = "fill";
+          fill.textContent = "▶";
+          ring.appendChild(fill);
+        }
+        const label = document.createElement("small");
+        label.textContent = title;
+        chip.append(ring, label);
+        chip.addEventListener("click", () => openStories(id, list, 0, title));
+        scroller.appendChild(chip);
+      });
+
+      row.append(heading, scroller);
+      fragment.appendChild(row);
+      return fragment;
+    }
+
+    function openStories(id, queue, startIndex, title) {
+      if (!queue.length) return;
+      storyState.queue = queue;
+      storyState.person = id;
+      storyState.title = title || "";
+      storyState.opener = document.activeElement;
+      document.getElementById("storyViewer").hidden = false;
+      document.documentElement.classList.add("story-open");
+      showStory(startIndex || 0);
+      document.getElementById("storyClose").focus();
+    }
+
+    function stopStoryMedia() {
+      clearTimeout(storyState.timer);
+      storyState.timer = null;
+      const media = document.getElementById("storyMedia");
+      media.querySelectorAll("video").forEach(video => { video.pause(); });
+      media.textContent = "";
+    }
+
+    function closeStories() {
+      stopStoryMedia();
+      document.getElementById("storyViewer").hidden = true;
+      document.documentElement.classList.remove("story-open");
+      renderStoriesBar();
+      if (storyState.opener && storyState.opener.focus) storyState.opener.focus();
+    }
+
+    function nextStory() {
+      if (storyState.index < storyState.queue.length - 1) showStory(storyState.index + 1);
+      else closeStories();
+    }
+    function prevStory() {
+      showStory(storyState.index > 0 ? storyState.index - 1 : 0);
+    }
+
+    function showStory(index) {
+      stopStoryMedia();
+      storyState.index = index;
+      const story = storyState.queue[index];
+      const person = photographers[storyState.person] || {};
+      markStorySeen(story.id);
+
+      const progress = document.getElementById("storyProgress");
+      progress.textContent = "";
+      const fills = storyState.queue.map((item, i) => {
+        const seg = document.createElement("i");
+        const fill = document.createElement("b");
+        if (i < index) fill.style.width = "100%";
+        seg.appendChild(fill);
+        progress.appendChild(seg);
+        return fill;
+      });
+      const current = fills[index];
+
+      const avatar = document.getElementById("storyAvatar");
+      avatar.src = person.image || "";
+      document.getElementById("storyName").textContent = person.name + (storyState.title ? " · " + storyState.title : "");
+      document.getElementById("storyTime").textContent = timeAgo(story.created_at);
+
+      const caption = document.getElementById("storyCaption");
+      caption.textContent = story.caption || "";
+      caption.hidden = !story.caption;
+
+      const media = document.getElementById("storyMedia");
+      const url = storageUrl(story.path);
+
+      const animate = ms => {
+        current.style.transition = "none";
+        current.style.width = "0";
+        void current.offsetWidth;
+        current.style.transition = "width " + ms + "ms linear";
+        current.style.width = "100%";
+        storyState.timer = setTimeout(nextStory, ms);
+      };
+
+      if (story.kind === "video") {
+        const video = document.createElement("video");
+        video.src = url;
+        video.playsInline = true;
+        video.preload = "auto";
+        video.addEventListener("loadedmetadata", () => {
+          const ms = Math.min(60000, Math.max(2000, (video.duration || 8) * 1000));
+          animate(ms);
+        }, { once: true });
+        video.addEventListener("ended", nextStory, { once: true });
+        video.addEventListener("error", () => {
+          console.warn("Story video failed:", url);
+          storyState.timer = setTimeout(nextStory, 1500);
+        }, { once: true });
+        media.appendChild(video);
+        video.play().catch(() => {
+          video.muted = true;
+          video.play().catch(() => {});
+        });
+      } else {
+        const img = document.createElement("img");
+        img.alt = story.caption || "استوری";
+        img.addEventListener("load", () => animate(IMAGE_STORY_MS), { once: true });
+        img.addEventListener("error", () => {
+          console.warn("Story image failed:", url);
+          storyState.timer = setTimeout(nextStory, 1500);
+        }, { once: true });
+        media.appendChild(img);
+        img.src = url;
+      }
+    }
+
+    document.getElementById("storyClose").addEventListener("click", closeStories);
+    document.getElementById("storyNext").addEventListener("click", nextStory);
+    document.getElementById("storyPrev").addEventListener("click", prevStory);
+    document.addEventListener("keydown", event => {
+      if (document.getElementById("storyViewer").hidden) return;
+      if (event.key === "Escape") closeStories();
+      else if (event.key === "ArrowRight") nextStory();
+      else if (event.key === "ArrowLeft") prevStory();
+    });
+
     applyLiveData();
 
     // شماره موبایل ایران (09xxxxxxxxx) را به شکل «۰۹۰۳ ۶۲۰ ۸۳۵۵» با ارقام فارسی نشان می‌دهد
@@ -3519,7 +3909,7 @@
         actions.appendChild(call);
       }
 
-      content.append(header, description, tags, rateNotice, buildRatingBlock(id, photographer), gallery, actions);
+      content.append(header, description, tags, rateNotice, buildRatingBlock(id, photographer), buildHighlightsRow(id), gallery, actions);
       openModal("profileModal");
     }
 
