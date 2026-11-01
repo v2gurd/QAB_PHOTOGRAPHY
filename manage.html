@@ -104,6 +104,28 @@
     details.card summary { cursor: pointer; font-weight: 700; font-size: 16px; list-style-position: inside; }
     details.card summary small { color: var(--muted); font-weight: 500; font-size: 12px; margin-inline-start: 8px; }
     details.card[open] summary { margin-bottom: 8px; }
+    /* ===== Client galleries ===== */
+    .card h3 { font-size: 15px; margin: 18px 0 6px; }
+    details.sub { background: var(--panel-2); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; margin-bottom: 8px; }
+    details.sub summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; background: var(--panel-2); border: 1px solid var(--line); color: var(--muted); }
+    .badge.hot { background: var(--lime); color: #17190f; border-color: transparent; }
+    .badge.good { color: var(--lime); border-color: rgba(215,255,97,.5); }
+    .badge.bad { color: var(--danger); border-color: rgba(255,122,107,.5); }
+    .client-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .client-row .info { min-width: 0; }
+    .client-row .info b { display: block; font-size: 15px; }
+    .client-row .info span { font-size: 12px; color: var(--muted); }
+    .qr-box { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin: 12px 0; }
+    .qr-box img { width: 168px; height: 168px; background: #fff; border-radius: 14px; padding: 6px; }
+    .qr-box .side { flex: 1 1 200px; min-width: 0; }
+    .linkline { direction: ltr; text-align: left; font-size: 11px; color: var(--muted); word-break: break-all; margin-bottom: 8px; }
+    .thumb { position: relative; }
+    .thumb .media { aspect-ratio: 4 / 5; object-fit: cover; }
+    .thumb .tag.sel { background: var(--lime); color: #17190f; font-weight: 700; }
+    .summary-line { margin: 10px 0; font-size: 14px; }
+    .summary-line b { color: var(--lime); }
+
     .empty { color: var(--muted); font-size: 13px; padding: 16px 0 4px; }
     .uploads { margin-top: 12px; display: grid; gap: 6px; font-size: 13px; }
     .uploads div { background: var(--panel-2); border-radius: 12px; padding: 8px 12px; display: flex; justify-content: space-between; gap: 10px; }
@@ -216,6 +238,100 @@
         <p class="empty" id="archEmpty" hidden>آرشیوت خالی است.</p>
       </details>
 
+      <section class="card" id="clientsCard" hidden>
+        <h2>تحویل عکس به مشتری <small id="clientPending"></small></h2>
+
+        <div id="clientListView">
+          <p class="hint">عکس مشتری را آپلود کن؛ مشتری با QR وارد می‌شود، عکس‌ها را با واترمارک می‌بیند، انتخاب می‌کند، پرداخت می‌کند و رسید می‌فرستد. بعد از تأیید تو، عکس بدون واترمارک برایش باز می‌شود. هر QR فقط ۲۴ ساعت اعتبار دارد.</p>
+
+          <details class="sub" id="payDetails" style="margin-top:12px">
+            <summary>اطلاعات پرداخت (کارت و قیمت)</summary>
+            <label for="payCard">شماره کارت (۱۶ رقم)</label>
+            <input class="ltr" type="text" id="payCard" inputmode="numeric" placeholder="6037 0000 0000 0000">
+            <label for="payHolder">نام صاحب کارت</label>
+            <input type="text" id="payHolder" maxlength="60">
+            <label for="payPrice">قیمت هر عکس (تومان)</label>
+            <input type="text" id="payPrice" inputmode="numeric" placeholder="مثلاً ۳۵۰۰۰۰">
+            <div class="row" style="margin-top:12px">
+              <button class="btn primary" type="button" id="savePayment">ذخیره اطلاعات پرداخت</button>
+            </div>
+            <p class="hint">این اطلاعات برای مشتری‌های جدید پیش‌فرض است و برای هر مشتری جدا هم قابل تغییر است.</p>
+          </details>
+
+          <h3>مشتری جدید</h3>
+          <label for="newName">نام مشتری</label>
+          <input type="text" id="newName" maxlength="80">
+          <label for="newPhone">شماره تلفن (اختیاری)</label>
+          <input class="ltr" type="tel" id="newPhone" inputmode="tel">
+          <label for="newTelegram">آیدی تلگرام (اختیاری)</label>
+          <input class="ltr" type="text" id="newTelegram" placeholder="@username">
+          <div class="row" style="margin-top:12px">
+            <button class="btn primary" type="button" id="createClient">ساخت مشتری و QR</button>
+          </div>
+
+          <h3>مشتری‌ها</h3>
+          <div id="clientList"></div>
+          <p class="empty" id="clientEmpty" hidden>هنوز مشتری‌ای نساخته‌ای.</p>
+        </div>
+
+        <div id="clientDetailView" hidden>
+          <div class="row" style="justify-content:space-between;align-items:center">
+            <button class="btn small" type="button" id="backToList">← بازگشت به لیست</button>
+            <span class="badge" id="dStatus"></span>
+          </div>
+          <h3 id="dName" style="margin-top:12px"></h3>
+          <p class="hint" id="dMeta"></p>
+
+          <div class="qr-box">
+            <img id="dQr" alt="QR مشتری" hidden>
+            <div class="side">
+              <div class="linkline" id="dLink"></div>
+              <div class="row">
+                <button class="btn small primary" type="button" id="dCopy">کپی لینک</button>
+                <button class="btn small" type="button" id="dShare">اشتراک</button>
+                <button class="btn small" type="button" id="dSaveQr">ذخیره QR</button>
+                <button class="btn small" type="button" id="dExtend">تمدید ۲۴ ساعته</button>
+              </div>
+              <p class="hint" id="dExpiry"></p>
+            </div>
+          </div>
+
+          <h3>پرداخت این مشتری</h3>
+          <label for="dPrice">قیمت هر عکس (تومان)</label>
+          <input type="text" id="dPrice" inputmode="numeric">
+          <label for="dCard">شماره کارت</label>
+          <input class="ltr" type="text" id="dCard" inputmode="numeric">
+          <label for="dHolder">نام صاحب کارت</label>
+          <input type="text" id="dHolder" maxlength="60">
+          <div class="row" style="margin-top:12px">
+            <button class="btn primary" type="button" id="dSaveFields">ذخیره</button>
+          </div>
+          <p class="summary-line" id="dSummary"></p>
+
+          <div id="dReceipt" hidden>
+            <h3>رسید پرداخت</h3>
+            <div class="row">
+              <button class="btn" type="button" id="dViewReceipt">دیدن رسید</button>
+              <button class="btn primary" type="button" id="dApprove">تأیید پرداخت</button>
+              <button class="btn danger" type="button" id="dReject">رد رسید</button>
+            </div>
+          </div>
+
+          <h3>عکس‌های مشتری <small id="dPhotoCount" style="color:var(--muted);font-weight:500"></small></h3>
+          <div class="row">
+            <button class="btn primary" type="button" id="dAddPhotos">افزودن عکس</button>
+          </div>
+          <input type="file" id="dPhotoFile" accept="image/*" multiple hidden>
+          <p class="hint">روی نسخه‌ای که مشتری می‌بیند، واترمارک خودکار گذاشته می‌شود؛ فایل اصلی فقط بعد از تأیید پرداخت دانلود می‌شود.</p>
+          <div class="grid" id="dGrid"></div>
+          <p class="empty" id="dEmpty" hidden>هنوز عکسی آپلود نکرده‌ای.</p>
+
+          <div class="row" style="margin-top:22px">
+            <button class="btn danger" type="button" id="dDelete">حذف این مشتری و همه‌ی عکس‌هایش</button>
+          </div>
+        </div>
+      </section>
+
       <div class="uploads" id="uploads"></div>
     </main>
   </div>
@@ -223,6 +339,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script>
     const SUPABASE_URL = "https://yhjwttinwgsekgbmdijw.supabase.co";
     const SUPABASE_KEY = "sb_publishable_KbGaMcx2t7kndWIx27giag_LYsKjtVc";
@@ -732,6 +849,425 @@
       });
     }
 
+
+    // ================= Client galleries (تحویل عکس به مشتری) =================
+    const GALLERY_URL = SUPABASE_URL + "/functions/v1/gallery-admin";
+    let clients = null;       // { payment, sessions }
+    let detail = null;        // { session, photos }
+
+    async function api2(action, extra) {
+      let response;
+      try {
+        response = await fetch(GALLERY_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", apikey: SUPABASE_KEY },
+          body: JSON.stringify(Object.assign({ action, token }, extra || {}))
+        });
+      } catch (e) {
+        throw new Error("اتصال اینترنت یا سرور برقرار نشد.");
+      }
+      let data = null;
+      try { data = await response.json(); } catch (e) {}
+      if (!response.ok) {
+        const error = new Error((data && data.error) || "خطا در ارتباط با سرور.");
+        error.status = response.status;
+        throw error;
+      }
+      return data;
+    }
+
+    function clientLink(session) {
+      const base = location.origin + location.pathname.replace(/[^/]*$/, "");
+      return base + "c.html#" + session.token;
+    }
+
+    function statusInfo(session) {
+      const expired = new Date(session.expires_at).getTime() <= Date.now();
+      if (session.status === "receipt_sent") return { text: "رسید ارسال شد", cls: "hot" };
+      if (session.status === "approved") return { text: expired ? "تأیید شده (لینک منقضی)" : "تأیید شده", cls: "good" };
+      if (session.status === "rejected") return { text: "رسید رد شد", cls: "bad" };
+      return { text: expired ? "منقضی شد" : "در حال انتخاب", cls: expired ? "bad" : "" };
+    }
+
+    function formatToman(value) {
+      return toFa(Number(value || 0).toLocaleString("en-US")).replace(/,/g, "٬") + " تومان";
+    }
+
+    function remaining(expiresAt) {
+      const ms = new Date(expiresAt).getTime() - Date.now();
+      if (ms <= 0) return "منقضی شده";
+      const minutes = Math.floor(ms / 60000);
+      return toFa(Math.floor(minutes / 60)) + " ساعت و " + toFa(minutes % 60) + " دقیقه تا انقضا";
+    }
+
+    function renderClients() {
+      const card = $("#clientsCard");
+      card.hidden = false;
+      const pay = clients.payment || {};
+      if (document.activeElement !== $("#payCard")) $("#payCard").value = pay.card_number || "";
+      if (document.activeElement !== $("#payHolder")) $("#payHolder").value = pay.card_holder || "";
+      if (document.activeElement !== $("#payPrice")) $("#payPrice").value = pay.price_per_photo != null ? toFa(Number(pay.price_per_photo)) : "";
+
+      const pending = clients.sessions.filter(s => s.status === "receipt_sent").length;
+      $("#clientPending").textContent = pending ? "(" + toFa(pending) + " رسید در انتظار تأیید)" : "";
+
+      const list = $("#clientList");
+      list.textContent = "";
+      $("#clientEmpty").hidden = clients.sessions.length > 0;
+      clients.sessions.forEach(session => {
+        const row = document.createElement("div");
+        row.className = "client-row";
+        const info = document.createElement("div");
+        info.className = "info";
+        const name = document.createElement("b");
+        name.textContent = session.client_name;
+        const meta = document.createElement("span");
+        meta.textContent = toFa(session.photo_count) + " عکس · " + toFa(session.selected_count) + " انتخاب · " + remaining(session.expires_at);
+        info.append(name, meta);
+        const side = document.createElement("div");
+        side.className = "row";
+        const st = statusInfo(session);
+        const badge = document.createElement("span");
+        badge.className = "badge " + st.cls;
+        badge.textContent = st.text;
+        side.append(badge, button("باز کردن", "primary", () => openSession(session.id)));
+        row.append(info, side);
+        list.appendChild(row);
+      });
+    }
+
+    async function loadClients() {
+      clients = await api2("c_overview");
+      renderClients();
+    }
+
+    async function initClients() {
+      try {
+        await loadClients();
+      } catch (error) {
+        $("#clientsCard").hidden = true; // این بخش برای همه‌ی پروفایل‌ها فعال نیست
+      }
+    }
+
+    async function savePayment() {
+      await guarded(async () => {
+        clients = await api2("c_save_payment", {
+          card_number: $("#payCard").value,
+          card_holder: $("#payHolder").value,
+          price_per_photo: toEnglishDigits($("#payPrice").value)
+        });
+        renderClients();
+        toast("اطلاعات پرداخت ذخیره شد ✓");
+      });
+    }
+
+    async function createClientSession() {
+      await guarded(async () => {
+        const result = await api2("c_create", {
+          client_name: $("#newName").value,
+          client_phone: $("#newPhone").value,
+          client_telegram: $("#newTelegram").value
+        });
+        $("#newName").value = "";
+        $("#newPhone").value = "";
+        $("#newTelegram").value = "";
+        detail = result;
+        await loadClients();
+        showDetail();
+        toast("مشتری ساخته شد؛ حالا عکس‌هایش را آپلود کن.");
+      });
+    }
+
+    async function openSession(id) {
+      await guarded(async () => {
+        detail = await api2("c_session", { session_id: id });
+        showDetail();
+      });
+    }
+
+    function showDetail() {
+      $("#clientListView").hidden = true;
+      $("#clientDetailView").hidden = false;
+      renderDetail();
+      $("#clientsCard").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    async function backToList() {
+      detail = null;
+      $("#clientDetailView").hidden = true;
+      $("#clientListView").hidden = false;
+      try { await loadClients(); } catch (e) { toast(e.message); }
+    }
+
+    async function renderDetail() {
+      const s = detail.session;
+      const st = statusInfo(s);
+      $("#dStatus").className = "badge " + st.cls;
+      $("#dStatus").textContent = st.text;
+      $("#dName").textContent = s.client_name;
+      $("#dMeta").textContent = [s.client_phone, s.client_telegram ? "@" + s.client_telegram : ""].filter(Boolean).join(" · ");
+
+      const link = clientLink(s);
+      $("#dLink").textContent = link;
+      $("#dExpiry").textContent = remaining(s.expires_at);
+      const qr = $("#dQr");
+      if (window.QRCode) {
+        try {
+          qr.src = await window.QRCode.toDataURL(link, { width: 420, margin: 2, errorCorrectionLevel: "M" });
+          qr.hidden = false;
+        } catch (e) { qr.hidden = true; }
+      } else {
+        qr.hidden = true;
+      }
+
+      if (document.activeElement !== $("#dPrice")) $("#dPrice").value = toFa(Number(s.price_per_photo));
+      if (document.activeElement !== $("#dCard")) $("#dCard").value = s.card_number || "";
+      if (document.activeElement !== $("#dHolder")) $("#dHolder").value = s.card_holder || "";
+      const selected = detail.photos.filter(p => p.selected).length;
+      $("#dSummary").innerHTML = "";
+      $("#dSummary").append(
+        document.createTextNode("مشتری " + toFa(selected) + " عکس انتخاب کرده؛ مبلغ کل: "),
+        Object.assign(document.createElement("b"), { textContent: formatToman(selected * Number(s.price_per_photo)) })
+      );
+      $("#dReceipt").hidden = s.status !== "receipt_sent";
+
+      $("#dPhotoCount").textContent = detail.photos.length ? "(" + toFa(detail.photos.length) + ")" : "";
+      const grid = $("#dGrid");
+      grid.textContent = "";
+      $("#dEmpty").hidden = detail.photos.length > 0;
+      detail.photos.forEach(photo => {
+        const card = document.createElement("div");
+        card.className = "item thumb";
+        const img = document.createElement("img");
+        img.className = "media";
+        img.loading = "lazy";
+        img.alt = "";
+        img.src = photo.preview_url;
+        card.appendChild(img);
+        if (photo.selected) {
+          const tag = document.createElement("span");
+          tag.className = "tag sel";
+          tag.textContent = "انتخاب مشتری ✓";
+          card.appendChild(tag);
+        }
+        const tools = document.createElement("div");
+        tools.className = "tools";
+        tools.appendChild(button("حذف", "danger", () => deleteClientPhoto(photo)));
+        card.appendChild(tools);
+        grid.appendChild(card);
+      });
+    }
+
+    async function copyText(text, okMessage) {
+      try {
+        await navigator.clipboard.writeText(text);
+        toast(okMessage);
+      } catch (e) {
+        window.prompt("لینک را کپی کن:", text);
+      }
+    }
+
+    async function shareLink() {
+      const link = clientLink(detail.session);
+      if (navigator.share) {
+        try { await navigator.share({ title: "عکس‌های شما", text: "عکس‌هایتان آماده است:", url: link }); return; } catch (e) { return; }
+      }
+      copyText(link, "لینک کپی شد.");
+    }
+
+    function saveQr() {
+      const qr = $("#dQr");
+      if (qr.hidden || !qr.src) { toast("QR ساخته نشد؛ لینک را کپی کن."); return; }
+      const a = document.createElement("a");
+      a.href = qr.src;
+      a.download = "QR-" + detail.session.client_name + ".png";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      toast("اگر ذخیره نشد، روی QR نگه دار و «ذخیره تصویر» را بزن.");
+    }
+
+    async function saveSessionFields() {
+      await guarded(async () => {
+        detail = await api2("c_update_session", {
+          session_id: detail.session.id,
+          price_per_photo: toEnglishDigits($("#dPrice").value),
+          card_number: $("#dCard").value,
+          card_holder: $("#dHolder").value
+        });
+        renderDetail();
+        toast("ذخیره شد ✓");
+      });
+    }
+
+    async function extendSession() {
+      await guarded(async () => {
+        detail = await api2("c_extend", { session_id: detail.session.id });
+        renderDetail();
+        toast("لینک ۲۴ ساعت دیگر معتبر شد.");
+      });
+    }
+
+    async function viewReceipt() {
+      await guarded(async () => {
+        const data = await api2("c_receipt_url", { session_id: detail.session.id });
+        window.open(data.url, "_blank", "noopener");
+      });
+    }
+
+    async function approveReceipt() {
+      if (!confirm("پرداخت تأیید شود و عکس‌های بدون واترمارک برای مشتری باز شود؟")) return;
+      await guarded(async () => {
+        detail = await api2("c_approve", { session_id: detail.session.id });
+        renderDetail();
+        toast("تأیید شد؛ دانلود برای مشتری فعال شد ✓");
+      });
+    }
+
+    async function rejectReceipt() {
+      const note = prompt("دلیل رد رسید را برای مشتری بنویس (اختیاری):", "");
+      if (note === null) return;
+      await guarded(async () => {
+        detail = await api2("c_reject", { session_id: detail.session.id, note });
+        renderDetail();
+        toast("رسید رد شد.");
+      });
+    }
+
+    async function deleteClientPhoto(photo) {
+      if (!confirm("این عکس حذف شود؟")) return;
+      await guarded(async () => {
+        detail = await api2("c_delete_photo", { session_id: detail.session.id, photo_id: photo.id });
+        renderDetail();
+      });
+    }
+
+    async function deleteSession() {
+      if (!confirm("این مشتری و همه‌ی عکس‌ها و رسیدش برای همیشه حذف شود؟")) return;
+      await guarded(async () => {
+        clients = await api2("c_delete_session", { session_id: detail.session.id });
+        detail = null;
+        $("#clientDetailView").hidden = true;
+        $("#clientListView").hidden = false;
+        renderClients();
+        toast("مشتری حذف شد.");
+      });
+    }
+
+    // واترمارک روی نسخه‌ی پیش‌نمایش (۱۲۸۰ پیکسل)؛ فایل اصلی دست‌نخورده آپلود می‌شود
+    async function makeWatermarkedPreview(file) {
+      const bitmap = await decodeImage(file);
+      const width = bitmap.width || bitmap.naturalWidth;
+      const height = bitmap.height || bitmap.naturalHeight;
+      const scale = Math.min(1, 1280 / Math.max(width, height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(width * scale));
+      canvas.height = Math.max(1, Math.round(height * scale));
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+
+      try { await document.fonts.load("700 24px Vazirmatn"); } catch (e) {}
+      const label = "QĀB · " + (NAMES[state.photographer] || "");
+      const fontSize = Math.max(18, Math.round(Math.min(canvas.width, canvas.height) / 13));
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate(-Math.PI / 6);
+      ctx.font = "700 " + fontSize + "px Vazirmatn, Tahoma, sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = "rgba(255,255,255,0.42)";
+      ctx.strokeStyle = "rgba(0,0,0,0.30)";
+      ctx.lineWidth = Math.max(1, fontSize / 11);
+      const stepX = ctx.measureText(label).width + fontSize * 2.6;
+      const stepY = fontSize * 3.1;
+      const reach = Math.hypot(canvas.width, canvas.height);
+      let rowIndex = 0;
+      for (let y = -reach; y < reach; y += stepY, rowIndex++) {
+        const offset = rowIndex % 2 ? stepX / 2 : 0;
+        for (let x = -reach; x < reach; x += stepX) {
+          ctx.strokeText(label, x + offset, y);
+          ctx.fillText(label, x + offset, y);
+        }
+      }
+      ctx.restore();
+
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.8));
+      if (!blob) throw new Error("ساخت نسخه‌ی پیش‌نمایش ناموفق بود.");
+      return blob;
+    }
+
+    async function originalForUpload(file) {
+      if (["image/jpeg", "image/png", "image/webp"].includes(file.type) && file.size <= 50 * 1024 * 1024) {
+        return { blob: file, type: file.type };
+      }
+      // فرمت‌هایی مثل HEIC: به JPEG با کیفیت بالا تبدیل می‌شود
+      const bitmap = await decodeImage(file);
+      const canvas = document.createElement("canvas");
+      canvas.width = bitmap.width || bitmap.naturalWidth;
+      canvas.height = bitmap.height || bitmap.naturalHeight;
+      canvas.getContext("2d").drawImage(bitmap, 0, 0);
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.95));
+      if (!blob) throw new Error("این عکس قابل پردازش نیست.");
+      return { blob, type: "image/jpeg" };
+    }
+
+    async function uploadClientPhotos(files) {
+      await guarded(async () => {
+        for (const file of Array.from(files)) {
+          const log = logUpload(file.name || "عکس");
+          try {
+            const original = await originalForUpload(file);
+            const preview = await makeWatermarkedPreview(file);
+            const info = await api2("c_create_upload", {
+              session_id: detail.session.id,
+              content_type: original.type,
+              size: original.blob.size
+            });
+            const a = await sb.storage.from("client-originals").uploadToSignedUrl(info.original.path, info.original.token, original.blob, { contentType: original.type });
+            if (a.error) throw new Error("آپلود فایل اصلی ناموفق بود.");
+            const b = await sb.storage.from("client-previews").uploadToSignedUrl(info.preview.path, info.preview.token, preview, { contentType: "image/jpeg" });
+            if (b.error) throw new Error("آپلود نسخه‌ی پیش‌نمایش ناموفق بود.");
+            detail = await api2("c_add_photo", {
+              session_id: detail.session.id,
+              original_path: info.original.path,
+              preview_path: info.preview.path
+            });
+            renderDetail();
+            log.ok();
+          } catch (error) {
+            log.fail(error.message || "ناموفق");
+          }
+        }
+      });
+    }
+
+    function bindClients() {
+      $("#savePayment").addEventListener("click", savePayment);
+      $("#createClient").addEventListener("click", createClientSession);
+      $("#backToList").addEventListener("click", backToList);
+      $("#dCopy").addEventListener("click", () => copyText(clientLink(detail.session), "لینک کپی شد."));
+      $("#dShare").addEventListener("click", shareLink);
+      $("#dSaveQr").addEventListener("click", saveQr);
+      $("#dExtend").addEventListener("click", extendSession);
+      $("#dSaveFields").addEventListener("click", saveSessionFields);
+      $("#dViewReceipt").addEventListener("click", viewReceipt);
+      $("#dApprove").addEventListener("click", approveReceipt);
+      $("#dReject").addEventListener("click", rejectReceipt);
+      $("#dDelete").addEventListener("click", deleteSession);
+      $("#dAddPhotos").addEventListener("click", () => $("#dPhotoFile").click());
+      $("#dPhotoFile").addEventListener("change", event => {
+        const files = event.target.files;
+        const list = files ? Array.from(files) : [];
+        event.target.value = "";
+        if (list.length) uploadClientPhotos(list);
+      });
+      setInterval(() => {
+        if (clients && !busy && $("#clientDetailView").hidden === false && detail) {
+          $("#dExpiry").textContent = remaining(detail.session.expires_at);
+        }
+      }, 60000);
+    }
+
     // ---------- Init ----------
     function bind() {
       $("#saveProfile").addEventListener("click", saveProfile);
@@ -793,7 +1329,9 @@
       gate.hidden = true;
       $("#panel").hidden = false;
       bind();
+      bindClients();
       render();
+      initClients();
       setInterval(() => { if (state && !busy) renderStories(); }, 60000);
     }
 
