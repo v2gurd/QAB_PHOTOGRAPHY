@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#10110f">
+  <title>عکس‌های شما | QĀB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #10110f;
+      --panel: #191a17;
+      --panel-2: #20211d;
+      --line: rgba(255,255,255,.10);
+      --text: #f6f6ef;
+      --muted: #a0a197;
+      --lime: #d7ff61;
+      --danger: #ff7a6b;
+      --radius: 20px;
+      --font: "Vazirmatn", Tahoma, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.8;
+      padding: calc(16px + env(safe-area-inset-top, 0px)) 14px calc(130px + env(safe-area-inset-bottom, 0px));
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; }
+    header.top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .brand { font-weight: 800; font-size: 22px; direction: ltr; }
+    .brand span { color: var(--lime); }
+    .timer { font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 100px; padding: 4px 12px; }
+    h1 { font-size: 20px; }
+    .sub { color: var(--muted); font-size: 13px; margin: 2px 0 14px; }
+    .banner { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; font-size: 13px; margin-bottom: 14px; }
+    .banner.ok { border-color: rgba(215,255,97,.5); background: rgba(215,255,97,.08); }
+    .banner.warn { border-color: rgba(255,122,107,.5); background: rgba(255,122,107,.08); }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    @media (min-width: 560px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    .tile { position: relative; border-radius: 16px; overflow: hidden; background: #000; aspect-ratio: 4 / 5; border: 2px solid transparent; }
+    .tile.selected { border-color: var(--lime); }
+    .tile img { width: 100%; height: 100%; object-fit: cover; display: block; -webkit-user-drag: none; pointer-events: none; }
+    .tile .open { position: absolute; inset: 0; border: 0; background: none; cursor: zoom-in; }
+    .tile .check {
+      position: absolute; top: 8px; right: 8px;
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 2px solid #fff; background: rgba(0,0,0,.45);
+      color: transparent; font-size: 18px; line-height: 1; cursor: pointer;
+      display: grid; place-items: center;
+    }
+    .tile.selected .check { background: var(--lime); border-color: var(--lime); color: #17190f; font-weight: 800; }
+    .tile .dl {
+      position: absolute; left: 8px; right: 8px; bottom: 8px;
+      border: 0; border-radius: 100px; padding: 8px 0;
+      background: var(--lime); color: #17190f; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+    }
+    .btn {
+      font: inherit; font-size: 15px; font-weight: 700;
+      border: 1px solid var(--line); background: var(--panel-2); color: var(--text);
+      padding: 12px 20px; border-radius: 100px; cursor: pointer;
+    }
+    .btn.primary { background: var(--lime); color: #17190f; border-color: transparent; }
+    .btn:disabled { opacity: .45; cursor: default; }
+    .bar {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+      background: rgba(16,17,15,.94); border-top: 1px solid var(--line);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    }
+    .bar .sum { font-size: 13px; line-height: 1.6; }
+    .bar .sum b { display: block; font-size: 16px; color: var(--lime); }
+    .sheet {
+      position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.7);
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+    .sheet-box {
+      width: min(100%, 560px); max-height: 92vh; overflow-y: auto;
+      background: var(--panel); border-radius: 24px 24px 0 0; padding: 20px 18px calc(24px + env(safe-area-inset-bottom, 0px));
+      -webkit-user-select: text; user-select: text;
+    }
+    .sheet-box h2 { font-size: 18px; margin-bottom: 4px; }
+    .row { display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .row b { color: var(--lime); }
+    .card-no { direction: ltr; font-size: 20px; font-weight: 800; letter-spacing: 1px; text-align: center; padding: 14px; margin: 12px 0 6px; background: var(--panel-2); border-radius: 14px; }
+    .hint { color: var(--muted); font-size: 12px; margin-top: 8px; }
+    .gap { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .gap .btn { flex: 1; }
+    .light {
+      position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,.96);
+      display: grid; place-items: center;
+    }
+    .light img { max-width: 100%; max-height: 100%; object-fit: contain; -webkit-user-drag: none; }
+    .light .x, .light .nav, .light .pick {
+      position: absolute; border: 0; border-radius: 50%; width: 46px; height: 46px;
+      background: rgba(255,255,255,.14); color: #fff; font-size: 24px; cursor: pointer;
+    }
+    .light .x { top: calc(14px + env(safe-area-inset-top, 0px)); left: 14px; }
+    .light .nav.prev { right: 12px; top: 50%; }
+    .light .nav.next { left: 12px; top: 50%; }
+    .light .pick { bottom: calc(24px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); width: auto; border-radius: 100px; padding: 0 22px; font: inherit; font-size: 15px; font-weight: 700; height: 46px; }
+    .light .pick.on { background: var(--lime); color: #17190f; }
+    .gate { text-align: center; padding: 80px 10px; color: var(--muted); }
+    .gate b { display: block; color: var(--text); font-size: 20px; margin-bottom: 8px; }
+    .toast {
+      position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px);
+      background: #25271f; border: 1px solid var(--line); color: #fff; padding: 10px 16px; border-radius: 14px;
+      font-size: 13px; opacity: 0; pointer-events: none; transition: .25s; z-index: 100; max-width: calc(100% - 32px); text-align: center;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">QĀ<span>B</span></div>
+      <div class="timer" id="timer" hidden></div>
+    </header>
+
+    <div class="gate" id="gate"><b>در حال بارگذاری…</b>لطفاً صبر کن.</div>
+
+    <main id="main" hidden>
+      <h1 id="title"></h1>
+      <p class="sub" id="subtitle"></p>
+      <div class="banner" id="banner"></div>
+      <div class="grid" id="grid"></div>
+    </main>
+  </div>
+
+  <div class="bar" id="bar" hidden>
+    <div class="sum"><span id="count"></span><b id="amount"></b></div>
+    <button class="btn primary" type="button" id="pay" disabled>ادامه و پرداخت</button>
+  </div>
+
+  <div class="sheet" id="sheet" hidden>
+    <div class="sheet-box">
+      <h2>پرداخت</h2>
+      <p class="hint">مبلغ را کارت‌به‌کارت واریز کن، بعد عکس رسید را همین‌جا بفرست.</p>
+      <div class="row"><span>تعداد عکس‌های انتخابی</span><b id="sCount"></b></div>
+      <div class="row"><span>قیمت هر عکس</span><b id="sPrice"></b></div>
+      <div class="row"><span>مبلغ قابل پرداخت</span><b id="sTotal"></b></div>
+      <div class="card-no" id="sCard"></div>
+      <p class="hint" id="sHolder"></p>
+      <div class="gap">
+        <button class="btn" type="button" id="copyCard">کپی شماره کارت</button>
+      </div>
+      <div class="gap">
+        <button class="btn primary" type="button" id="pickReceipt">انتخاب عکس رسید و ارسال</button>
+        <button class="btn" type="button" id="closeSheet">بستن</button>
+      </div>
+      <input type="file" id="receiptFile" accept="image/*" hidden>
+      <p class="hint" id="receiptState"></p>
+    </div>
+  </div>
+
+  <div class="light" id="light" hidden>
+    <img id="lightImg" alt="">
+    <button class="x" type="button" id="lightClose" aria-label="بستن">×</button>
+    <button class="nav prev" type="button" id="lightPrev" aria-label="قبلی">›</button>
+    <button class="nav next" type="button" id="lightNext" aria-label="بعدی">‹</button>
+    <button class="pick" type="button" id="lightPick"></button>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script>
+    const SUPABASE_URL = "https://yhjwttinwgsekgbmdijw.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_KbGaMcx2t7kndWIx27giag_LYsKjtVc";
+    const FN_URL = SUPABASE_URL + "/functions/v1/gallery-client";
+
+    const $ = selector => document.querySelector(selector);
+    let token = "";
+    let sb = null;
+    let state = null;
+    let selected = new Set();
+    let lightIndex = 0;
+    let saveTimer = null;
+    let pollTimer = null;
+    let busy = false;
+
+    function toFa(value) {
+      return String(value).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+    }
+    function toman(value) {
+      return toFa(Number(value).toLocaleString("en-US")).replace(/,/g, "٬") + " تومان";
+    }
+
+    let toastTimer;
+    function toast(message) {
+      const el = $("#toast");
+      el.textContent = message;
+      el.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
+    }
+
+    async function api(action, extra) {
+      let response;
+      try {
+        response = await fetch(FN_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", apikey: SUPABASE_KEY },
+          body: JSON.stringify(Object.assign({ action, token }, extra || {}))
+        });
+      } catch (e) {
+        throw new Error("اتصال اینترنت برقرار نیست.");
+      }
+      let data = null;
+      try { data = await response.json(); } catch (e) {}
+      if (!response.ok) {
+        const error = new Error((data && data.error) || "خطا در ارتباط با سرور.");
+        error.status = response.status;
+        throw error;
+      }
+      return data;
+    }
+
+    function showGate(title, text) {
+      $("#main").hidden = true;
+      $("#bar").hidden = true;
+      $("#sheet").hidden = true;
+      $("#timer").hidden = true;
+      const gate = $("#gate");
+      gate.hidden = false;
+      gate.textContent = "";
+      const b = document.createElement("b");
+      b.textContent = title;
+      gate.append(b, document.createTextNode(text));
+    }
+
+    // ---------- Rendering ----------
+    const isLocked = () => state.status === "receipt_sent" || state.status === "approved";
+
+    function priceTotal() {
+      return selected.size * Number(state.price_per_photo || 0);
+    }
+
+    function renderTimer() {
+      if (!state || !state.expires_at) return;
+      const ms = new Date(state.expires_at).getTime() - Date.now();
+      const timer = $("#timer");
+      timer.hidden = false;
+      if (ms <= 0) {
+        timer.textContent = "منقضی شد";
+        load();
+        return;
+      }
+      const minutes = Math.floor(ms / 60000);
+      timer.textContent = "اعتبار لینک: " + toFa(Math.floor(minutes / 60)) + " ساعت و " + toFa(minutes % 60) + " دقیقه";
+    }
+
+    function renderBanner() {
+      const banner = $("#banner");
+      banner.className = "banner";
+      if (state.status === "approved") {
+        banner.classList.add("ok");
+        banner.textContent = "پرداخت تأیید شد ✓ حالا می‌توانی عکس‌های انتخابی‌ات را بدون واترمارک دانلود کنی.";
+      } else if (state.status === "receipt_sent") {
+        banner.textContent = "رسید ارسال شد. منتظر تأیید عکاس باش؛ بعد از تأیید، دکمه‌ی دانلود همین‌جا فعال می‌شود.";
+      } else if (state.status === "rejected") {
+        banner.classList.add("warn");
+        banner.textContent = (state.reject_note || "رسید تأیید نشد.") + " می‌توانی دوباره رسید را بفرستی.";
+      } else {
+        banner.textContent = "روی ✓ هر عکس بزن تا انتخابش کنی (برای دیدن بزرگ‌تر روی خود عکس بزن). عکس‌ها واترمارک دارند و بعد از پرداخت بدون واترمارک می‌شوند.";
+      }
+    }
+
+    function renderGrid() {
+      const grid = $("#grid");
+      grid.textContent = "";
+      const approved = state.status === "approved";
+      state.photos.forEach((photo, index) => {
+        const tile = document.createElement("div");
+        tile.className = "tile" + (selected.has(photo.id) ? " selected" : "");
+        tile.dataset.id = photo.id;
+
+        const img = document.createElement("img");
+        img.src = photo.preview_url;
+        img.alt = "عکس " + toFa(index + 1);
+        img.loading = "lazy";
+        img.draggable = false;
+
+        const open = document.createElement("button");
+        open.type = "button";
+        open.className = "open";
+        open.setAttribute("aria-label", "نمایش بزرگ");
+        open.addEventListener("click", () => openLight(index));
+
+        tile.append(img, open);
+
+        if (approved) {
+          const dl = document.createElement("button");
+          dl.type = "button";
+          dl.className = "dl";
+          dl.textContent = "دانلود بدون واترمارک";
+          dl.addEventListener("click", () => download(photo.id));
+          tile.appendChild(dl);
+        } else if (!isLocked()) {
+          const check = document.createElement("button");
+          check.type = "button";
+          check.className = "check";
+          check.textContent = "✓";
+          check.setAttribute("aria-label", "انتخاب");
+          check.addEventListener("click", () => toggle(photo.id));
+          tile.appendChild(check);
+        }
+        grid.appendChild(tile);
+      });
+    }
+
+    function renderBar() {
+      const show = !isLocked();
+      $("#bar").hidden = !show;
+      if (!show) return;
+      $("#count").textContent = toFa(selected.size) + " عکس انتخاب شده";
+      $("#amount").textContent = toman(priceTotal());
+      $("#pay").disabled = selected.size === 0;
+    }
+
+    function render() {
+      $("#main").querySelectorAll(".gap").forEach(el => el.remove());
+      $("#gate").hidden = true;
+      $("#main").hidden = false;
+      $("#title").textContent = "عکس‌های " + state.client_name;
+      $("#subtitle").textContent = state.photographer_name ? "عکاس: " + state.photographer_name : "";
+      document.title = "عکس‌های " + state.client_name + " | QĀB";
+      renderTimer();
+      renderBanner();
+      renderGrid();
+      renderBar();
+      if (state.status === "approved" && state.photos.length) {
+        // دکمه‌ی دانلود همه
+        const all = document.createElement("div");
+        all.className = "gap";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn primary";
+        btn.textContent = "دانلود همه‌ی عکس‌ها";
+        btn.addEventListener("click", downloadAll);
+        all.appendChild(btn);
+        $("#main").appendChild(all);
+      }
+    }
+
+    // ---------- Selection ----------
+    function toggle(id) {
+      if (isLocked()) return;
+      if (selected.has(id)) selected.delete(id); else selected.add(id);
+      const tile = document.querySelector('.tile[data-id="' + id + '"]');
+      if (tile) tile.classList.toggle("selected", selected.has(id));
+      renderBar();
+      if (!$("#light").hidden) paintLight();
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveSelection, 500);
+    }
+
+    async function saveSelection() {
+      try {
+        await api("select", { photo_ids: Array.from(selected) });
+      } catch (error) {
+        toast(error.message);
+      }
+    }
+
+    // ---------- Lightbox ----------
+    function openLight(index) {
+      lightIndex = index;
+      $("#light").hidden = false;
+      paintLight();
+    }
+    function paintLight() {
+      const photo = state.photos[lightIndex];
+      $("#lightImg").src = photo.preview_url;
+      const pick = $("#lightPick");
+      pick.hidden = isLocked();
+      const on = selected.has(photo.id);
+      pick.classList.toggle("on", on);
+      pick.textContent = on ? "✓ انتخاب شد" : "انتخاب این عکس";
+    }
+    function stepLight(delta) {
+      lightIndex = (lightIndex + delta + state.photos.length) % state.photos.length;
+      paintLight();
+    }
+
+    // ---------- Payment ----------
+    function openSheet() {
+      $("#sCount").textContent = toFa(selected.size);
+      $("#sPrice").textContent = toman(state.price_per_photo);
+      $("#sTotal").textContent = toman(priceTotal());
+      $("#sCard").textContent = state.card_number ? toFa(state.card_number) : "—";
+      $("#sHolder").textContent = state.card_holder ? "به نام: " + state.card_holder : "";
+      $("#receiptState").textContent = "";
+      $("#sheet").hidden = false;
+    }
+
+    async function copyCard() {
+      const digits = (state.card_number || "").replace(/\s/g, "");
+      try {
+        await navigator.clipboard.writeText(digits);
+        toast("شماره کارت کپی شد.");
+      } catch (e) {
+        toast("کپی نشد؛ شماره را خودت انتخاب و کپی کن.");
+      }
+    }
+
+    function decodeImage(file) {
+      if (window.createImageBitmap) {
+        return createImageBitmap(file, { imageOrientation: "from-image" }).catch(() => viaElement(file));
+      }
+      return viaElement(file);
+    }
+    function viaElement(file) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("decode")); };
+        img.src = url;
+      });
+    }
+    async function prepareReceipt(file) {
+      try {
+        const bitmap = await decodeImage(file);
+        const width = bitmap.width || bitmap.naturalWidth;
+        const height = bitmap.height || bitmap.naturalHeight;
+        const scale = Math.min(1, 1600 / Math.max(width, height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(width * scale));
+        canvas.height = Math.max(1, Math.round(height * scale));
+        canvas.getContext("2d").drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.88));
+        if (blob && blob.size) return { blob, type: "image/jpeg" };
+      } catch (e) {}
+      if (["image/jpeg", "image/png", "image/webp"].includes(file.type)) return { blob: file, type: file.type };
+      throw new Error("این عکس قابل پردازش نیست؛ اسکرین‌شات رسید را انتخاب کن.");
+    }
+
+    async function sendReceipt(file) {
+      if (busy) return;
+      busy = true;
+      const note = $("#receiptState");
+      try {
+        note.textContent = "در حال ارسال رسید…";
+        await saveSelectionNow();
+        const prepared = await prepareReceipt(file);
+        const info = await api("receipt_upload", { content_type: prepared.type, size: prepared.blob.size });
+        const result = await sb.storage.from("client-receipts").uploadToSignedUrl(info.path, info.token, prepared.blob, { contentType: prepared.type });
+        if (result.error) throw new Error("آپلود رسید ناموفق بود؛ دوباره امتحان کن.");
+        state = await api("receipt_submit", { path: info.path });
+        selected = new Set(state.selected);
+        $("#sheet").hidden = true;
+        render();
+        schedulePoll();
+        toast("رسید ارسال شد ✓");
+      } catch (error) {
+        note.textContent = error.message || "ارسال ناموفق بود.";
+      } finally {
+        busy = false;
+      }
+    }
+
+    async function saveSelectionNow() {
+      clearTimeout(saveTimer);
+      await api("select", { photo_ids: Array.from(selected) });
+    }
+
+    // ---------- Download ----------
+    async function download(photoId) {
+      try {
+        const data = await api("download", { photo_id: photoId });
+        const a = document.createElement("a");
+        a.href = data.url;
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } catch (error) {
+        toast(error.message);
+      }
+    }
+    async function downloadAll() {
+      for (const photo of state.photos) {
+        await download(photo.id);
+        await new Promise(resolve => setTimeout(resolve, 900));
+      }
+    }
+
+    // ---------- Loading ----------
+    function schedulePoll() {
+      clearInterval(pollTimer);
+      if (state && state.status === "receipt_sent") {
+        pollTimer = setInterval(async () => {
+          try {
+            const next = await api("view");
+            if (next.expired) { load(); return; }
+            if (next.status !== state.status) {
+              state = next;
+              selected = new Set(state.selected);
+              render();
+              clearInterval(pollTimer);
+              if (state.status === "approved") toast("پرداخت تأیید شد ✓");
+            }
+          } catch (e) {}
+        }, 20000);
+      }
+    }
+
+    async function load() {
+      try {
+        const data = await api("view");
+        if (data.expired) {
+          clearInterval(pollTimer);
+          showGate("این لینک منقضی شده است", "اعتبار هر لینک ۲۴ ساعت است. برای دریافت لینک جدید با " + (data.photographer_name || "عکاس") + " تماس بگیر.");
+          return;
+        }
+        state = data;
+        selected = new Set(state.selected);
+        $("#main").querySelectorAll(".gap").forEach(el => el.remove());
+        render();
+        schedulePoll();
+      } catch (error) {
+        if (error.status === 404) showGate("لینک نامعتبر است", "از همان QR یا لینکی که عکاس برایت فرستاده استفاده کن.");
+        else showGate("بارگذاری ممکن نشد", error.message || "کمی بعد دوباره امتحان کن.");
+      }
+    }
+
+    function bind() {
+      $("#pay").addEventListener("click", async () => {
+        try { await saveSelectionNow(); } catch (e) { toast(e.message); return; }
+        openSheet();
+      });
+      $("#closeSheet").addEventListener("click", () => { $("#sheet").hidden = true; });
+      $("#copyCard").addEventListener("click", copyCard);
+      $("#pickReceipt").addEventListener("click", () => $("#receiptFile").click());
+      $("#receiptFile").addEventListener("change", event => {
+        const file = event.target.files && event.target.files[0];
+        event.target.value = "";
+        if (file) sendReceipt(file);
+      });
+      $("#lightClose").addEventListener("click", () => { $("#light").hidden = true; });
+      $("#lightPrev").addEventListener("click", () => stepLight(-1));
+      $("#lightNext").addEventListener("click", () => stepLight(1));
+      $("#lightPick").addEventListener("click", () => toggle(state.photos[lightIndex].id));
+      document.addEventListener("keydown", event => {
+        if ($("#light").hidden) return;
+        if (event.key === "Escape") $("#light").hidden = true;
+        if (event.key === "ArrowRight") stepLight(-1);
+        if (event.key === "ArrowLeft") stepLight(1);
+      });
+      document.addEventListener("contextmenu", event => {
+        if (event.target && event.target.tagName === "IMG") event.preventDefault();
+      });
+      setInterval(() => { if (state) renderTimer(); }, 30000);
+    }
+
+    async function init() {
+      let raw = "";
+      try { raw = decodeURIComponent((location.hash || "").replace(/^#/, "")); } catch (e) {}
+      token = raw.replace(/^t=/, "").trim();
+      if (!token) {
+        showGate("لینک نامعتبر است", "QR کدی را که عکاس برایت فرستاده اسکن کن.");
+        return;
+      }
+      if (window.supabase) {
+        sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
+      }
+      bind();
+      await load();
+    }
+
+    init();
+  </script>
+</body>
+</html>
