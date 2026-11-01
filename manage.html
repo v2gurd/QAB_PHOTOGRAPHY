@@ -95,6 +95,15 @@
     .videos .item .media { aspect-ratio: 9 / 16; max-height: 360px; object-fit: contain; }
     .item .tools { display: flex; gap: 6px; padding: 8px; justify-content: space-between; }
     .item .tools .btn { flex: 1; padding: 6px 0; text-align: center; }
+    .item .tools { flex-wrap: wrap; }
+    .item .tools .btn { flex: 1 1 28%; }
+    .item .note { padding: 8px 10px 0; font-size: 12px; color: var(--muted); line-height: 1.6; }
+    .item .note b { color: var(--lime); font-weight: 600; }
+    .item .tag { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.65); color: #fff; font-size: 11px; padding: 2px 8px; border-radius: 100px; }
+    .item { position: relative; }
+    details.card summary { cursor: pointer; font-weight: 700; font-size: 16px; list-style-position: inside; }
+    details.card summary small { color: var(--muted); font-weight: 500; font-size: 12px; margin-inline-start: 8px; }
+    details.card[open] summary { margin-bottom: 8px; }
     .empty { color: var(--muted); font-size: 13px; padding: 16px 0 4px; }
     .uploads { margin-top: 12px; display: grid; gap: 6px; font-size: 13px; }
     .uploads div { background: var(--panel-2); border-radius: 12px; padding: 8px 12px; display: flex; justify-content: space-between; gap: 10px; }
@@ -179,6 +188,33 @@
         <div class="grid videos" id="videoGrid"></div>
         <p class="empty" id="videoEmpty" hidden>هنوز ویدیویی اضافه نکرده‌ای.</p>
       </section>
+
+      <section class="card">
+        <h2>استوری <small>(۴۸ ساعت نمایش داده می‌شود)</small></h2>
+        <label for="storyCaption">متن کوتاه (اختیاری)</label>
+        <input type="text" id="storyCaption" maxlength="140" placeholder="مثلاً پشت صحنه‌ی امروز">
+        <div class="row" style="margin-top:12px">
+          <button class="btn primary" type="button" id="storyPick">افزودن استوری</button>
+        </div>
+        <input type="file" id="storyFile" accept="image/*,video/mp4,video/quicktime,.mp4,.mov" multiple hidden>
+        <p class="hint">هر استوری ۴۸ ساعت بعد خودکار حذف می‌شود، مگر اینکه هایلایتش کنی. متن بالا روی استوری‌هایی که الان انتخاب می‌کنی گذاشته می‌شود.</p>
+        <div class="grid" id="storyGrid"></div>
+        <p class="empty" id="storyEmpty" hidden>استوری فعالی نداری.</p>
+      </section>
+
+      <section class="card">
+        <h2>هایلایت‌ها <small id="hlCount"></small></h2>
+        <p class="hint">هایلایت‌ها بعد از ۴۸ ساعت هم در پروفایلت می‌مانند تا خودت حذفشان کنی.</p>
+        <div class="grid" id="hlGrid"></div>
+        <p class="empty" id="hlEmpty" hidden>هایلایتی نداری.</p>
+      </section>
+
+      <details class="card" id="archiveBox">
+        <summary>آرشیو نمونه‌کارها <small id="archCount"></small></summary>
+        <p class="hint">موارد آرشیوشده در سایت دیده نمی‌شوند، ولی حذف هم نشده‌اند؛ هر وقت خواستی برشان می‌گردانی.</p>
+        <div class="grid" id="archGrid"></div>
+        <p class="empty" id="archEmpty" hidden>آرشیوت خالی است.</p>
+      </details>
 
       <div class="uploads" id="uploads"></div>
     </main>
@@ -279,10 +315,12 @@
 
       renderGrid("image", $("#photoGrid"), $("#photoEmpty"), $("#photoCount"));
       renderGrid("video", $("#videoGrid"), $("#videoEmpty"), $("#videoCount"));
+      renderArchive();
+      renderStories();
     }
 
     function renderGrid(kind, grid, empty, counter) {
-      const list = state.items.filter(item => item.kind === kind);
+      const list = state.items.filter(item => item.kind === kind && !item.archived);
       grid.textContent = "";
       empty.hidden = list.length > 0;
       counter.textContent = list.length ? "(" + toFa(list.length) + ")" : "";
@@ -322,13 +360,131 @@
         down.disabled = index === list.length - 1;
         down.addEventListener("click", () => moveItem(item, list[index + 1]));
 
+        const archive = document.createElement("button");
+        archive.type = "button"; archive.className = "btn small"; archive.textContent = "آرشیو";
+        archive.addEventListener("click", () => archiveItem(item, true));
+
         const del = document.createElement("button");
         del.type = "button"; del.className = "btn small danger"; del.textContent = "حذف";
         del.addEventListener("click", () => deleteItem(item));
 
-        tools.append(up, down, del);
+        tools.append(up, down, archive, del);
         card.append(media, tools);
         grid.appendChild(card);
+      });
+    }
+
+    function makeMedia(kind, path) {
+      let media;
+      if (kind === "video") {
+        media = document.createElement("video");
+        media.controls = true;
+        media.playsInline = true;
+        media.preload = "metadata";
+        const source = document.createElement("source");
+        source.src = publicUrl(path) + "#t=0.1";
+        source.type = "video/mp4";
+        media.appendChild(source);
+      } else {
+        media = document.createElement("img");
+        media.loading = "lazy";
+        media.alt = "";
+        media.src = publicUrl(path);
+      }
+      media.className = "media";
+      return media;
+    }
+
+    function button(label, className, handler) {
+      const el = document.createElement("button");
+      el.type = "button";
+      el.className = "btn small" + (className ? " " + className : "");
+      el.textContent = label;
+      el.addEventListener("click", handler);
+      return el;
+    }
+
+    function timeLeft(expiresAt) {
+      const ms = new Date(expiresAt).getTime() - Date.now();
+      if (ms <= 0) return "منقضی شد";
+      const minutes = Math.floor(ms / 60000);
+      const hours = Math.floor(minutes / 60);
+      return toFa(hours) + " ساعت و " + toFa(minutes % 60) + " دقیقه مانده";
+    }
+
+    function renderArchive() {
+      const list = state.items.filter(item => item.archived);
+      const grid = $("#archGrid");
+      grid.textContent = "";
+      $("#archEmpty").hidden = list.length > 0;
+      $("#archCount").textContent = list.length ? "(" + toFa(list.length) + ")" : "";
+      list.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "item";
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = item.kind === "video" ? "ویدیو" : "عکس";
+        const tools = document.createElement("div");
+        tools.className = "tools";
+        tools.append(
+          button("بازگردانی", "", () => archiveItem(item, false)),
+          button("حذف", "danger", () => deleteItem(item))
+        );
+        card.append(makeMedia(item.kind, item.path), tag, tools);
+        grid.appendChild(card);
+      });
+    }
+
+    function renderStories() {
+      const now = Date.now();
+      const all = state.stories || [];
+      const active = all.filter(story => !story.highlight && new Date(story.expires_at).getTime() > now);
+      const highlights = all.filter(story => story.highlight);
+
+      const storyGrid = $("#storyGrid");
+      storyGrid.textContent = "";
+      $("#storyEmpty").hidden = active.length > 0;
+      active.forEach(story => {
+        const card = document.createElement("div");
+        card.className = "item";
+        const note = document.createElement("div");
+        note.className = "note";
+        note.innerHTML = "";
+        const left = document.createElement("b");
+        left.textContent = timeLeft(story.expires_at);
+        note.appendChild(left);
+        if (story.caption) note.appendChild(document.createTextNode(" · " + story.caption));
+        const tools = document.createElement("div");
+        tools.className = "tools";
+        tools.append(
+          button("هایلایت", "", () => setHighlight(story, true)),
+          button("حذف", "danger", () => deleteStory(story))
+        );
+        card.append(makeMedia(story.kind, story.path), note, tools);
+        storyGrid.appendChild(card);
+      });
+
+      const hlGrid = $("#hlGrid");
+      hlGrid.textContent = "";
+      $("#hlEmpty").hidden = highlights.length > 0;
+      $("#hlCount").textContent = highlights.length ? "(" + toFa(highlights.length) + ")" : "";
+      highlights.forEach(story => {
+        const card = document.createElement("div");
+        card.className = "item";
+        const note = document.createElement("div");
+        note.className = "note";
+        const title = document.createElement("b");
+        title.textContent = story.highlight_title || "هایلایت";
+        note.appendChild(title);
+        if (story.caption) note.appendChild(document.createTextNode(" · " + story.caption));
+        const tools = document.createElement("div");
+        tools.className = "tools";
+        tools.append(
+          button("برداشتن", "", () => setHighlight(story, false)),
+          button("حذف", "danger", () => deleteStory(story))
+        );
+        card.append(makeMedia(story.kind, story.path), note, tools);
+        hlGrid.appendChild(card);
       });
     }
 
@@ -362,6 +518,37 @@
         state = await api("delete_item", { item_id: item.id });
         render();
         toast("حذف شد.");
+      });
+    }
+
+    async function archiveItem(item, archived) {
+      await guarded(async () => {
+        state = await api("archive_item", { item_id: item.id, archived });
+        render();
+        toast(archived ? "به آرشیو رفت و در سایت دیده نمی‌شود." : "بازگردانده شد و دوباره در سایت دیده می‌شود.");
+      });
+    }
+
+    async function deleteStory(story) {
+      if (!confirm("این استوری برای همیشه حذف شود؟")) return;
+      await guarded(async () => {
+        state = await api("delete_story", { story_id: story.id });
+        render();
+        toast("استوری حذف شد.");
+      });
+    }
+
+    async function setHighlight(story, highlight) {
+      let title = "";
+      if (highlight) {
+        const answer = prompt("اسم هایلایت (مثلاً: پرتره، مراسم، پشت صحنه):", story.highlight_title || "");
+        if (answer === null) return;
+        title = answer.trim();
+      }
+      await guarded(async () => {
+        state = await api("set_highlight", { story_id: story.id, highlight, title });
+        render();
+        toast(highlight ? "به هایلایت‌ها اضافه شد ✓" : "از هایلایت‌ها برداشته شد.");
       });
     }
 
@@ -480,6 +667,34 @@
       });
     }
 
+    async function uploadStories(files) {
+      const caption = $("#storyCaption").value.trim();
+      await guarded(async () => {
+        for (const file of Array.from(files)) {
+          const log = logUpload(file.name || "استوری");
+          try {
+            const isVideo = (file.type || "").startsWith("video/") || /\.(mp4|mov)$/i.test(file.name || "");
+            let blob = file;
+            let contentType;
+            if (isVideo) {
+              contentType = videoType(file);
+              if (file.size > MAX_VIDEO_BYTES) throw new Error("حجم ویدیو بیشتر از ۵۰ مگابایت است.");
+            } else {
+              const prepared = await prepareImage(file);
+              blob = prepared.blob;
+              contentType = prepared.type;
+            }
+            const info = await uploadBlob(blob, contentType, "story");
+            state = await api("add_story", { path: info.path, caption });
+            render();
+            log.ok();
+          } catch (error) {
+            log.fail(error.message || "ناموفق");
+          }
+        }
+      });
+    }
+
     async function uploadAvatar(file) {
       await guarded(async () => {
         const log = logUpload("عکس پروفایل");
@@ -507,6 +722,14 @@
         const file = event.target.files && event.target.files[0];
         event.target.value = "";
         if (file) uploadAvatar(file);
+      });
+
+      $("#storyPick").addEventListener("click", () => $("#storyFile").click());
+      $("#storyFile").addEventListener("change", event => {
+        const files = event.target.files;
+        const list = files ? Array.from(files) : [];
+        event.target.value = "";
+        if (list.length) uploadStories(list);
       });
 
       $("#photoPick").addEventListener("click", () => $("#photoFile").click());
@@ -551,6 +774,7 @@
       $("#panel").hidden = false;
       bind();
       render();
+      setInterval(() => { if (state && !busy) renderStories(); }, 60000);
     }
 
     init();
