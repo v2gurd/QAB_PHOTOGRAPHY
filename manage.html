@@ -764,6 +764,18 @@
       return info;
     }
 
+    // چند فایل را هم‌زمان (حداکثر limit تا) پردازش می‌کند؛ تأخیر شبکه کمتر حس می‌شود
+    async function runPool(items, limit, worker) {
+      const queue = items.slice();
+      const runners = Array.from({ length: Math.min(limit, queue.length) }, async () => {
+        while (queue.length) {
+          const item = queue.shift();
+          await worker(item);
+        }
+      });
+      await Promise.all(runners);
+    }
+
     function logUpload(text) {
       const row = document.createElement("div");
       const label = document.createElement("span");
@@ -773,6 +785,7 @@
       row.append(label, status);
       $("#uploads").prepend(row);
       return {
+        set(message) { status.textContent = message; },
         ok() { status.textContent = "✓ انجام شد"; status.className = "ok"; },
         fail(message) { status.textContent = message; status.className = "err"; }
       };
@@ -780,7 +793,7 @@
 
     async function uploadMany(kind, files) {
       await guarded(async () => {
-        for (const file of Array.from(files)) {
+        await runPool(Array.from(files), 3, async file => {
           const log = logUpload(file.name || (kind === "video" ? "ویدیو" : "عکس"));
           try {
             let blob = file;
@@ -789,10 +802,12 @@
               contentType = videoType(file);
               if (file.size > MAX_VIDEO_BYTES) throw new Error("حجم ویدیو بیشتر از ۵۰ مگابایت است.");
             } else {
+              log.set("در حال آماده‌سازی…");
               const prepared = await prepareImage(file);
               blob = prepared.blob;
               contentType = prepared.type;
             }
+            log.set("در حال ارسال…");
             const info = await uploadBlob(blob, contentType, "portfolio");
             state = await api("add_item", { path: info.path });
             render();
@@ -800,14 +815,13 @@
           } catch (error) {
             log.fail(error.message || "ناموفق");
           }
-        }
+        });
       });
     }
-
     async function uploadStories(files) {
       const caption = $("#storyCaption").value.trim();
       await guarded(async () => {
-        for (const file of Array.from(files)) {
+        await runPool(Array.from(files), 3, async file => {
           const log = logUpload(file.name || "استوری");
           try {
             const isVideo = (file.type || "").startsWith("video/") || /\.(mp4|mov)$/i.test(file.name || "");
@@ -817,10 +831,12 @@
               contentType = videoType(file);
               if (file.size > MAX_VIDEO_BYTES) throw new Error("حجم ویدیو بیشتر از ۵۰ مگابایت است.");
             } else {
+              log.set("در حال آماده‌سازی…");
               const prepared = await prepareImage(file);
               blob = prepared.blob;
               contentType = prepared.type;
             }
+            log.set("در حال ارسال…");
             const info = await uploadBlob(blob, contentType, "story");
             state = await api("add_story", { path: info.path, caption });
             render();
@@ -828,7 +844,7 @@
           } catch (error) {
             log.fail(error.message || "ناموفق");
           }
-        }
+        });
       });
     }
 
@@ -1154,9 +1170,8 @@
       });
     }
 
-    // واترمارک روی نسخه‌ی پیش‌نمایش (۱۲۸۰ پیکسل)؛ فایل اصلی دست‌نخورده آپلود می‌شود
-    async function makeWatermarkedPreview(file) {
-      const bitmap = await decodeImage(file);
+    // واترمارک روی نسخه‌ی پیش‌نمایش (۱۲۸۰ پیکسل)؛ فایل اصلی (با کیفیت بالا) جدا آپلود می‌شود
+    async function makeWatermarkedPreview(bitmap) {
       const width = bitmap.width || bitmap.naturalWidth;
       const height = bitmap.height || bitmap.naturalHeight;
       const scale = Math.min(1, 1280 / Math.max(width, height));
@@ -1191,53 +1206,70 @@
       }
       ctx.restore();
 
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.8));
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.78));
       if (!blob) throw new Error("ساخت نسخه‌ی پیش‌نمایش ناموفق بود.");
       return blob;
     }
 
-    async function originalForUpload(file) {
-      if (["image/jpeg", "image/png", "image/webp"].includes(file.type) && file.size <= 50 * 1024 * 1024) {
-        return { blob: file, type: file.type };
-      }
-      // فرمت‌هایی مثل HEIC: به JPEG با کیفیت بالا تبدیل می‌شود
-      const bitmap = await decodeImage(file);
+    // فایل اصلی: اگر معمولی است همان می‌ماند؛ اگر خیلی سنگین است (بیش از ۶ مگابایت یا بزرگ‌تر از ۴۸۰۰ پیکسل)
+    // با کیفیت بالا (۹۲٪) کوچک می‌شود تا آپلود خیلی طول نکشد. فرمت‌هایی مثل HEIC هم به JPEG تبدیل می‌شوند.
+    async function originalForUpload(file, bitmap) {
+      const width = bitmap.width || bitmap.naturalWidth;
+      const height = bitmap.height || bitmap.naturalHeight;
+      const supported = ["image/jpeg", "image/png", "image/webp"].includes(file.type);
+      const heavy = file.size > 6 * 1024 * 1024 || Math.max(width, height) > 4800;
+      if (supported && !heavy) return { blob: file, type: file.type };
+
+      const scale = Math.min(1, 4800 / Math.max(width, height));
       const canvas = document.createElement("canvas");
-      canvas.width = bitmap.width || bitmap.naturalWidth;
-      canvas.height = bitmap.height || bitmap.naturalHeight;
-      canvas.getContext("2d").drawImage(bitmap, 0, 0);
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.95));
+      canvas.width = Math.max(1, Math.round(width * scale));
+      canvas.height = Math.max(1, Math.round(height * scale));
+      canvas.getContext("2d").drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.92));
       if (!blob) throw new Error("این عکس قابل پردازش نیست.");
       return { blob, type: "image/jpeg" };
     }
 
     async function uploadClientPhotos(files) {
+      const list = Array.from(files);
       await guarded(async () => {
-        for (const file of Array.from(files)) {
+        let done = 0;
+        await runPool(list, 3, async file => {
           const log = logUpload(file.name || "عکس");
           try {
-            const original = await originalForUpload(file);
-            const preview = await makeWatermarkedPreview(file);
+            log.set("در حال آماده‌سازی…");
+            const bitmap = await decodeImage(file);
+            const original = await originalForUpload(file, bitmap);
+            const preview = await makeWatermarkedPreview(bitmap);
+            if (bitmap.close) bitmap.close();
+
             const info = await api2("c_create_upload", {
               session_id: detail.session.id,
               content_type: original.type,
               size: original.blob.size
             });
-            const a = await sb.storage.from("client-originals").uploadToSignedUrl(info.original.path, info.original.token, original.blob, { contentType: original.type });
+
+            log.set("در حال ارسال…");
+            const [a, b] = await Promise.all([
+              sb.storage.from("client-originals").uploadToSignedUrl(info.original.path, info.original.token, original.blob, { contentType: original.type }),
+              sb.storage.from("client-previews").uploadToSignedUrl(info.preview.path, info.preview.token, preview, { contentType: "image/jpeg" })
+            ]);
             if (a.error) throw new Error("آپلود فایل اصلی ناموفق بود.");
-            const b = await sb.storage.from("client-previews").uploadToSignedUrl(info.preview.path, info.preview.token, preview, { contentType: "image/jpeg" });
             if (b.error) throw new Error("آپلود نسخه‌ی پیش‌نمایش ناموفق بود.");
+
             detail = await api2("c_add_photo", {
               session_id: detail.session.id,
               original_path: info.original.path,
               preview_path: info.preview.path
             });
+            done += 1;
             renderDetail();
             log.ok();
           } catch (error) {
             log.fail(error.message || "ناموفق");
           }
-        }
+        });
+        if (list.length > 1) toast(toFa(done) + " از " + toFa(list.length) + " عکس آپلود شد.");
       });
     }
 
