@@ -150,6 +150,11 @@
       <div class="row"><span>تعداد عکس‌های انتخابی</span><b id="sCount"></b></div>
       <div class="row"><span>قیمت هر عکس</span><b id="sPrice"></b></div>
       <div class="row"><span>مبلغ قابل پرداخت</span><b id="sTotal"></b></div>
+      <div class="gap" id="onlineBox" hidden>
+        <button class="btn primary" type="button" id="payOnline">پرداخت آنلاین (خودکار)</button>
+      </div>
+      <p class="hint" id="onlineHint" hidden>بعد از واریز به همین صفحه برمی‌گردی و عکس‌ها خودکار بدون واترمارک باز می‌شوند؛ نیازی به ارسال رسید نیست.</p>
+      <p class="hint" id="manualHint" hidden style="margin-top:16px">یا کارت‌به‌کارت دستی کن و عکس رسید را بفرست:</p>
       <div class="card-no" id="sCard"></div>
       <p class="hint" id="sHolder"></p>
       <div class="gap">
@@ -402,6 +407,10 @@
       $("#sCard").textContent = state.card_number ? toFa(state.card_number) : "—";
       $("#sHolder").textContent = state.card_holder ? "به نام: " + state.card_holder : "";
       $("#receiptState").textContent = "";
+      const online = Boolean(state.online_payment);
+      $("#onlineBox").hidden = !online;
+      $("#onlineHint").hidden = !online;
+      $("#manualHint").hidden = !online;
       $("#sheet").hidden = false;
     }
 
@@ -536,7 +545,23 @@
       }
     }
 
+    async function startOnlinePayment() {
+      if (busy) return;
+      busy = true;
+      const note = $("#receiptState");
+      try {
+        note.textContent = "در حال انتقال به درگاه پرداخت…";
+        await saveSelectionNow();
+        const data = await api("pay_create");
+        window.location.href = data.payment_url;
+      } catch (error) {
+        note.textContent = error.message || "اتصال به درگاه ممکن نشد.";
+        busy = false;
+      }
+    }
+
     function bind() {
+      $("#payOnline").addEventListener("click", startOnlinePayment);
       $("#pay").addEventListener("click", async () => {
         try { await saveSelectionNow(); } catch (e) { toast(e.message); return; }
         openSheet();
