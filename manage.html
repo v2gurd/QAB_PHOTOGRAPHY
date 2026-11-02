@@ -321,6 +321,11 @@
           <div class="row">
             <button class="btn primary" type="button" id="dAddPhotos">افزودن عکس</button>
           </div>
+          <label style="display:flex;gap:8px;align-items:center;margin:10px 0 0;color:var(--text)">
+            <input type="checkbox" id="fastMode" checked>
+            <span>حالت سریع: فایل اصلی حداکثر ۳۲۰۰ پیکسل (برای چاپ تا A4 کافی است)</span>
+          </label>
+          <p class="hint">برای کیفیت کامل (تا ۴۸۰۰ پیکسل) تیک را بردار؛ آپلود کندتر می‌شود.</p>
           <input type="file" id="dPhotoFile" accept="image/*" multiple hidden>
           <p class="hint">روی نسخه‌ای که مشتری می‌بیند، واترمارک خودکار گذاشته می‌شود؛ فایل اصلی فقط بعد از تأیید پرداخت دانلود می‌شود.</p>
           <div class="grid" id="dGrid"></div>
@@ -786,7 +791,7 @@
       $("#uploads").prepend(row);
       return {
         set(message) { status.textContent = message; },
-        ok() { status.textContent = "✓ انجام شد"; status.className = "ok"; },
+        ok(detail) { status.textContent = "✓ " + (detail || "انجام شد"); status.className = "ok"; },
         fail(message) { status.textContent = message; status.className = "err"; }
       };
     }
@@ -1214,18 +1219,21 @@
     // فایل اصلی: اگر معمولی است همان می‌ماند؛ اگر خیلی سنگین است (بیش از ۶ مگابایت یا بزرگ‌تر از ۴۸۰۰ پیکسل)
     // با کیفیت بالا (۹۲٪) کوچک می‌شود تا آپلود خیلی طول نکشد. فرمت‌هایی مثل HEIC هم به JPEG تبدیل می‌شوند.
     async function originalForUpload(file, bitmap) {
+      const fast = $("#fastMode").checked;
+      const maxSide = fast ? 3200 : 4800;
+      const maxBytes = (fast ? 2.5 : 6) * 1024 * 1024;
       const width = bitmap.width || bitmap.naturalWidth;
       const height = bitmap.height || bitmap.naturalHeight;
       const supported = ["image/jpeg", "image/png", "image/webp"].includes(file.type);
-      const heavy = file.size > 6 * 1024 * 1024 || Math.max(width, height) > 4800;
+      const heavy = file.size > maxBytes || Math.max(width, height) > maxSide;
       if (supported && !heavy) return { blob: file, type: file.type };
 
-      const scale = Math.min(1, 4800 / Math.max(width, height));
+      const scale = Math.min(1, maxSide / Math.max(width, height));
       const canvas = document.createElement("canvas");
       canvas.width = Math.max(1, Math.round(width * scale));
       canvas.height = Math.max(1, Math.round(height * scale));
       canvas.getContext("2d").drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.92));
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", fast ? 0.88 : 0.92));
       if (!blob) throw new Error("این عکس قابل پردازش نیست.");
       return { blob, type: "image/jpeg" };
     }
@@ -1237,11 +1245,13 @@
         await runPool(list, 3, async file => {
           const log = logUpload(file.name || "عکس");
           try {
+            const t0 = performance.now();
             log.set("در حال آماده‌سازی…");
             const bitmap = await decodeImage(file);
             const original = await originalForUpload(file, bitmap);
             const preview = await makeWatermarkedPreview(bitmap);
             if (bitmap.close) bitmap.close();
+            const t1 = performance.now();
 
             const info = await api2("c_create_upload", {
               session_id: detail.session.id,
@@ -1256,6 +1266,7 @@
             ]);
             if (a.error) throw new Error("آپلود فایل اصلی ناموفق بود.");
             if (b.error) throw new Error("آپلود نسخه‌ی پیش‌نمایش ناموفق بود.");
+            const t2 = performance.now();
 
             detail = await api2("c_add_photo", {
               session_id: detail.session.id,
@@ -1264,7 +1275,10 @@
             });
             done += 1;
             renderDetail();
-            log.ok();
+            const t3 = performance.now();
+            const sec = ms => toFa(((ms) / 1000).toFixed(1)) + "ث";
+            const mb = bytes => toFa((bytes / 1048576).toFixed(1)) + "MB";
+            log.ok("آماده‌سازی " + sec(t1 - t0) + " · ارسال " + sec(t2 - t1) + " (" + mb(original.blob.size) + ") · ثبت " + sec(t3 - t2));
           } catch (error) {
             log.fail(error.message || "ناموفق");
           }
