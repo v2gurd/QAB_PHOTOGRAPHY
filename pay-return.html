@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#10110f">
+  <title>بررسی پرداخت | QĀB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#10110f; --panel:#191a17; --line:rgba(255,255,255,.10); --text:#f6f6ef; --muted:#a0a197; --lime:#d7ff61; --danger:#ff7a6b; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; background: var(--bg); color: var(--text); font-family: "Vazirmatn", Tahoma, sans-serif; line-height: 1.9; }
+    .box { width: min(100%, 440px); background: var(--panel); border: 1px solid var(--line); border-radius: 24px; padding: 32px 22px; text-align: center; }
+    .brand { font-weight: 800; font-size: 22px; direction: ltr; margin-bottom: 14px; }
+    .brand span { color: var(--lime); }
+    h1 { font-size: 19px; margin-bottom: 6px; }
+    p { color: var(--muted); font-size: 14px; }
+    .icon { font-size: 40px; margin: 6px 0 10px; }
+    .btn { display: inline-block; margin-top: 18px; font: inherit; font-size: 15px; font-weight: 700; border: 0; border-radius: 100px; padding: 12px 26px; background: var(--lime); color: #17190f; cursor: pointer; text-decoration: none; }
+    .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--text); margin-inline-start: 8px; }
+    .bad h1 { color: var(--danger); }
+  </style>
+</head>
+<body>
+  <main class="box" id="box">
+    <div class="brand">QĀ<span>B</span></div>
+    <div class="icon" id="icon">⏳</div>
+    <h1 id="title">در حال بررسی پرداخت…</h1>
+    <p id="text">لطفاً صفحه را نبند.</p>
+    <div id="actions"></div>
+  </main>
+
+  <script>
+    const SUPABASE_URL = "https://yhjwttinwgsekgbmdijw.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_KbGaMcx2t7kndWIx27giag_LYsKjtVc";
+    const FN_URL = SUPABASE_URL + "/functions/v1/gallery-client";
+    const MAX_TRIES = 12;       // تشخیص واریز خودکار ممکن است چند ثانیه طول بکشد
+    const WAIT_MS = 5000;
+
+    const $ = id => document.getElementById(id);
+    const params = new URLSearchParams(location.search);
+    const paymentId = params.get("payment_id") || params.get("paymentId") || params.get("id") || "";
+    let tries = 0;
+
+    function show(icon, title, text, bad) {
+      $("icon").textContent = icon;
+      $("title").textContent = title;
+      $("text").textContent = text;
+      $("box").classList.toggle("bad", Boolean(bad));
+    }
+
+    function actions(list) {
+      const box = $("actions");
+      box.textContent = "";
+      list.forEach(item => {
+        const el = document.createElement(item.href ? "a" : "button");
+        el.className = "btn" + (item.ghost ? " ghost" : "");
+        el.textContent = item.label;
+        if (item.href) el.href = item.href;
+        else el.addEventListener("click", item.onClick);
+        box.appendChild(el);
+      });
+    }
+
+    async function verify() {
+      let data = null;
+      try {
+        const response = await fetch(FN_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", apikey: SUPABASE_KEY },
+          body: JSON.stringify({ action: "pay_verify", payment_id: paymentId })
+        });
+        data = await response.json();
+        if (!response.ok) return { ok: false, fatal: true, message: (data && data.error) || "خطا در بررسی پرداخت." };
+      } catch (e) {
+        return { ok: false, message: "اتصال اینترنت برقرار نیست." };
+      }
+      return data;
+    }
+
+    async function run() {
+      if (!paymentId) {
+        show("⚠️", "پرداخت پیدا نشد", "نشانی بازگشت از درگاه ناقص است.", true);
+        actions([{ label: "بازگشت به سایت", href: "./" }]);
+        return;
+      }
+      actions([]);
+      show("⏳", "در حال بررسی پرداخت…", "لطفاً صفحه را نبند.");
+      tries += 1;
+      const result = await verify();
+
+      if (result && result.ok) {
+        if (result.purpose === "gallery" && result.token) {
+          show("✅", "پرداخت تأیید شد", "عکس‌هایت بدون واترمارک آماده‌ی دانلود است…");
+          actions([{ label: "دیدن و دانلود عکس‌ها", href: "c.html#" + result.token }]);
+          setTimeout(() => { location.href = "c.html#" + result.token; }, 1500);
+        } else {
+          show("✅", "پرداخت تأیید شد", "ممنون! پرداختت با موفقیت ثبت شد.");
+          actions([{ label: "بازگشت به سایت", href: "./" }]);
+        }
+        return;
+      }
+
+      if (result && result.fatal) {
+        show("⚠️", "بررسی ممکن نشد", result.message, true);
+        actions([{ label: "بازگشت به سایت", href: "./" }]);
+        return;
+      }
+
+      if (tries < MAX_TRIES) {
+        show("⏳", "منتظر تأیید واریز…", "اگر الان واریز کرده‌ای چند ثانیه صبر کن؛ خودکار بررسی می‌شود.");
+        setTimeout(run, WAIT_MS);
+      } else {
+        show("⚠️", "پرداخت هنوز تأیید نشده", (result && result.message) || "اگر واریز کرده‌ای، چند دقیقه بعد دوباره بررسی کن.", true);
+        actions([
+          { label: "بررسی دوباره", onClick: () => { tries = 0; run(); } },
+          { label: "بازگشت به سایت", href: "./", ghost: true }
+        ]);
+      }
+    }
+
+    run();
+  </script>
+</body>
+</html>
