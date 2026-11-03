@@ -2846,8 +2846,8 @@
           <div class="form-group full"><label for="regPortfolio">لینک نمونه‌کارها *</label><input class="field" id="regPortfolio" name="regPortfolio" type="url" required placeholder="https://..."></div>
           <div class="form-group full"><label for="regAbout">توضیحات تکمیلی</label><textarea class="field" id="regAbout" name="regAbout" maxlength="1200" placeholder="سبک کاری، تجهیزات یا توضیحات مرتبط..."></textarea></div>
         </div>
-        <div class="notice">ارسال درخواست به معنی عضویت قطعی نیست. شرایط نهایی و هزینه‌های احتمالی عضویت یا معرفی، جداگانه توسط مدیریت اعلام می‌شود.</div>
-        <div class="form-actions"><button class="btn btn-primary" type="submit">آماده‌سازی درخواست در تلگرام ↗</button><button class="btn btn-secondary" id="copyRegistration" type="button" hidden>کپی متن</button></div>
+        <div class="notice">هزینه‌ی ثبت‌نام <b>۵۰۰٬۰۰۰ تومان</b> است. بعد از تأیید پرداخت، خودکار به تلگرام مدیریت منتقل می‌شوی تا پروفایلت ساخته شود.</div>
+        <div class="form-actions"><button class="btn btn-primary" type="submit">پرداخت ۵۰۰٬۰۰۰ تومان و ادامه ↗</button><button class="btn btn-secondary" id="copyRegistration" type="button" hidden>کپی متن</button></div>
         <div class="notice" id="registrationNotice" hidden aria-live="polite"></div>
       </form>
     </div>
@@ -4360,10 +4360,8 @@
       openModal("registrationModal");
     }
 
-    $("#registrationForm").addEventListener("submit", event => {
-      event.preventDefault();
-      const form = event.currentTarget;
-      if (!form.reportValidity()) return;
+    // روش قدیمی (بدون پرداخت): فقط وقتی درگاه هنوز فعال نشده باشد استفاده می‌شود
+    function legacyRegistration(form) {
       const data = new FormData(form);
       const fields = [
         ["regName", "نام و نام خانوادگی"], ["regPhone", "شماره تماس"], ["regCity", "شهر"],
@@ -4382,6 +4380,39 @@
       $("#registrationNotice").textContent = "درخواست آماده شد. تلگرام مدیریت باز می‌شود؛ پیام را بررسی و ارسال کن.";
       $("#registrationNotice").hidden = false;
       window.open(`https://t.me/esi_as?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    }
+
+    // ثبت‌نام عکاس: اول پرداخت ۵۰۰٬۰۰۰ تومان؛ بعد از تأیید، انتقال به تلگرام مدیریت
+    $("#registrationForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (!form.reportValidity()) return;
+      const submit = form.querySelector('button[type="submit"]');
+      const notice = $("#registrationNotice");
+      const fields = Object.fromEntries(new FormData(form).entries());
+      submit.disabled = true;
+      notice.textContent = "در حال انتقال به درگاه پرداخت…";
+      notice.hidden = false;
+      try {
+        const response = await fetch(SUPABASE_URL.replace(/\/+$/, "") + "/functions/v1/gallery-client", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", apikey: SUPABASE_ANON_KEY },
+          body: JSON.stringify({ action: "reg_create", fields })
+        });
+        let result = null;
+        try { result = await response.json(); } catch (e) {}
+        if (response.status === 503) {
+          // درگاه هنوز فعال نشده است
+          submit.disabled = false;
+          legacyRegistration(form);
+          return;
+        }
+        if (!response.ok) throw new Error((result && result.error) || "ساخت پرداخت ممکن نشد.");
+        window.location.href = result.payment_url;
+      } catch (error) {
+        notice.textContent = error.message || "اتصال برقرار نشد؛ دوباره امتحان کن.";
+        submit.disabled = false;
+      }
     });
 
     $("#copyRegistration").addEventListener("click", () => copyText($("#copyRegistration").dataset.text, "متن درخواست عضویت کپی شد."));
@@ -4920,11 +4951,6 @@
       later.addEventListener('click',function(){card.classList.remove('show');try{localStorage.setItem('qab-ios-install-dismissed','1')}catch(e){}});
     })();
   </script>
-
-  <div style="display:flex;justify-content:center;align-items:center;padding:18px 12px;">
-  <div id="payexa-verification-badge-233"></div>
-  <script async src="https://pexn.ir/merchant-badge.js?token=eyJ2IjoxLCJtZXJjaGFudF9pZCI6MjMzfQ.Sx-X9307bXo59qOkxwQ3J1-FpIlbfuk7rIy_xGQjYB8"></script>
-  </div>
 
 </body>
 </html>
