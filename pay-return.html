@@ -98,6 +98,11 @@
           show("✅", "پرداخت تأیید شد", "عکس‌هایت بدون واترمارک آماده‌ی دانلود است…");
           actions([{ label: "دیدن و دانلود عکس‌ها", href: "c.html#" + result.token }]);
           setTimeout(() => { location.href = "c.html#" + result.token; }, 1500);
+        } else if (result.purpose === "registration" && result.telegram) {
+          const link = "https://t.me/" + result.telegram + "?text=" + encodeURIComponent(result.message || "");
+          show("✅", "پرداخت ثبت‌نام تأیید شد", "حالا به تلگرام مدیریت می‌روی تا پروفایلت ساخته شود. پیام آماده است؛ فقط ارسالش کن.");
+          actions([{ label: "ادامه در تلگرام ↗", href: link }, { label: "بازگشت به سایت", href: "./", ghost: true }]);
+          setTimeout(() => { location.href = link; }, 2000);
         } else {
           show("✅", "پرداخت تأیید شد", "ممنون! پرداختت با موفقیت ثبت شد.");
           actions([{ label: "بازگشت به سایت", href: "./" }]);
