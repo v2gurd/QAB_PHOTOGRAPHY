@@ -1944,7 +1944,90 @@
     @keyframes installCardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     @media(min-width:700px){.ios-install-card{left:auto;right:22px;width:420px}}
 
-</style>
+
+    /* ===== Pose ideas ===== */
+    .pose-tabs { display: flex; gap: 10px; margin: 0 0 22px; padding: 2px 2px 8px; overflow-x: auto; scrollbar-width: none; }
+    .pose-tabs::-webkit-scrollbar { display: none; }
+    .pose-tab {
+      flex: 0 0 auto;
+      display: inline-flex; align-items: center; gap: 8px;
+      min-height: 44px; padding: 0 18px;
+      border: 1px solid var(--line); border-radius: 100px;
+      background: rgba(255,255,255,.03); color: var(--text);
+      font: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+      transition: background .2s ease, border-color .2s ease, color .2s ease;
+    }
+    .pose-tab span { color: var(--lime); font-size: 16px; }
+    .pose-tab:hover { border-color: rgba(215,255,97,.45); }
+    .pose-tab[aria-selected="true"] { background: var(--lime); border-color: transparent; color: #17190f; }
+    .pose-tab[aria-selected="true"] span { color: #17190f; }
+    .pose-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    @media (max-width: 1000px) { .pose-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 680px) { .pose-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
+    .pose-card {
+      display: flex; flex-direction: column; padding: 0; overflow: hidden; text-align: right;
+      border: 1px solid var(--line); border-radius: 22px; background: var(--panel); color: var(--text);
+      font: inherit; cursor: pointer;
+      transition: transform .25s ease, border-color .25s ease;
+    }
+    .pose-card:hover { transform: translateY(-5px); border-color: rgba(215,255,97,.4); }
+    .pose-card:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+    .pose-art { aspect-ratio: 5 / 6; background: radial-gradient(circle at 50% 30%, rgba(255,255,255,.05), transparent 65%), var(--panel-2); display: grid; place-items: center; }
+    .pose-art svg, .pose-art img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .pose-art img { object-fit: cover; }
+    .pose-info { padding: 12px 14px 15px; }
+    .pose-info h3 { font-size: 15px; margin: 0 0 3px; }
+    .pose-info p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .pose-badge { display: inline-block; margin-bottom: 6px; padding: 1px 9px; border-radius: 100px; background: rgba(215,255,97,.14); color: var(--lime); font-size: 11px; font-weight: 700; }
+    .pose-viewer { position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; padding: 18px; background: rgba(0,0,0,.88); }
+    .pose-viewer[hidden] { display: none; }
+    .pose-viewer figure { position: relative; width: min(100%, 440px); margin: 0; border-radius: 26px; overflow: hidden; background: var(--panel); border: 1px solid var(--line); }
+    .pose-viewer .pose-art { aspect-ratio: 5 / 6; }
+    .pose-viewer figcaption { padding: 14px 18px 18px; }
+    .pose-viewer figcaption b { display: block; font-size: 17px; }
+    .pose-viewer figcaption span { color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .pose-viewer .pv-btn { position: absolute; top: 12px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(0,0,0,.55); color: #fff; font-size: 22px; cursor: pointer; }
+    .pose-viewer .pv-close { left: 12px; }
+    .pose-viewer .pv-nav { top: 40%; }
+    .pose-viewer .pv-prev { right: 12px; }
+    .pose-viewer .pv-next { left: 12px; }
+    html.pose-open { overflow: hidden; }
+
+    /* ===== QAB Live Pose Camera ===== */
+    .pose-camera-promo{display:grid;grid-template-columns:1fr auto;align-items:center;gap:22px;padding:clamp(22px,4vw,38px);border:1px solid rgba(215,255,97,.28);border-radius:28px;background:radial-gradient(circle at 12% 15%,rgba(215,255,97,.12),transparent 42%),linear-gradient(135deg,#1b1d18,#131410);box-shadow:0 20px 55px rgba(0,0,0,.22)}
+    .pose-camera-promo h3{font-size:clamp(21px,3vw,30px);margin:8px 0}
+    .pose-camera-promo p{max-width:650px;color:var(--muted);font-size:13px;line-height:2}
+    .pose-camera-open{min-width:190px}
+    .pose-live-modal{position:fixed;inset:0;z-index:11000;display:none;align-items:center;justify-content:center;padding:14px;background:rgba(0,0,0,.94);backdrop-filter:blur(12px)}
+    .pose-live-modal.active{display:flex}
+    .pose-live-shell{width:min(1100px,100%);max-height:96dvh;overflow:auto;border:1px solid rgba(255,255,255,.12);border-radius:22px;background:#171914;color:#f6f6ef}
+    .pose-live-head{position:sticky;top:0;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 17px;background:rgba(23,25,20,.96);border-bottom:1px solid var(--line)}
+    .pose-live-head strong{font-size:15px}
+    .pose-live-head small{display:block;color:var(--muted);font-size:11px}
+    .pose-live-close{width:40px;height:40px;border:1px solid var(--line);border-radius:12px;background:#292c24;color:#fff;font-size:23px}
+    .pose-live-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:15px;padding:15px}
+    .pose-live-stage{position:relative;min-height:320px;aspect-ratio:4/5;max-height:70dvh;overflow:hidden;border-radius:17px;background:#080908;display:grid;place-items:center}
+    .pose-live-stage video{width:100%;height:100%;position:absolute;inset:0;object-fit:cover}
+    .pose-live-stage video.mirrored{transform:scaleX(-1)}
+    .pose-live-overlay{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 2px 5px rgba(0,0,0,.8));transition:opacity .15s}
+    .pose-live-empty{position:absolute;inset:0;display:grid;place-items:center;padding:25px;text-align:center;color:#b8bbae;background:radial-gradient(circle,rgba(215,255,97,.08),transparent 65%)}
+    .pose-live-empty[hidden]{display:none}
+    .pose-live-status{position:absolute;top:12px;right:12px;z-index:2;padding:6px 10px;border:1px solid rgba(255,255,255,.15);border-radius:30px;background:rgba(0,0,0,.6);font-size:10px}
+    .pose-live-status:before{content:"";display:inline-block;width:7px;height:7px;margin-left:6px;border-radius:50%;background:#ff6262}
+    .pose-live-status.live:before{background:#d7ff61;box-shadow:0 0 10px #d7ff61}
+    .pose-live-controls{display:flex;flex-direction:column;gap:12px}
+    .pose-live-control{padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025)}
+    .pose-live-control label{display:block;margin-bottom:7px;font-size:11px;color:#c9cbbf}
+    .pose-live-control select{width:100%;min-height:42px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#10120e;color:#fff;font:inherit;font-size:12px}
+    .pose-live-control input[type=range]{width:100%;accent-color:var(--lime)}
+    .pose-live-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .pose-live-buttons button{min-height:42px;padding:8px;border:1px solid var(--line);border-radius:11px;background:#292c24;color:#fff;font:inherit;font-size:11px;font-weight:700}
+    .pose-live-buttons button.primary{background:var(--lime);color:#17190f;border-color:transparent}
+    .pose-live-help{font-size:10px;color:var(--muted);line-height:1.9}
+    html.pose-camera-open{overflow:hidden}
+    @media(max-width:760px){.pose-camera-promo{grid-template-columns:1fr}.pose-camera-open{width:100%}.pose-live-modal{padding:0}.pose-live-shell{width:100%;height:100dvh;max-height:100dvh;border-radius:0}.pose-live-layout{grid-template-columns:1fr;padding:10px}.pose-live-stage{width:min(100%,520px);margin-inline:auto;max-height:54dvh;min-height:260px}.pose-live-controls{display:grid;grid-template-columns:1fr 1fr}.pose-live-control:first-child{grid-column:1/-1}.pose-live-buttons{grid-column:1/-1}.pose-live-help{grid-column:1/-1}}
+
+  </style>
 </head>
 
 <body>
@@ -1958,6 +2041,8 @@
       <nav class="nav-links" id="navLinks">
         <a href="#home">صفحه اصلی</a>
         <a href="#photographers">عکاسان</a>
+        <a href="#poses">ژست‌ها</a>
+        <a href="#pose-camera">دوربین زنده</a>
         <a href="#how">نحوه رزرو</a>
         <a href="#contact">ارتباط با ما</a>
       </nav>
@@ -2567,6 +2652,40 @@
       </div>
     </section>
 
+    <section class="section" id="poses">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div>
+            <span class="eyebrow">POSE IDEAS</span>
+            <h2 style="margin-top:12px">ایده‌ی <span class="lime">ژست</span> برای عکاسی.</h2>
+            <p>دسته‌ات را انتخاب کن، ژست دلخواهت را پیدا کن و روز عکاسی به عکاس نشانش بده.</p>
+          </div>
+        </div>
+        <div class="pose-tabs reveal" id="poseTabs" role="tablist" aria-label="دسته‌بندی ژست‌ها"></div>
+        <div class="pose-grid" id="poseGrid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="pose-camera">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div>
+            <span class="eyebrow">QĀB LIVE POSE</span>
+            <h2 style="margin-top:12px">ژست را روی <span class="lime">دوربین زنده</span> ببین.</h2>
+            <p>دوربین را روشن کن، ژست دلخواهت را انتخاب کن و شمایل راهنما را روی تصویر زنده مدل تنظیم کن.</p>
+          </div>
+        </div>
+        <div class="pose-camera-promo reveal">
+          <div>
+            <span class="pose-badge">ابزار ویژه عکاسان قاب</span>
+            <h3>دستیار ژست‌دهی، درست کنار دوربینت.</h3>
+            <p>تصویر زنده دوربین در کنار الگوی ژست نمایش داده می‌شود. دسته‌بندی و ژست را تغییر بده، اندازه و شفافیت راهنما را تنظیم کن و مدل را راحت‌تر هدایت کن.</p>
+          </div>
+          <button class="btn btn-primary pose-camera-open" type="button" onclick="openPoseCamera()">📷 ورود به دوربین زنده</button>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="how">
       <div class="container">
         <div class="section-heading reveal">
@@ -2624,6 +2743,7 @@
 
       <div class="footer-links">
         <a href="#photographers">عکاسان</a>
+        <a href="#poses">ژست‌ها</a>
         <a href="#how">راهنما</a>
         <a href="#" onclick="openPhotographerRegistration(); return false;">ثبت‌نام عکاس</a>
         <a href="https://t.me/esi_as" target="_blank" rel="noopener noreferrer">تلگرام احسان</a>
@@ -2876,6 +2996,49 @@
     <span class="music-label">موسیقی</span>
   </button>
 
+
+  <!-- QAB Live Pose Camera -->
+  <div class="pose-live-modal" id="poseLiveModal" role="dialog" aria-modal="true" aria-label="دوربین زنده قاب">
+    <div class="pose-live-shell">
+      <div class="pose-live-head">
+        <div><strong>QĀB / دوربین زنده</strong><small>راهنمای ژست روی تصویر دوربین</small></div>
+        <button class="pose-live-close" type="button" id="poseLiveClose" aria-label="بستن">×</button>
+      </div>
+      <div class="pose-live-layout">
+        <div class="pose-live-stage">
+          <video id="poseLiveVideo" autoplay muted playsinline></video>
+          <div class="pose-live-empty" id="poseLiveEmpty">برای شروع، دکمه «روشن کردن دوربین» را بزن.<br>اجازه دسترسی دوربین را در مرورگر تأیید کن.</div>
+          <div class="pose-live-status" id="poseLiveStatus">دوربین خاموش</div>
+          <div class="pose-live-overlay" id="poseLiveOverlay"></div>
+        </div>
+        <div class="pose-live-controls">
+          <div class="pose-live-control">
+            <label for="poseLiveCategory">دسته‌بندی ژست</label>
+            <select id="poseLiveCategory"></select>
+          </div>
+          <div class="pose-live-control">
+            <label for="poseLiveSelect">انتخاب ژست</label>
+            <select id="poseLiveSelect"></select>
+          </div>
+          <div class="pose-live-control">
+            <label for="poseLiveOpacity">شفافیت راهنما</label>
+            <input id="poseLiveOpacity" type="range" min="10" max="100" value="72">
+          </div>
+          <div class="pose-live-control">
+            <label for="poseLiveScale">اندازه راهنما</label>
+            <input id="poseLiveScale" type="range" min="55" max="145" value="100">
+          </div>
+          <div class="pose-live-buttons">
+            <button class="primary" type="button" id="poseLiveStart">روشن کردن دوربین</button>
+            <button type="button" id="poseLiveSwitch">تعویض دوربین</button>
+            <button type="button" id="poseLiveMirror">آینه‌ای کردن</button>
+            <button type="button" id="poseLiveStop">خاموش کردن</button>
+          </div>
+          <p class="pose-live-help">نکته: برای دسترسی به دوربین، سایت باید با HTTPS باز شود. تصویر دوربین فقط در همین مرورگر نمایش داده می‌شود و به سرور ارسال نمی‌شود.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     const photographers = {
@@ -4889,6 +5052,538 @@
       });
     })();
 
+    // ===== Pose ideas (ایده‌ی ژست) =====
+    (function () {
+// ===== Pose guides: mannequin-style illustrations drawn from joint angles =====
+const D = Math.PI / 180;
+const LEN = { head: 13, neck: 8, torso: 64, up: 38, fore: 36, thigh: 56, shin: 54 };
+const COLORS = { m: "#e9e9ee", f: "#d7ff61" };
+const OUT = "#17181a";   // outline colour (matches the dark cards)
+
+function dirDown(angle) { return [Math.sin(angle * D), Math.cos(angle * D)]; }   // 0 = straight down, + = toward image right
+function dirUp(angle) { return [Math.sin(angle * D), -Math.cos(angle * D)]; }    // 0 = straight up
+
+function buildFigure(o) {
+  const f = Object.assign({ x: 100, y: 150, s: 1, g: "m", t: 0, h: 0, p: 0, la: [0, 0], ra: [0, 0], ll: [0, 0], rl: [0, 0], look: 0, dress: 0, color: null, z: 0, za: null, toe: null }, o);
+  const s = f.s;
+  const sw = (f.g === "f" ? 17 : 22) * s;
+  const hw = (f.g === "f" ? 13 : 11) * s;
+  const P = [f.x, f.y];
+  const tv = dirUp(f.t);
+  const N = [P[0] + tv[0] * LEN.torso * s, P[1] + tv[1] * LEN.torso * s];
+  const perp = [Math.cos(f.t * D), Math.sin(f.t * D)];
+  const LS = [N[0] - perp[0] * sw, N[1] - perp[1] * sw];
+  const RS = [N[0] + perp[0] * sw, N[1] + perp[1] * sw];
+  const pp = [Math.cos(f.p * D), Math.sin(f.p * D)];
+  const LH = [P[0] - pp[0] * hw, P[1] - pp[1] * hw];
+  const RH = [P[0] + pp[0] * hw, P[1] + pp[1] * hw];
+  const hv = dirUp(f.t + f.h);
+  const C = [N[0] + hv[0] * (LEN.neck + LEN.head) * s, N[1] + hv[1] * (LEN.neck + LEN.head) * s];
+  const limb = (start, a, l1, l2) => {
+    const d1 = dirDown(a[0]);
+    const m = [start[0] + d1[0] * l1 * s, start[1] + d1[1] * l1 * s];
+    const d2 = dirDown(a[1]);
+    return [start, m, [m[0] + d2[0] * l2 * s, m[1] + d2[1] * l2 * s]];
+  };
+  return {
+    f, N, P, LS, RS, LH, RH, C,
+    la: limb(LS, f.la, LEN.up, LEN.fore), ra: limb(RS, f.ra, LEN.up, LEN.fore),
+    ll: limb(LH, f.ll, LEN.thigh, LEN.shin), rl: limb(RH, f.rl, LEN.thigh, LEN.shin)
+  };
+}
+
+const pts = list => list.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
+const line = (list, color, width) =>
+  `<polyline points="${pts(list)}" fill="none" stroke="${OUT}" stroke-width="${(+width + 3.2).toFixed(1)}" stroke-linecap="round" stroke-linejoin="round"/>` +
+  `<polyline points="${pts(list)}" fill="none" stroke="${color}" stroke-width="${(+width).toFixed(1)}" stroke-linecap="round" stroke-linejoin="round"/>`;
+
+function drawBody(fg) {
+  const f = fg.f, s = f.s, c = f.color || COLORS[f.g];
+  let out = "";
+  [["ll", -1], ["rl", 1]].forEach(([key, side]) => {
+    const l = fg[key];
+    out += line([l[0], l[1]], c, 13 * s) + line([l[1], l[2]], c, 10 * s);
+    const toe = f.toe === null ? side : f.toe;
+    out += `<ellipse cx="${(l[2][0] + toe * 6 * s).toFixed(1)}" cy="${(l[2][1] + 3 * s).toFixed(1)}" rx="${(9 * s).toFixed(1)}" ry="${(4.6 * s).toFixed(1)}" fill="${c}" stroke="${OUT}" stroke-width="1.6"/>`;
+  });
+  if (f.dress) {
+    const yb = fg.P[1] + (f.dress > 1 ? 66 : 54) * s;
+    const spread = (f.dress > 1 ? 34 : 17) * s;
+    out += `<polygon points="${pts([fg.LH, fg.RH, [fg.RH[0] + spread, yb], [fg.LH[0] - spread, yb]])}" fill="${c}" stroke="${OUT}" stroke-width="${(5 * s + 3).toFixed(1)}" stroke-linejoin="round"/>` +
+           `<polygon points="${pts([fg.LH, fg.RH, [fg.RH[0] + spread, yb], [fg.LH[0] - spread, yb]])}" fill="${c}" stroke="${c}" stroke-width="${(5 * s).toFixed(1)}" stroke-linejoin="round"/>`;
+  }
+  out += `<polygon points="${pts([fg.LS, fg.RS, fg.RH, fg.LH])}" fill="${c}" stroke="${OUT}" stroke-width="${(8 * s + 3).toFixed(1)}" stroke-linejoin="round"/>` +
+         `<polygon points="${pts([fg.LS, fg.RS, fg.RH, fg.LH])}" fill="${c}" stroke="${c}" stroke-width="${(8 * s).toFixed(1)}" stroke-linejoin="round"/>`;
+  out += line([fg.N, fg.C], c, 9 * s);
+  out += `<circle cx="${fg.C[0].toFixed(1)}" cy="${fg.C[1].toFixed(1)}" r="${(LEN.head * s + 1.6).toFixed(1)}" fill="${OUT}"/>` +
+         `<circle cx="${fg.C[0].toFixed(1)}" cy="${fg.C[1].toFixed(1)}" r="${(LEN.head * s).toFixed(1)}" fill="${c}"/>`;
+  if (f.look) out += `<circle cx="${(fg.C[0] + f.look * LEN.head * s * 0.95).toFixed(1)}" cy="${(fg.C[1] + 1.5 * s).toFixed(1)}" r="${(3.4 * s).toFixed(1)}" fill="${c}"/>`;
+  return out;
+}
+
+function drawArms(fg) {
+  const f = fg.f, s = f.s, c = f.color || COLORS[f.g];
+  let out = "";
+  [fg.la, fg.ra].forEach(a => {
+    out += line([a[0], a[1]], c, 11 * s) + line([a[1], a[2]], c, 9 * s);
+    out += `<circle cx="${a[2][0].toFixed(1)}" cy="${a[2][1].toFixed(1)}" r="${(5.2 * s).toFixed(1)}" fill="${c}" stroke="${OUT}" stroke-width="1.6"/>`;
+  });
+  return out;
+}
+
+function figureBox(fg) {
+  const f = fg.f, r = LEN.head * f.s;
+  const all = [fg.N, fg.P, fg.LS, fg.RS, fg.LH, fg.RH, ...fg.la, ...fg.ra, ...fg.ll, ...fg.rl, [fg.C[0] - r, fg.C[1] - r], [fg.C[0] + r, fg.C[1] + r]];
+  if (f.dress) all.push([fg.P[0] - 40 * f.s, fg.P[1] + 66 * f.s], [fg.P[0] + 40 * f.s, fg.P[1] + 66 * f.s]);
+  let minx = 1e9, miny = 1e9, maxx = -1e9, maxy = -1e9;
+  all.forEach(p => { minx = Math.min(minx, p[0] - 9); maxx = Math.max(maxx, p[0] + 9); miny = Math.min(miny, p[1] - 9); maxy = Math.max(maxy, p[1] + 9); });
+  return [minx, miny, maxx, maxy];
+}
+
+function renderPose(pose) {
+  const layers = [];
+  let box = [1e9, 1e9, -1e9, -1e9];
+  const merge = b => { box = [Math.min(box[0], b[0]), Math.min(box[1], b[1]), Math.max(box[2], b[2]), Math.max(box[3], b[3])]; };
+  let lowest = -1e9, footMin = 1e9, footMax = -1e9;
+  pose.figs.forEach(o => {
+    const fg = buildFigure(o);
+    layers.push({ z: fg.f.z, svg: drawBody(fg) });
+    layers.push({ z: fg.f.za === null ? fg.f.z + 0.5 : fg.f.za, svg: drawArms(fg) });
+    merge(figureBox(fg));
+    [fg.ll[2], fg.rl[2]].forEach(p => { lowest = Math.max(lowest, p[1]); footMin = Math.min(footMin, p[0]); footMax = Math.max(footMax, p[0]); });
+  });
+  const props = (pose.props || []);
+  props.forEach(p => merge(p.box));
+  layers.sort((a, b) => a.z - b.z);
+
+  const groundY = lowest + 9;
+  const shadow = pose.air ? "" : `<ellipse cx="${((footMin + footMax) / 2).toFixed(1)}" cy="${groundY.toFixed(1)}" rx="${Math.max(34, (footMax - footMin) / 2 + 22).toFixed(1)}" ry="5" fill="rgba(255,255,255,.07)"/>`;
+
+  // default frame 200x280; grow (never shrink) when the pose does not fit
+  const m = 8;
+  const cx = (box[0] + box[2]) / 2, cy = (box[1] + box[3]) / 2;
+  let w = Math.max(200, box[2] - box[0] + 2 * m), h = Math.max(280, box[3] - box[1] + 2 * m);
+  if (w / h > 200 / 280) h = w * 280 / 200; else w = h * 200 / 280;
+  const fx = cx - w / 2, fy = cy - h / 2, fw = w, fh = h;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${fx.toFixed(1)} ${fy.toFixed(1)} ${fw.toFixed(1)} ${fh.toFixed(1)}" role="img" aria-label="${pose.title}">${props.map(p => p.svg).join("")}${shadow}${layers.map(l => l.svg).join("")}</svg>`;
+}
+
+const GRAY = "rgba(255,255,255,.16)";
+const wall = x => ({ box: [x, 30, x + 6, 266], svg: `<rect x="${x}" y="30" width="6" height="236" fill="${GRAY}"/>` });
+const chair = (x, y) => ({ box: [x - 3, y - 58, x + 64, y + 6], svg: `<rect x="${x}" y="${y}" width="64" height="6" rx="3" fill="${GRAY}"/><rect x="${x - 3}" y="${y - 58}" width="6" height="64" rx="3" fill="${GRAY}"/>` });
+const table = (x, y) => ({ box: [x, y, x + 54, 262], svg: `<rect x="${x}" y="${y}" width="54" height="6" rx="3" fill="${GRAY}"/><rect x="${x + 6}" y="${y + 6}" width="5" height="${262 - y - 6}" fill="${GRAY}"/><rect x="${x + 43}" y="${y + 6}" width="5" height="${262 - y - 6}" fill="${GRAY}"/>` });
+const bench = (x, y, w) => ({ box: [x, y, x + w, 262], svg: `<rect x="${x}" y="${y}" width="${w}" height="7" rx="3" fill="${GRAY}"/><rect x="${x + 6}" y="${y + 7}" width="5" height="${262 - y - 7}" fill="${GRAY}"/><rect x="${x + w - 11}" y="${y + 7}" width="5" height="${262 - y - 7}" fill="${GRAY}"/>` });
+const ball = (x, y) => ({ box: [x - 9, y - 9, x + 9, y + 9], svg: `<circle cx="${x}" cy="${y}" r="9" fill="none" stroke="${GRAY}" stroke-width="3"/>` });
+
+const CATEGORIES = [
+  { id: "couple", slug: "Couple", title: "زوج و کاپل", icon: "♡" },
+  { id: "men", slug: "Men", title: "مردانه و پسرانه", icon: "♂" },
+  { id: "women", slug: "Women", title: "دخترانه", icon: "♀" },
+  { id: "classic", slug: "Classic", title: "کلاسیک", icon: "❖" },
+  { id: "sport", slug: "Sport", title: "اسپورت", icon: "⚡" },
+  { id: "fashion", slug: "Fashion", title: "فشن", icon: "✦" }
+];
+
+const M = { g: "m" }, F = { g: "f" };
+const POSES = [
+  // ---------------- couple ----------------
+  { cat: "couple", title: "آغوش از روبه‌رو", tip: "نزدیک بایستید، بازوها دور هم و نگاه به پایین یا به دوربین.", figs: [
+    { ...M, x: 86, t: 3, h: 8, la: [-6, -4], ra: [14, 70], ll: [-4, -2], rl: [3, 2], look: 1 },
+    { ...F, x: 116, s: .9, t: -3, h: -6, la: [-26, -150], ra: [10, 0], ll: [-3, -2], rl: [4, 2], z: 1, look: -1 }] },
+  { cat: "couple", title: "قدم‌زدن دست‌در‌دست", tip: "آرام راه بروید و نگاهتان به جلو یا به همدیگر باشد.", figs: [
+    { ...M, x: 78, t: 2, la: [-12, -16], ra: [14, 0], ll: [-20, -8], rl: [18, 8], look: 1 },
+    { ...F, x: 126, s: .9, t: 0, la: [-10, 0], ra: [14, 22], ll: [-16, -6], rl: [18, 6], look: 1 }] },
+  { cat: "couple", title: "پشت‌به‌پشت", tip: "پشت به هم، دست‌ها روی سینه، نگاه به دوربین.", figs: [
+    { ...M, x: 86, t: 4, h: -6, la: [-14, 82], ra: [14, -82], ll: [-6, -3], rl: [6, 3] },
+    { ...F, x: 114, s: .9, t: -4, h: 6, la: [-12, 80], ra: [12, -80], ll: [-5, -3], rl: [6, 3] }] },
+  { cat: "couple", title: "پیشانی به پیشانی", tip: "نزدیک و آرام، چشم‌ها بسته؛ حس صمیمیت.", figs: [
+    { ...M, x: 80, t: 11, h: 6, la: [-8, 10], ra: [26, 70], ll: [-5, -3], rl: [6, 4], look: 1 },
+    { ...F, x: 120, s: .9, t: -11, h: -4, la: [-24, -25], ra: [8, 4], ll: [-6, -4], rl: [5, 3], look: -1, z: 1 }] },
+  { cat: "couple", title: "بغل از پشت", tip: "او پشت سر، دست‌ها دور کمر؛ نفر جلویی کمی به عقب تکیه بدهد.", figs: [
+    { ...M, x: 100, t: 0, h: 10, la: [-6, 14], ra: [6, -14], ll: [-5, -3], rl: [5, 3], z: 0, za: 3 },
+    { ...F, x: 106, s: .88, t: -2, h: -10, la: [-12, 4], ra: [12, -4], ll: [-4, -2], rl: [5, 3], z: 1, look: 1 }] },
+  { cat: "couple", title: "رقص و چرخش", tip: "یک دست در دست، یک دست روی کمر؛ بدن‌ها کمی کج.", figs: [
+    { ...M, x: 82, t: 6, h: 4, la: [-14, -12], ra: [48, -140], ll: [-12, -4], rl: [8, 3] },
+    { ...F, x: 120, s: .9, t: -6, h: -4, la: [-40, -150], ra: [10, 26], ll: [-6, -3], rl: [12, 8], dress: 1, z: 1 }] },
+  { cat: "couple", title: "بوسه روی پیشانی", tip: "او سر را کمی بالا می‌گیرد؛ نور از بالا و کنار.", figs: [
+    { ...M, x: 90, t: 6, h: 14, la: [-8, 4], ra: [20, 76], ll: [-4, -2], rl: [4, 2], look: 1 },
+    { ...F, x: 118, s: .86, t: -3, h: -14, la: [-18, -40], ra: [8, 3], ll: [-3, -2], rl: [4, 2], dress: 1, z: 1, look: -1 }] },
+  { cat: "couple", title: "نشسته کنار هم", tip: "روی نیمکت، سرِ او روی شانه‌ی او؛ پاها به یک سمت.", props: [bench(28, 164, 148)], figs: [
+    { ...M, x: 78, y: 160, t: -2, toe: 1, la: [14, 60], ra: [10, 60], ll: [84, 6], rl: [80, 2], look: 1 },
+    { ...F, x: 124, y: 160, s: .9, t: -8, h: -10, toe: 1, la: [14, 70], ra: [10, 62], ll: [86, 8], rl: [80, 4], look: -1, z: 1 }], },
+
+  // ---------------- men ----------------
+  { cat: "men", title: "ایستاده و رها", tip: "دست‌ها در جیب، وزن روی یک پا؛ نگاه کمی کج.", figs: [
+    { ...M, t: 2, h: 6, la: [-8, 22], ra: [8, -22], ll: [-8, -5], rl: [8, 5], look: 1 }] },
+  { cat: "men", title: "دست‌به‌سینه", tip: "اعتمادبه‌نفس؛ شانه‌ها باز و چانه کمی بالا.", figs: [
+    { ...M, t: 0, h: 0, la: [-12, 84], ra: [12, -84], ll: [-8, -5], rl: [7, 4] }] },
+  { cat: "men", title: "تکیه به دیوار", tip: "شانه به دیوار، پاها ضربدری، یک دست در جیب.", props: [wall(158)], figs: [
+    { ...M, x: 120, t: 7, h: 6, la: [-8, 20], ra: [44, 70], ll: [-4, -2], rl: [-15, -6], look: 1 }] },
+  { cat: "men", title: "قدم‌زدن", tip: "حین راه رفتن شلیک کنید؛ دست‌ها آزاد.", figs: [
+    { ...M, t: 3, h: 6, la: [14, 28], ra: [-14, -20], ll: [-20, -12], rl: [20, 8], look: 1 }] },
+  { cat: "men", title: "تنظیم یقه و کت", tip: "یک دست روی یقه؛ حس شیک و طبیعی.", figs: [
+    { ...M, t: 2, h: 8, la: [-9, 8], ra: [24, -152], ll: [-6, -3], rl: [8, 4], look: 1 }] },
+  { cat: "men", title: "نشسته روی صندلی", tip: "کمی به جلو خم، آرنج روی زانو.", y: 150, props: [chair(70, 170)], figs: [
+    { ...M, x: 98, y: 170, t: 8, h: -4, toe: 1, la: [26, 58], ra: [24, 70], ll: [84, 6], rl: [78, 2], look: 1 }] },
+  { cat: "men", title: "چمباتمه", tip: "از زاویه‌ی پایین، دست‌ها روی زانو.", figs: [
+    { ...M, y: 168, t: 4, la: [-26, -4], ra: [26, 4], ll: [-52, 8], rl: [52, -8], look: 0 }] },
+  { cat: "men", title: "نگاه از روی شانه", tip: "بدن کج، سر به سمت دوربین برگردد.", figs: [
+    { ...M, t: -9, h: 24, la: [-14, -6], ra: [16, 10], ll: [-6, -4], rl: [8, 4], look: 1 }] },
+
+  // ---------------- women ----------------
+  { cat: "women", title: "دست روی کمر", tip: "لگن کمی کج، شانه‌ها آرام.", figs: [
+    { ...F, p: 6, t: -4, h: -8, la: [-26, 38], ra: [10, 4], ll: [-9, -4], rl: [6, 5], dress: 1 }] },
+  { cat: "women", title: "لمس موها", tip: "یک دست به موها یا گوش؛ نگاه به پایین.", figs: [
+    { ...F, p: 4, t: -3, h: 10, la: [-12, 6], ra: [30, -146], ll: [-6, -4], rl: [6, 4], dress: 1, look: -1 }] },
+  { cat: "women", title: "چرخش با پیراهن", tip: "پیراهن بلند، دست‌ها باز؛ شاتر سریع.", figs: [
+    { ...F, p: 0, t: 4, h: -8, la: [-58, -40], ra: [56, 32], ll: [-12, -6], rl: [16, 20], dress: 2 }] },
+  { cat: "women", title: "نشسته روی زمین، زانو بالا", tip: "زانوها بالا و دست‌ها دور پا؛ از زاویه‌ی کمی بالاتر.", ground: 232, figs: [
+    { ...F, x: 92, y: 220, t: -4, h: 6, toe: 1, la: [20, 46], ra: [30, 20], ll: [122, -34], rl: [126, -36], dress: 0, look: 1 }] },
+  { cat: "women", title: "تکیه‌ی ملایم", tip: "پشت به دیوار، یک پا خم؛ آرام و بی‌ادا.", props: [wall(160)], figs: [
+    { ...F, x: 124, t: 6, h: 8, p: 4, la: [-10, 6], ra: [38, 66], ll: [-5, -3], rl: [20, -22], dress: 1, look: 1 }] },
+  { cat: "women", title: "دست‌ها پشت سر", tip: "آرنج‌ها باز، سر کمی عقب؛ حس آزادی.", figs: [
+    { ...F, t: -3, h: -6, la: [-52, -150], ra: [52, 150], ll: [-8, -4], rl: [8, 5], dress: 1 }] },
+  { cat: "women", title: "نگاه از روی شانه", tip: "پشت به دوربین، سر برگردد؛ موها حرکت داشته باشند.", figs: [
+    { ...F, t: -8, h: 24, p: 5, la: [-10, 5], ra: [14, 10], ll: [-7, -4], rl: [8, 5], dress: 1, look: 1 }] },
+  { cat: "women", title: "دست زیر چانه", tip: "آرنج روی دست دیگر؛ نگاه خیره.", figs: [
+    { ...F, t: 2, h: 10, p: 3, la: [-6, 98], ra: [14, -160], ll: [-6, -3], rl: [7, 4], dress: 1, look: 1 }] },
+
+  // ---------------- classic ----------------
+  { cat: "classic", title: "ایستاده رسمی", tip: "قامت راست، پاها نزدیک و بازوها کنار بدن.", figs: [
+    { ...M, la: [-5, -3], ra: [5, 3], ll: [-3, -1], rl: [3, 1] }] },
+  { cat: "classic", title: "دست‌ها جلوی بدن", tip: "حس رسمی و آرام؛ برای عکس پرسنلی.", figs: [
+    { ...F, t: 0, la: [-6, 24], ra: [6, -24], ll: [-3, -1], rl: [3, 1], dress: 1 }] },
+  { cat: "classic", title: "نشسته روی صندلی", tip: "کمر صاف، دست‌ها روی ران‌ها.", props: [chair(66, 170)], figs: [
+    { ...F, x: 94, y: 170, t: 0, toe: 1, la: [26, 64], ra: [22, 66], ll: [86, 4], rl: [82, 2], dress: 1, look: 1 }] },
+  { cat: "classic", title: "پرتره سه‌ربع", tip: "بدن کمی کج و سر به دوربین؛ ژست همیشگی پرتره‌ها.", figs: [
+    { ...M, t: -8, h: 14, la: [-6, 8], ra: [10, 0], ll: [-5, -3], rl: [6, 3], look: 1 }] },
+  { cat: "classic", title: "تکیه بر میز", tip: "یک دست روی میز، بدن کمی به جلو.", props: [table(130, 138)], figs: [
+    { ...M, x: 112, t: 14, h: -6, la: [-8, 8], ra: [38, 80], ll: [-5, -3], rl: [8, 4], look: 1 }] },
+  { cat: "classic", title: "دست در جیب کت", tip: "یک دست در جیب، دیگری آزاد؛ وزن روی یک پا.", figs: [
+    { ...M, t: 2, h: 8, la: [-9, 20], ra: [8, -2], ll: [-8, -4], rl: [8, 4], look: 1 }] },
+  { cat: "classic", title: "پا روی پا", tip: "نشسته و پاها ضربدری؛ دست‌ها روی زانو.", props: [chair(66, 170)], figs: [
+    { ...F, x: 94, y: 170, t: 0, toe: 1, la: [24, 62], ra: [22, 64], ll: [84, 2], rl: [78, 48], dress: 1, look: 1 }] },
+  { cat: "classic", title: "حالت متفکر", tip: "انگشت‌ها کنار صورت، نگاه دور.", figs: [
+    { ...M, t: 2, h: 10, la: [-5, 100], ra: [16, -158], ll: [-6, -3], rl: [7, 3], look: 1 }] },
+
+  // ---------------- sport ----------------
+  { cat: "sport", title: "دویدن", tip: "شاتر سریع؛ دست و پا در جهت مخالف.", figs: [
+    { ...M, y: 148, t: 12, h: -4, la: [38, 118], ra: [-40, -96], ll: [-38, -74], rl: [34, 12], look: 1 }] },
+  { cat: "sport", title: "پرش", tip: "از زاویه‌ی پایین و در اوج پرش بگیرید.", air: true, figs: [
+    { ...M, y: 132, t: 0, h: -4, la: [-148, -172], ra: [148, 172], ll: [-26, -12], rl: [26, 14] }] },
+  { cat: "sport", title: "شوت فوتبال", tip: "لحظه‌ی برخورد؛ دست‌ها برای تعادل.", figs: [
+    { ...M, y: 150, t: -10, h: 8, la: [-62, -44], ra: [44, 22], ll: [2, 2], rl: [72, 38], look: 1 }] },
+  { cat: "sport", title: "لانج و کشش", tip: "حالت نرمشی؛ دست‌ها بالا.", figs: [
+    { ...F, y: 178, t: 2, la: [-166, -172], ra: [166, 172], ll: [-58, 4], rl: [44, 52] }] },
+  { cat: "sport", title: "حالت بوکس", tip: "گارد بالا، نگاه سخت و پاها باز.", figs: [
+    { ...M, y: 150, t: -6, h: 4, la: [-24, 150], ra: [26, -148], ll: [-26, -12], rl: [24, 12], look: 1 }] },
+  { cat: "sport", title: "درخت (یوگا)", tip: "تعادل روی یک پا؛ دست‌ها بالای سر.", figs: [
+    { ...F, y: 150, t: 0, la: [-12, -172], ra: [12, 172], ll: [0, 0], rl: [62, -82] }] },
+  { cat: "sport", title: "کشش کنار بدن", tip: "دست‌ها بالا و بدن به یک سمت؛ حالت نرمشی و آرام.", figs: [
+    { ...F, y: 150, t: 16, h: 6, la: [-168, -176], ra: [150, 168], ll: [-14, -8], rl: [14, 8] }] },
+  { cat: "sport", title: "دریبل بسکتبال", tip: "زانو خم، توپ کنار پا؛ حرکت را منجمد کنید.", props: [ball(142, 246)], figs: [
+    { ...M, y: 160, t: 10, h: -4, la: [-56, -30], ra: [18, 10], ll: [-22, 8], rl: [26, -6], look: 1 }] },
+
+  // ---------------- fashion ----------------
+  { cat: "fashion", title: "ژست S", tip: "لگن بیرون، شانه برعکس؛ دست روی کمر.", figs: [
+    { ...F, p: 9, t: -7, h: 8, la: [-30, 44], ra: [14, 8], ll: [-12, -6], rl: [8, 8], dress: 1 }] },
+  { cat: "fashion", title: "دست روی کلاه", tip: "یک دست روی کلاه یا صورت؛ حالت مرموز.", figs: [
+    { ...M, t: 2, h: 10, la: [-12, 8], ra: [38, -140], ll: [-8, -4], rl: [10, 5], look: 1 }] },
+  { cat: "fashion", title: "قدم رانوی", tip: "گام بلند و یک‌خط؛ سر بالا.", figs: [
+    { ...F, p: 6, t: -3, h: 0, la: [10, 18], ra: [-12, -20], ll: [-26, -8], rl: [28, 10], dress: 1 }] },
+  { cat: "fashion", title: "چمباتمه‌ی فشن", tip: "زاویه‌ی پایین، نگاه مستقیم.", figs: [
+    { ...F, y: 168, t: 6, h: -6, la: [-20, 10], ra: [36, 48], ll: [-56, 8], rl: [48, -10], dress: 0, look: 1 }] },
+  { cat: "fashion", title: "نشسته روی زمین", tip: "پاها کشیده، تکیه به دست‌ها.", ground: 246, figs: [
+    { ...F, x: 80, y: 226, t: -8, h: 8, toe: 1, la: [-20, -34], ra: [-10, -20], ll: [88, 90], rl: [82, 84], dress: 0, look: 1 }] },
+  { cat: "fashion", title: "پا روی دیوار", tip: "یک پا روی دیوار؛ حس خیابانی.", props: [wall(160)], figs: [
+    { ...M, x: 112, t: 4, h: 6, la: [-10, 10], ra: [20, 6], ll: [-4, -2], rl: [76, 20], look: 1 }] },
+  { cat: "fashion", title: "ستاره (دست و پا باز)", tip: "انرژی بالا؛ برای عکس‌های شاد.", figs: [
+    { ...F, y: 146, t: 0, la: [-100, -128], ra: [100, 128], ll: [-22, -12], rl: [22, 12], dress: 1 }] },
+  { cat: "fashion", title: "چرخش پالتو", tip: "حرکت لباس را در لحظه‌ی چرخش بگیرید.", figs: [
+    { ...M, t: -4, h: 16, la: [-70, -36], ra: [30, 14], ll: [-14, -6], rl: [16, 8], look: 1 }] }
+];
+
+
+
+      const root = document.getElementById("poses");
+      if (!root) return;
+      const tabsEl = document.getElementById("poseTabs");
+      const gridEl = document.getElementById("poseGrid");
+      const photosBySlug = {};          // real photos found in the repo: Poses/<Slug>/*
+      let active = CATEGORIES[0].id;
+      let items = [];                   // currently displayed items (for the viewer)
+      let viewerIndex = 0;
+
+      function currentItems() {
+        const cat = CATEGORIES.find(c => c.id === active);
+        const photos = (photosBySlug[cat.slug] || []).map((url, i) => ({ photo: url, title: "عکس نمونه " + (i + 1), tip: cat.title }));
+        const poses = POSES.filter(p => p.cat === active).map(p => ({ svg: renderPose(p), title: p.title, tip: p.tip }));
+        return photos.concat(poses);
+      }
+
+      function artNode(item) {
+        const art = document.createElement("div");
+        art.className = "pose-art";
+        if (item.photo) {
+          const img = document.createElement("img");
+          img.src = item.photo;
+          img.alt = item.title;
+          img.loading = "lazy";
+          img.dataset.ownError = "1";
+          img.addEventListener("error", () => { art.parentElement && art.parentElement.remove(); });
+          art.appendChild(img);
+        } else {
+          art.innerHTML = item.svg;
+        }
+        return art;
+      }
+
+      function renderGrid() {
+        items = currentItems();
+        gridEl.textContent = "";
+        items.forEach((item, index) => {
+          const card = document.createElement("button");
+          card.type = "button";
+          card.className = "pose-card";
+          card.appendChild(artNode(item));
+          const info = document.createElement("div");
+          info.className = "pose-info";
+          if (item.photo) {
+            const badge = document.createElement("span");
+            badge.className = "pose-badge";
+            badge.textContent = "عکس واقعی";
+            info.appendChild(badge);
+          }
+          const h = document.createElement("h3");
+          h.textContent = item.title;
+          const p = document.createElement("p");
+          p.textContent = item.tip;
+          info.append(h, p);
+          card.appendChild(info);
+          card.addEventListener("click", () => openViewer(index));
+          gridEl.appendChild(card);
+        });
+      }
+
+      function renderTabs() {
+        tabsEl.textContent = "";
+        CATEGORIES.forEach(cat => {
+          const tab = document.createElement("button");
+          tab.type = "button";
+          tab.className = "pose-tab";
+          tab.setAttribute("role", "tab");
+          tab.setAttribute("aria-selected", String(cat.id === active));
+          const icon = document.createElement("span");
+          icon.textContent = cat.icon;
+          tab.append(icon, document.createTextNode(cat.title));
+          tab.addEventListener("click", () => { active = cat.id; renderTabs(); renderGrid(); });
+          tabsEl.appendChild(tab);
+        });
+      }
+
+      // ---- viewer ----
+      const viewer = document.createElement("div");
+      viewer.className = "pose-viewer";
+      viewer.hidden = true;
+      viewer.setAttribute("role", "dialog");
+      viewer.setAttribute("aria-modal", "true");
+      viewer.innerHTML = '<figure><div class="pose-art"></div><figcaption><b></b><span></span></figcaption>' +
+        '<button type="button" class="pv-btn pv-close" aria-label="بستن">×</button>' +
+        '<button type="button" class="pv-btn pv-nav pv-prev" aria-label="قبلی">›</button>' +
+        '<button type="button" class="pv-btn pv-nav pv-next" aria-label="بعدی">‹</button></figure>';
+      document.body.appendChild(viewer);
+
+      function paintViewer() {
+        const item = items[viewerIndex];
+        const art = viewer.querySelector(".pose-art");
+        art.replaceWith(artNode(item));
+        viewer.querySelector("figcaption b").textContent = item.title;
+        viewer.querySelector("figcaption span").textContent = item.tip;
+      }
+      function openViewer(index) {
+        viewerIndex = index;
+        viewer.hidden = false;
+        document.documentElement.classList.add("pose-open");
+        paintViewer();
+        viewer.querySelector(".pv-close").focus();
+      }
+      function closeViewer() {
+        viewer.hidden = true;
+        document.documentElement.classList.remove("pose-open");
+      }
+      function stepViewer(delta) {
+        viewerIndex = (viewerIndex + delta + items.length) % items.length;
+        paintViewer();
+      }
+      viewer.querySelector(".pv-close").addEventListener("click", closeViewer);
+      viewer.querySelector(".pv-prev").addEventListener("click", () => stepViewer(-1));
+      viewer.querySelector(".pv-next").addEventListener("click", () => stepViewer(1));
+      viewer.addEventListener("click", event => { if (event.target === viewer) closeViewer(); });
+      document.addEventListener("keydown", event => {
+        if (viewer.hidden) return;
+        if (event.key === "Escape") closeViewer();
+        if (event.key === "ArrowRight") stepViewer(-1);
+        if (event.key === "ArrowLeft") stepViewer(1);
+      });
+
+      // ---- real photos: any image dropped into Poses/<Slug>/ shows up automatically ----
+      function getTree() {
+        try {
+          const cached = JSON.parse(sessionStorage.getItem("qab-tree") || "null");
+          if (cached && Date.now() - cached.at < 30 * 60 * 1000 && Array.isArray(cached.paths)) return Promise.resolve(cached.paths);
+        } catch (e) {}
+        return loadRepoTree().then(paths => {
+          if (paths.length) { try { sessionStorage.setItem("qab-tree", JSON.stringify({ at: Date.now(), paths })); } catch (e) {} }
+          return paths;
+        });
+      }
+      function discoverPhotos() {
+        getTree().then(paths => {
+          let found = false;
+          CATEGORIES.forEach(cat => {
+            const prefix = ("Poses/" + cat.slug + "/").toLowerCase();
+            const list = paths
+              .filter(path => path.toLowerCase().startsWith(prefix) && /[.](jpe?g|png|webp)$/i.test(path) && path.split("/").length === 3)
+              .sort()
+              .map(path => path.split("/").map(encodeURIComponent).join("/"));
+            if (list.length) { photosBySlug[cat.slug] = list; found = true; }
+          });
+          if (found) renderGrid();
+        }).catch(() => {});
+      }
+
+
+      // ---- Live camera with pose overlay ----
+      const liveModal = document.getElementById("poseLiveModal");
+      const liveVideo = document.getElementById("poseLiveVideo");
+      const liveOverlay = document.getElementById("poseLiveOverlay");
+      const liveCategory = document.getElementById("poseLiveCategory");
+      const liveSelect = document.getElementById("poseLiveSelect");
+      const liveEmpty = document.getElementById("poseLiveEmpty");
+      const liveStatus = document.getElementById("poseLiveStatus");
+      let liveStream = null;
+      let liveFacing = "environment";
+      let liveMirrored = false;
+
+      function fillLiveCategories() {
+        liveCategory.textContent = "";
+        CATEGORIES.forEach(cat => {
+          const option = document.createElement("option");
+          option.value = cat.id;
+          option.textContent = cat.title;
+          liveCategory.appendChild(option);
+        });
+        liveCategory.value = "men";
+        fillLivePoses();
+      }
+      function fillLivePoses() {
+        const list = POSES.filter(p => p.cat === liveCategory.value);
+        liveSelect.textContent = "";
+        list.forEach((pose, index) => {
+          const option = document.createElement("option");
+          option.value = String(index);
+          option.textContent = pose.title;
+          liveSelect.appendChild(option);
+        });
+        updateLiveOverlay();
+      }
+      function updateLiveOverlay() {
+        const list = POSES.filter(p => p.cat === liveCategory.value);
+        const pose = list[Number(liveSelect.value)] || list[0];
+        liveOverlay.innerHTML = pose ? renderPose(pose) : "";
+        const svg = liveOverlay.querySelector("svg");
+        if (svg) {
+          svg.style.width = "100%";
+          svg.style.height = "100%";
+          svg.style.transform = `scale(${Number(document.getElementById("poseLiveScale").value) / 100})`;
+        }
+      }
+      async function startLiveCamera() {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          alert("مرورگر یا آدرس فعلی اجازه دسترسی به دوربین را نمی‌دهد. سایت را با HTTPS و در مرورگر به‌روز باز کن.");
+          return;
+        }
+        stopLiveCamera();
+        try {
+          liveStream = await navigator.mediaDevices.getUserMedia({
+            audio: false,
+            video: { facingMode: { ideal: liveFacing }, width: { ideal: 1280 }, height: { ideal: 1600 } }
+          });
+          liveVideo.srcObject = liveStream;
+          await liveVideo.play();
+          liveEmpty.hidden = true;
+          liveStatus.textContent = "دوربین فعال";
+          liveStatus.classList.add("live");
+        } catch (error) {
+          liveStatus.textContent = "دوربین خاموش";
+          liveStatus.classList.remove("live");
+          const message = error && error.name === "NotAllowedError"
+            ? "دسترسی دوربین رد شد. از تنظیمات مرورگر اجازه Camera را فعال کن."
+            : error && error.name === "NotFoundError"
+              ? "دوربینی روی این دستگاه پیدا نشد."
+              : "فعال‌سازی دوربین ناموفق بود. دسترسی مرورگر و HTTPS را بررسی کن.";
+          alert(message);
+        }
+      }
+      function stopLiveCamera() {
+        if (liveStream) {
+          liveStream.getTracks().forEach(track => track.stop());
+          liveStream = null;
+        }
+        liveVideo.pause();
+        liveVideo.srcObject = null;
+        liveEmpty.hidden = false;
+        liveStatus.textContent = "دوربین خاموش";
+        liveStatus.classList.remove("live");
+      }
+      function closeLiveCamera() {
+        stopLiveCamera();
+        liveModal.classList.remove("active");
+        document.documentElement.classList.remove("pose-camera-open");
+      }
+      window.openPoseCamera = function () {
+        liveModal.classList.add("active");
+        document.documentElement.classList.add("pose-camera-open");
+        fillLiveCategories();
+        document.getElementById("poseLiveClose").focus();
+      };
+      document.getElementById("poseLiveClose").addEventListener("click", closeLiveCamera);
+      document.getElementById("poseLiveStart").addEventListener("click", startLiveCamera);
+      document.getElementById("poseLiveStop").addEventListener("click", stopLiveCamera);
+      document.getElementById("poseLiveSwitch").addEventListener("click", () => {
+        liveFacing = liveFacing === "environment" ? "user" : "environment";
+        if (liveStream) startLiveCamera();
+      });
+      document.getElementById("poseLiveMirror").addEventListener("click", () => {
+        liveMirrored = !liveMirrored;
+        liveVideo.classList.toggle("mirrored", liveMirrored);
+      });
+      liveCategory.addEventListener("change", fillLivePoses);
+      liveSelect.addEventListener("change", updateLiveOverlay);
+      document.getElementById("poseLiveOpacity").addEventListener("input", event => {
+        liveOverlay.style.opacity = String(Number(event.target.value) / 100);
+      });
+      document.getElementById("poseLiveScale").addEventListener("input", updateLiveOverlay);
+      liveModal.addEventListener("click", event => { if (event.target === liveModal) closeLiveCamera(); });
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && liveModal.classList.contains("active")) closeLiveCamera();
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden && liveStream) stopLiveCamera();
+      });
+
+      renderTabs();
+      renderGrid();
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(entries => {
+          if (entries.some(entry => entry.isIntersecting)) { observer.disconnect(); discoverPhotos(); }
+        }, { rootMargin: "300px" });
+        observer.observe(root);
+      } else {
+        discoverPhotos();
+      }
+    })();
+
     // Scroll reveal, with a fallback for browsers without IntersectionObserver
     const revealElements = $$(".reveal");
 
@@ -4951,6 +5646,9 @@
       later.addEventListener('click',function(){card.classList.remove('show');try{localStorage.setItem('qab-ios-install-dismissed','1')}catch(e){}});
     })();
   </script>
+
+
+
 
 </body>
 </html>
