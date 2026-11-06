@@ -2033,33 +2033,83 @@
     .qab-ai-launcher{position:fixed;z-index:1200;right:22px;left:auto;bottom:22px;border:0;border-radius:999px;padding:13px 19px;background:#111;color:#fff;box-shadow:0 12px 35px #0003;display:flex;align-items:center;gap:10px;font:inherit;font-weight:800;cursor:pointer;transition:transform .2s,box-shadow .2s}
     .qab-ai-launcher:hover{transform:translateY(-3px);box-shadow:0 16px 38px #0004}
     .qab-ai-launcher .ai-spark{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#111;font-size:17px}
-    .qab-ai-panel{position:fixed;z-index:1201;right:22px;left:auto;bottom:86px;width:min(410px,calc(100vw - 28px));height:min(620px,calc(100dvh - 120px));background:#fff;color:#171717;border:1px solid #e8e8e8;border-radius:23px;box-shadow:0 22px 70px #0002;display:none;overflow:hidden;direction:rtl}
+    .qab-ai-panel{position:fixed;z-index:1201;right:22px;left:auto;bottom:86px;width:min(440px,calc(100vw - 28px));height:min(690px,calc(100dvh - 110px));background:#fff;color:#171717;border:1px solid #e8e8e8;border-radius:23px;box-shadow:0 22px 70px #0002;display:none;overflow:hidden;direction:rtl}
     .qab-ai-panel.open{display:flex;flex-direction:column;animation:qabAiIn .22s ease-out}
     @keyframes qabAiIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-    .qab-ai-head{padding:17px 18px;background:#111;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .qab-ai-brand{display:flex;align-items:center;gap:11px}
-    .qab-ai-logo{width:39px;height:39px;border-radius:13px;background:#fff;color:#111;display:grid;place-items:center;font-weight:900;font-size:19px}
+    .qab-ai-head{padding:15px 16px;background:#111;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .qab-ai-brand{display:flex;align-items:center;gap:11px;min-width:0}
+    .qab-ai-logo{width:39px;height:39px;flex:0 0 39px;border-radius:13px;background:#fff;color:#111;display:grid;place-items:center;font-weight:900;font-size:19px}
     .qab-ai-brand strong{display:block;font-size:15px;letter-spacing:.3px}
-    .qab-ai-brand small{display:block;color:#c7c7c7;font-size:11px;margin-top:3px}
-    .qab-ai-close{width:34px;height:34px;border:1px solid #ffffff3a;background:#ffffff12;color:#fff;border-radius:50%;font-size:20px;cursor:pointer}
-    .qab-ai-modes{display:flex;gap:7px;padding:12px 13px 8px;overflow:auto;border-bottom:1px solid #eee}
-    .qab-ai-mode{white-space:nowrap;border:1px solid #e5e5e5;background:#fff;color:#555;border-radius:999px;padding:7px 11px;font:inherit;font-size:11px;cursor:pointer}
+    .qab-ai-brand small{display:block;color:#c7c7c7;font-size:11px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .qab-ai-tools{display:flex;gap:6px;flex:0 0 auto}
+    .qab-ai-iconbtn{position:relative;width:34px;height:34px;border:1px solid #ffffff3a;background:#ffffff12;color:#fff;border-radius:50%;font-size:16px;cursor:pointer;display:grid;place-items:center;font-family:inherit;padding:0}
+    .qab-ai-iconbtn:hover{background:#ffffff26}
+    .qab-ai-iconbtn .cnt{position:absolute;top:-4px;left:-4px;min-width:16px;height:16px;border-radius:8px;background:#fff;color:#111;font-size:10px;font-weight:800;display:none;place-items:center;padding:0 3px}
+    .qab-ai-iconbtn .cnt.on{display:grid}
+    .qab-ai-modes{display:flex;gap:7px;padding:12px 13px 8px;overflow:auto;border-bottom:1px solid #eee;scrollbar-width:none}
+    .qab-ai-modes::-webkit-scrollbar{display:none}
+    .qab-ai-mode{white-space:nowrap;border:1px solid #e5e5e5;background:#fff;color:#555;border-radius:999px;padding:7px 12px;font:inherit;font-size:12px;cursor:pointer;transition:background .15s,color .15s}
     .qab-ai-mode.active{background:#111;color:#fff;border-color:#111}
-    .qab-ai-messages{flex:1;overflow:auto;padding:15px 13px;display:flex;flex-direction:column;gap:11px;background:#fafafa}
-    .qab-ai-msg{max-width:91%;padding:11px 13px;border-radius:15px;font-size:13px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
+    .qab-ai-body{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
+    .qab-ai-messages{flex:1;overflow:auto;padding:15px 13px;display:flex;flex-direction:column;gap:11px;background:#fafafa;overscroll-behavior:contain}
+    .qab-ai-msg{max-width:92%;padding:11px 13px;border-radius:15px;font-size:13px;line-height:1.9;overflow-wrap:anywhere}
     .qab-ai-msg.bot{align-self:flex-start;background:#fff;border:1px solid #ededed;border-bottom-right-radius:5px}
-    .qab-ai-msg.user{align-self:flex-end;background:#171717;color:#fff;border-bottom-left-radius:5px}
+    .qab-ai-msg.user{align-self:flex-end;background:#171717;color:#fff;border-bottom-left-radius:5px;white-space:pre-wrap}
     .qab-ai-msg.error{border-color:#f1caca;background:#fff7f7;color:#9a2525}
-    .qab-ai-typing{align-self:flex-start;color:#777;font-size:12px;padding:5px 9px}
-    .qab-ai-quick{display:flex;gap:7px;overflow:auto;padding:9px 12px;border-top:1px solid #eee;background:#fff}
-    .qab-ai-quick button{flex:0 0 auto;border:1px solid #e7e7e7;border-radius:999px;background:#fff;padding:7px 10px;font:inherit;font-size:11px;color:#444;cursor:pointer}
-    .qab-ai-compose{display:flex;align-items:flex-end;gap:8px;padding:11px 12px 13px;background:#fff;border-top:1px solid #eee}
+    .qab-ai-msg p{margin:0 0 6px}.qab-ai-msg p:last-child{margin-bottom:0}
+    .qab-ai-msg h4{margin:8px 0 4px;font-size:13px}
+    .qab-ai-msg ul{margin:4px 0 6px;padding:0 18px 0 0}
+    .qab-ai-msg li{margin:2px 0}
+    .qab-ai-msg.streaming::after{content:"▍";opacity:.5;animation:qabBlink 1s steps(2) infinite}
+    @keyframes qabBlink{50%{opacity:0}}
+    .qab-ai-msg img.thumb{display:block;max-width:150px;max-height:150px;border-radius:10px;margin-bottom:7px}
+    .qab-ai-typing{align-self:flex-start;color:#777;font-size:12px;padding:5px 9px;display:flex;gap:4px;align-items:center}
+    .qab-ai-typing i{width:6px;height:6px;border-radius:50%;background:#999;animation:qabDot 1.1s infinite ease-in-out}
+    .qab-ai-typing i:nth-child(2){animation-delay:.15s}.qab-ai-typing i:nth-child(3){animation-delay:.3s}
+    @keyframes qabDot{0%,80%,100%{transform:scale(.6);opacity:.4}40%{transform:scale(1);opacity:1}}
+    .qab-ai-cards{align-self:stretch;display:flex;flex-direction:column;gap:9px}
+    .qab-ai-card{background:#fff;border:1px solid #e9e9e9;border-radius:17px;padding:13px;font-size:12.5px;line-height:1.8;animation:qabAiIn .25s ease-out}
+    .qab-ai-card h5{margin:0 0 6px;font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .qab-ai-card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 10px}
+    .qab-ai-card dt{color:#888}.qab-ai-card dd{margin:0}
+    .qab-ai-card .tip{margin-top:7px;padding:7px 10px;background:#f4f4f4;border-radius:10px;color:#444}
+    .qab-ai-fav{border:1px solid #e3e3e3;background:#fff;color:#111;border-radius:999px;width:32px;height:32px;font-size:15px;cursor:pointer;flex:0 0 32px}
+    .qab-ai-fav.on{background:#111;color:#fff;border-color:#111}
+    .qab-ai-pcard{display:flex;gap:12px;align-items:flex-start}
+    .qab-ai-pcard img{width:64px;height:64px;border-radius:14px;object-fit:cover;background:#eee;flex:0 0 64px}
+    .qab-ai-pcard .info{min-width:0;flex:1}
+    .qab-ai-pcard strong{display:block;font-size:14px}
+    .qab-ai-pcard .meta{color:#777;font-size:11.5px}
+    .qab-ai-tags{display:flex;gap:5px;flex-wrap:wrap;margin:5px 0}
+    .qab-ai-tags span{background:#f1f1f1;border-radius:999px;padding:1px 9px;font-size:11px;color:#444}
+    .qab-ai-actions{display:flex;gap:7px;margin-top:9px}
+    .qab-ai-actions button{flex:1;border:1px solid #dcdcdc;background:#fff;border-radius:11px;padding:7px 8px;font:inherit;font-size:12px;cursor:pointer}
+    .qab-ai-actions button.primary{background:#111;color:#fff;border-color:#111}
+    .qab-ai-quick{display:flex;gap:7px;overflow:auto;padding:9px 12px;border-top:1px solid #eee;background:#fff;scrollbar-width:none}
+    .qab-ai-quick::-webkit-scrollbar{display:none}
+    .qab-ai-quick button{flex:0 0 auto;border:1px solid #e7e7e7;border-radius:999px;background:#fff;padding:7px 11px;font:inherit;font-size:11.5px;color:#444;cursor:pointer}
+    .qab-ai-quick button:hover{background:#f5f5f5}
+    .qab-ai-attach{display:none;align-items:center;gap:10px;padding:8px 12px;border-top:1px solid #eee;background:#fff}
+    .qab-ai-attach.on{display:flex}
+    .qab-ai-attach img{width:46px;height:46px;border-radius:10px;object-fit:cover}
+    .qab-ai-attach span{flex:1;font-size:11.5px;color:#555;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .qab-ai-attach button{border:0;background:#f1f1f1;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:15px}
+    .qab-ai-compose{display:flex;align-items:flex-end;gap:8px;padding:11px 12px 12px;background:#fff;border-top:1px solid #eee}
     .qab-ai-compose textarea{flex:1;resize:none;min-height:43px;max-height:110px;border:1px solid #e5e5e5;border-radius:14px;padding:10px 12px;font:inherit;font-size:13px;outline:none;direction:rtl;background:#fafafa}
     .qab-ai-compose textarea:focus{border-color:#777;background:#fff}
-    .qab-ai-send{width:44px;height:43px;flex:0 0 44px;border:0;border-radius:14px;background:#111;color:#fff;font-size:19px;cursor:pointer}
-    .qab-ai-send:disabled{opacity:.45;cursor:not-allowed}
+    .qab-ai-send,.qab-ai-upload{width:44px;height:43px;flex:0 0 44px;border:0;border-radius:14px;background:#111;color:#fff;font-size:18px;cursor:pointer;display:grid;place-items:center;padding:0}
+    .qab-ai-upload{background:#f1f1f1;color:#111}
+    .qab-ai-send.stop{background:#9a2525}
+    .qab-ai-send:disabled,.qab-ai-upload:disabled{opacity:.45;cursor:not-allowed}
     .qab-ai-footnote{text-align:center;color:#999;font-size:10px;padding:0 10px 9px;background:#fff}
-    @media(max-width:520px){.qab-ai-launcher{right:14px;left:auto;bottom:14px;padding:11px 15px}.qab-ai-panel{left:8px;right:8px;bottom:74px;width:auto;height:min(650px,calc(100dvh - 92px));border-radius:20px}.qab-ai-msg{font-size:12px}}
+    .qab-ai-favview{position:absolute;inset:0;background:#fafafa;display:none;flex-direction:column;z-index:3}
+    .qab-ai-favview.open{display:flex}
+    .qab-ai-favhead{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#fff;border-bottom:1px solid #eee;font-weight:800;font-size:13px}
+    .qab-ai-favhead button{border:0;background:#f1f1f1;border-radius:999px;padding:5px 12px;font:inherit;font-size:12px;cursor:pointer}
+    .qab-ai-favlist{flex:1;overflow:auto;padding:13px;display:flex;flex-direction:column;gap:9px}
+    .qab-ai-empty{white-space:pre-line;color:#888;text-align:center;font-size:12.5px;padding:30px 10px;line-height:2}
+    @media(max-width:520px){.qab-ai-launcher{right:14px;left:auto;bottom:14px;padding:11px 15px}.qab-ai-panel{left:8px;right:8px;bottom:74px;width:auto;height:min(680px,calc(100dvh - 90px));border-radius:20px}.qab-ai-msg{font-size:12.5px}.qab-ai-compose textarea{font-size:16px}}
+    @media(prefers-reduced-motion:reduce){.qab-ai-panel.open,.qab-ai-card,.qab-ai-typing i,.qab-ai-msg.streaming::after{animation:none}}
 
   </style>
 </head>
@@ -5688,23 +5738,35 @@ const POSES = [
   </button>
   <section class="qab-ai-panel" id="qabAiPanel" aria-label="دستیار هوشمند قاب" aria-hidden="true">
     <header class="qab-ai-head">
-      <div class="qab-ai-brand"><div class="qab-ai-logo">Q</div><div><strong>QAB AI</strong><small>دستیار هوشمند دنیای عکاسی</small></div></div>
-      <button class="qab-ai-close" id="qabAiClose" type="button" aria-label="بستن">×</button>
+      <div class="qab-ai-brand"><div class="qab-ai-logo">Q</div><div><strong>QAB AI</strong><small id="qabAiStatus">دستیار هوشمند دنیای عکاسی</small></div></div>
+      <div class="qab-ai-tools">
+        <button class="qab-ai-iconbtn" id="qabAiFavBtn" type="button" aria-label="ژست‌های ذخیره‌شده" title="ژست‌های ذخیره‌شده">♡<span class="cnt" id="qabAiFavCnt">0</span></button>
+        <button class="qab-ai-iconbtn" id="qabAiClear" type="button" aria-label="پاک کردن گفتگو" title="پاک کردن گفتگو">⟲</button>
+        <button class="qab-ai-iconbtn" id="qabAiClose" type="button" aria-label="بستن" style="font-size:20px">×</button>
+      </div>
     </header>
     <nav class="qab-ai-modes" aria-label="حالت دستیار">
       <button class="qab-ai-mode active" type="button" data-mode="chat">گفت‌وگو</button>
       <button class="qab-ai-mode" type="button" data-mode="pose">مربی ژست</button>
-      <button class="qab-ai-mode" type="button" data-mode="recommend">پیشنهاد عکاس</button>
+      <button class="qab-ai-mode" type="button" data-mode="analyze">تحلیل عکس</button>
+      <button class="qab-ai-mode" type="button" data-mode="recommend">پیدا کردن عکاس</button>
     </nav>
-    <div class="qab-ai-messages" id="qabAiMessages" aria-live="polite">
-      <div class="qab-ai-msg bot">سلام! من QAB AI هستم ✦\nبرای انتخاب عکاس، ایده ژست، نورپردازی، دوربین یا رزرو عکاسی کمکت می‌کنم. از کجا شروع کنیم؟</div>
+    <div class="qab-ai-body">
+      <div class="qab-ai-messages" id="qabAiMessages" aria-live="polite"></div>
+      <div class="qab-ai-favview" id="qabAiFavView">
+        <div class="qab-ai-favhead"><span>ژست‌های ذخیره‌شده</span><button type="button" id="qabAiFavBack">بازگشت</button></div>
+        <div class="qab-ai-favlist" id="qabAiFavList"></div>
+      </div>
     </div>
-    <div class="qab-ai-quick" id="qabAiQuick">
-      <button type="button" data-prompt="برای عکاسی پرتره در فضای باز ۵ ژست خاص پیشنهاد بده." data-mode="pose">ایده ژست پرتره</button>
-      <button type="button" data-prompt="برای عکاسی پرتره در تبریز عکاس مناسب پیشنهاد بده." data-mode="recommend">پیدا کردن عکاس</button>
-      <button type="button" data-prompt="برای عکاسی پرتره با نور پنجره چه تنظیماتی پیشنهاد می‌کنی؟" data-mode="chat">تنظیمات دوربین</button>
+    <div class="qab-ai-quick" id="qabAiQuick"></div>
+    <div class="qab-ai-attach" id="qabAiAttach">
+      <img id="qabAiAttachImg" alt="پیش‌نمایش عکس">
+      <span id="qabAiAttachName"></span>
+      <button type="button" id="qabAiAttachRemove" aria-label="حذف عکس">×</button>
     </div>
     <form class="qab-ai-compose" id="qabAiForm">
+      <input type="file" id="qabAiFile" accept="image/jpeg,image/png,image/webp" hidden>
+      <button class="qab-ai-upload" id="qabAiUpload" type="button" aria-label="بارگذاری عکس از گالری" title="بارگذاری عکس">🖼</button>
       <textarea id="qabAiInput" rows="1" maxlength="1400" placeholder="پیامت رو برای QAB AI بنویس..." aria-label="پیام به QAB AI"></textarea>
       <button class="qab-ai-send" id="qabAiSend" type="submit" aria-label="ارسال پیام">➤</button>
     </form>
@@ -5712,119 +5774,386 @@ const POSES = [
   </section>
   <script>
     (() => {
-      const launcher = document.getElementById('qabAiLauncher');
-      const panel = document.getElementById('qabAiPanel');
-      const close = document.getElementById('qabAiClose');
-      const form = document.getElementById('qabAiForm');
-      const input = document.getElementById('qabAiInput');
-      const send = document.getElementById('qabAiSend');
-      const messagesEl = document.getElementById('qabAiMessages');
+      const $ = id => document.getElementById(id);
+      const launcher = $('qabAiLauncher'), panel = $('qabAiPanel'), closeBtn = $('qabAiClose'), clearBtn = $('qabAiClear');
+      const form = $('qabAiForm'), input = $('qabAiInput'), send = $('qabAiSend'), messagesEl = $('qabAiMessages');
+      const quick = $('qabAiQuick'), statusEl = $('qabAiStatus');
+      const fileInput = $('qabAiFile'), uploadBtn = $('qabAiUpload');
+      const attachBox = $('qabAiAttach'), attachImg = $('qabAiAttachImg'), attachName = $('qabAiAttachName'), attachRemove = $('qabAiAttachRemove');
+      const favBtn = $('qabAiFavBtn'), favCnt = $('qabAiFavCnt'), favView = $('qabAiFavView'), favList = $('qabAiFavList'), favBack = $('qabAiFavBack');
       const modeButtons = [...document.querySelectorAll('.qab-ai-mode')];
-      const quick = document.getElementById('qabAiQuick');
       if (!launcher || !panel || !form || !input || !send || !messagesEl) return;
 
-      const endpoint = 'https://yhjwttinwgsekgbmdijw.supabase.co/functions/v1/qab-ai';
-      // Publishable key only. Never put a Grok (xAI) secret or Supabase secret key in this file.
-      const supabasePublishableKey = 'sb_publishable_KbGaMcx2t7kndWIx27giag_LYsKjtVc';
-      let mode = 'chat';
-      let busy = false;
-      const history = [];
+      // فقط کلید publishable (عمومی). کلید Gemini فقط در Supabase Secrets است.
+      const ENDPOINT = 'https://yhjwttinwgsekgbmdijw.supabase.co/functions/v1/qab-ai';
+      const PUBLISHABLE_KEY = 'sb_publishable_KbGaMcx2t7kndWIx27giag_LYsKjtVc';
+      const FAV_KEY = 'qab-ai-fav-poses', SESSION_KEY = 'qab-ai-session';
+      const SUBTITLE = 'دستیار هوشمند دنیای عکاسی';
 
-      function openPanel() {
-        panel.classList.add('open');
-        panel.setAttribute('aria-hidden', 'false');
-        launcher.setAttribute('aria-expanded', 'true');
-        setTimeout(() => input.focus(), 80);
+      const PLACEHOLDER = {
+        chat: 'هر سؤالی درباره عکاسی داری بپرس…',
+        pose: 'نوع عکاسی، لوکیشن و لباست را بنویس…',
+        analyze: 'عکس را بارگذاری کن و اگر خواستی سؤالت را بنویس…',
+        recommend: 'شهر، سبک و بودجه‌ات را بنویس…'
+      };
+      const SUGGEST = {
+        chat: [
+          ['تنظیمات پرتره با نور پنجره', 'برای عکاسی پرتره با نور پنجره چه تنظیماتی پیشنهاد می‌کنی؟'],
+          ['انتخاب لنز پرتره', 'برای پرتره کدام لنز را انتخاب کنم و چرا؟'],
+          ['ادیت رنگ پوست', 'چطور رنگ پوست را در ادیت طبیعی نگه دارم؟']
+        ],
+        pose: [
+          ['ژست پرتره فضای باز', 'برای عکاسی پرتره در فضای باز چند ژست خاص پیشنهاد بده.'],
+          ['ژست دونفره', 'برای عکاسی دونفره (دوستانه) چند ژست طبیعی پیشنهاد بده.'],
+          ['ژست فشن خیابانی', 'برای عکاسی فشن خیابانی با کت و شلوار چند ژست پیشنهاد بده.']
+        ],
+        analyze: [
+          ['🖼 انتخاب عکس از گالری', null],
+          ['فقط نور و کادر را بررسی کن', 'نور و کادر این عکس را بررسی کن و پیشنهاد اصلاح بده.']
+        ],
+        recommend: [
+          ['پرتره در تبریز', 'برای عکاسی پرتره در تبریز عکاس مناسب پیشنهاد بده.'],
+          ['عکاسی دونفره', 'برای عکاسی دونفره در تبریز عکاس پیشنهاد بده.'],
+          ['بودجه کمتر', 'عکاسی با کمترین تعرفه هر شات را کدام عکاس دارد؟']
+        ]
+      };
+
+      let mode = 'chat', busy = false, controller = null, image = null;
+      let history = [];
+      let favs = [];
+      try { favs = JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); if (!Array.isArray(favs)) favs = []; } catch (e) { favs = []; }
+
+      /* ---------- helpers ---------- */
+      const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+      const scrollDown = () => { messagesEl.scrollTop = messagesEl.scrollHeight; };
+
+      function inline(node, text) {
+        String(text).split(/(\*\*[^*]+\*\*)/g).forEach(part => {
+          if (/^\*\*[^*]+\*\*$/.test(part)) node.appendChild(el('strong', '', part.slice(2, -2)));
+          else if (part) node.appendChild(document.createTextNode(part));
+        });
       }
-      function closePanel() {
-        panel.classList.remove('open');
-        panel.setAttribute('aria-hidden', 'true');
-        launcher.setAttribute('aria-expanded', 'false');
+      // رندر امن (بدون innerHTML): پاراگراف، لیست و **bold**
+      function renderRich(node, text) {
+        node.textContent = '';
+        let list = null;
+        String(text).split('\n').forEach(line => {
+          const li = line.match(/^\s*(?:[-*•]|\d+[.)])\s+(.*)$/);
+          if (li) {
+            if (!list) { list = el('ul'); node.appendChild(list); }
+            const item = el('li'); inline(item, li[1]); list.appendChild(item); return;
+          }
+          list = null;
+          if (!line.trim()) return;
+          const h = line.match(/^#{1,4}\s+(.*)$/);
+          const p = el(h ? 'h4' : 'p'); inline(p, h ? h[1] : line); node.appendChild(p);
+        });
       }
-      function addMessage(text, who, isError = false) {
-        const node = document.createElement('div');
-        node.className = 'qab-ai-msg ' + who + (isError ? ' error' : '');
-        node.textContent = text;
-        messagesEl.appendChild(node);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
+      function addMsg(text, who, isError) {
+        const node = el('div', 'qab-ai-msg ' + who + (isError ? ' error' : ''));
+        if (who === 'bot') renderRich(node, text); else node.textContent = text;
+        messagesEl.appendChild(node); scrollDown();
         return node;
+      }
+      function showTyping() {
+        const t = el('div', 'qab-ai-typing');
+        t.append(el('i'), el('i'), el('i'), el('span', '', ' QAB AI در حال پاسخ‌گویی…'));
+        messagesEl.appendChild(t); scrollDown();
+        return t;
+      }
+      let raf = 0;
+      function scheduleRender(node, text) {
+        if (raf) return;
+        raf = requestAnimationFrame(() => { raf = 0; renderRich(node, text); scrollDown(); });
+      }
+      const autosize = () => { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 110) + 'px'; };
+
+      /* ---------- session ---------- */
+      function saveSession() {
+        try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(history.slice(-30))); } catch (e) {}
+      }
+      function showWelcome() {
+        addMsg('سلام! من QAB AI هستم ✦\nاز بالا حالت را انتخاب کن: گفت‌وگو، مربی ژست، تحلیل عکس یا پیدا کردن عکاس. از کجا شروع کنیم؟', 'bot');
+      }
+      function restoreSession() {
+        let saved = [];
+        try { saved = JSON.parse(sessionStorage.getItem(SESSION_KEY) || '[]'); } catch (e) {}
+        if (!Array.isArray(saved) || !saved.length) { showWelcome(); return; }
+        history = saved.filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string');
+        history.forEach(m => addMsg(m.content, m.role === 'user' ? 'user' : 'bot'));
+      }
+
+      /* ---------- UI state ---------- */
+      function setBusy(b) {
+        busy = b;
+        send.classList.toggle('stop', b);
+        send.textContent = b ? '■' : '➤';
+        send.setAttribute('aria-label', b ? 'توقف پاسخ' : 'ارسال پیام');
+        uploadBtn.disabled = b;
+        statusEl.textContent = b ? 'در حال پاسخ‌گویی…' : SUBTITLE;
+      }
+      function renderQuick() {
+        quick.textContent = '';
+        (SUGGEST[mode] || []).forEach(([label, prompt]) => {
+          const b = el('button', '', label); b.type = 'button';
+          b.addEventListener('click', () => { if (prompt === null) fileInput.click(); else submit(prompt); });
+          quick.appendChild(b);
+        });
       }
       function setMode(next) {
         mode = next;
-        modeButtons.forEach(button => button.classList.toggle('active', button.dataset.mode === mode));
+        modeButtons.forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+        input.placeholder = PLACEHOLDER[mode] || PLACEHOLDER.chat;
+        renderQuick();
       }
+      function openPanel() {
+        panel.classList.add('open'); panel.setAttribute('aria-hidden', 'false'); launcher.setAttribute('aria-expanded', 'true');
+        setTimeout(() => input.focus(), 80);
+      }
+      function closePanel() {
+        panel.classList.remove('open'); panel.setAttribute('aria-hidden', 'true'); launcher.setAttribute('aria-expanded', 'false');
+      }
+
+      /* ---------- directory (داده واقعی سایت + دیتابیس Supabase که applyLiveData روی آن merge می‌کند) ---------- */
       function getDirectory() {
         try {
           if (typeof photographers === 'undefined') return [];
-          return Object.values(photographers).map(p => ({
-            name: p.name || '', location: p.location || '', bio: p.bio || '',
+          return Object.entries(photographers).map(([id, p]) => ({
+            id, name: p.name || '', location: p.location || '', bio: p.bio || '',
             styles: Array.isArray(p.styles) ? p.styles : [],
-            shotRate: Number.isFinite(Number(p.shotRate)) ? Number(p.shotRate) : null,
-            telegram: p.telegram || null
+            shotRate: p.shotRate != null && Number.isFinite(Number(p.shotRate)) ? Number(p.shotRate) : null
           }));
         } catch (e) { return []; }
       }
-      async function submitMessage(raw) {
-        const message = String(raw || '').trim();
-        if (!message || busy) return;
-        busy = true;
-        send.disabled = true;
-        input.disabled = true;
-        addMessage(message, 'user');
-        history.push({ role: 'user', content: message });
-        const typing = document.createElement('div');
-        typing.className = 'qab-ai-typing';
-        typing.textContent = 'QAB AI در حال فکر کردنه…';
-        messagesEl.appendChild(typing);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-        try {
-          const res = await fetch(endpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'apikey': supabasePublishableKey },
-            body: JSON.stringify({ mode, messages: history.slice(-8), directory: getDirectory() })
-          });
-          const data = await res.json().catch(() => ({}));
-          typing.remove();
-          if (!res.ok) throw new Error(data.error || 'ارتباط با QAB AI برقرار نشد.');
-          const answer = String(data.answer || 'پاسخی دریافت نشد.');
-          history.push({ role: 'assistant', content: answer });
-          addMessage(answer, 'bot');
-        } catch (error) {
-          typing.remove();
-          addMessage(error && error.message ? error.message : 'خطای ارتباطی رخ داد.', 'bot', true);
-        } finally {
-          busy = false;
-          send.disabled = false;
-          input.disabled = false;
-          input.focus();
+
+      /* ---------- favorites ---------- */
+      const favKey = p => (p.title || '') + '|' + String(p.body || '').slice(0, 40);
+      const isFav = p => favs.some(f => favKey(f) === favKey(p));
+      function saveFavs() { try { localStorage.setItem(FAV_KEY, JSON.stringify(favs)); } catch (e) {} updateFavCount(); }
+      function updateFavCount() { favCnt.textContent = String(favs.length); favCnt.classList.toggle('on', favs.length > 0); }
+      function toggleFav(p) {
+        const k = favKey(p), i = favs.findIndex(f => favKey(f) === k);
+        if (i >= 0) favs.splice(i, 1);
+        else { favs.unshift({ title: p.title, body: p.body, hands: p.hands, legs: p.legs, gaze: p.gaze, camera: p.camera, distance: p.distance, tip: p.tip }); favs = favs.slice(0, 50); }
+        saveFavs();
+        return i < 0;
+      }
+      function renderFavs() {
+        favList.textContent = '';
+        if (!favs.length) { favList.appendChild(el('div', 'qab-ai-empty', 'هنوز ژستی ذخیره نکرده‌ای.\nدر حالت «مربی ژست» روی ♡ کارت ژست بزن.')); return; }
+        favs.forEach(p => favList.appendChild(poseCard(p, true)));
+      }
+
+      /* ---------- cards ---------- */
+      function poseCard(p, inFavView) {
+        const card = el('div', 'qab-ai-card');
+        const h = el('h5'); h.appendChild(el('span', '', p.title));
+        const heart = el('button', 'qab-ai-fav' + (isFav(p) ? ' on' : ''), isFav(p) ? '♥' : '♡');
+        heart.type = 'button'; heart.setAttribute('aria-label', 'ذخیره در علاقه‌مندی‌ها');
+        heart.addEventListener('click', () => {
+          const on = toggleFav(p);
+          heart.classList.toggle('on', on); heart.textContent = on ? '♥' : '♡';
+          if (inFavView) renderFavs();
+        });
+        h.appendChild(heart); card.appendChild(h);
+        const dl = el('dl');
+        [['بدن', p.body], ['دست‌ها', p.hands], ['پاها', p.legs], ['نگاه', p.gaze], ['دوربین', p.camera], ['فاصله', p.distance]]
+          .filter(r => r[1]).forEach(r => { dl.appendChild(el('dt', '', r[0])); dl.appendChild(el('dd', '', r[1])); });
+        card.appendChild(dl);
+        if (p.tip) card.appendChild(el('div', 'tip', '💡 ' + p.tip));
+        return card;
+      }
+      function photographerCard(id, reason) {
+        const p = typeof photographers !== 'undefined' ? photographers[id] : null;
+        if (!p) return null;
+        const card = el('div', 'qab-ai-card'), row = el('div', 'qab-ai-pcard');
+        const img = new Image(); img.alt = p.name; img.loading = 'lazy'; img.src = p.image || '';
+        img.addEventListener('error', () => { img.style.visibility = 'hidden'; });
+        const info = el('div', 'info');
+        info.appendChild(el('strong', '', p.name));
+        if (p.location) info.appendChild(el('div', 'meta', p.location));
+        if (Array.isArray(p.styles) && p.styles.length) { const tags = el('div', 'qab-ai-tags'); p.styles.forEach(s => tags.appendChild(el('span', '', s))); info.appendChild(tags); }
+        const hasPrice = typeof hasRate === 'function' ? hasRate(p) : Number.isFinite(p.shotRate);
+        const fmt = typeof formatToman === 'function' ? formatToman : v => v + ' تومان';
+        info.appendChild(el('div', 'meta', hasPrice ? 'تعرفه هر شات: ' + fmt(p.shotRate) : 'تعرفه: با خود عکاس هماهنگ می‌شود'));
+        row.append(img, info); card.appendChild(row);
+        if (reason) card.appendChild(el('div', 'tip', reason));
+        const actions = el('div', 'qab-ai-actions');
+        const prof = el('button', '', 'پروفایل'); prof.type = 'button';
+        prof.addEventListener('click', () => { closePanel(); if (typeof openProfile === 'function') openProfile(id); });
+        const book = el('button', 'primary', 'رزرو ↗'); book.type = 'button';
+        book.addEventListener('click', () => { closePanel(); if (typeof openBooking === 'function') openBooking(p.name); });
+        actions.append(prof, book); card.appendChild(actions);
+        return card;
+      }
+      function handleStructured(d) {
+        if (d.type === 'pose') {
+          const poses = Array.isArray(d.poses) ? d.poses : [];
+          if (!poses.length) throw new Error('ژستی تولید نشد؛ دوباره امتحان کن.');
+          if (d.intro) addMsg(d.intro, 'bot');
+          const wrap = el('div', 'qab-ai-cards');
+          poses.forEach(p => wrap.appendChild(poseCard(p, false)));
+          messagesEl.appendChild(wrap); scrollDown();
+          history.push({ role: 'assistant', content: (d.intro ? d.intro + '\n' : '') + 'ژست‌های پیشنهادی: ' + poses.map(p => p.title).join('، ') });
+        } else if (d.type === 'recommend') {
+          const picks = Array.isArray(d.picks) ? d.picks : [];
+          if (d.intro) addMsg(d.intro, 'bot');
+          const wrap = el('div', 'qab-ai-cards');
+          const names = [];
+          picks.forEach(pk => { const c = photographerCard(pk.id, pk.reason); if (c) { wrap.appendChild(c); names.push(photographers[pk.id].name); } });
+          if (wrap.childNodes.length) { messagesEl.appendChild(wrap); scrollDown(); }
+          if (d.note) addMsg(d.note, 'bot');
+          if (!names.length && !d.intro && !d.note) throw new Error('عکاس مناسبی پیدا نشد.');
+          history.push({ role: 'assistant', content: (d.intro || '') + (names.length ? '\nعکاسان پیشنهادی: ' + names.join('، ') : '') + (d.note ? '\n' + d.note : '') });
+        } else {
+          const text = String(d.answer || '').trim();
+          if (!text) throw new Error('پاسخی دریافت نشد.');
+          addMsg(text, 'bot'); history.push({ role: 'assistant', content: text });
         }
       }
-      launcher.addEventListener('click', () => panel.classList.contains('open') ? closePanel() : openPanel());
-      close.addEventListener('click', closePanel);
-      document.addEventListener('keydown', event => { if (event.key === 'Escape' && panel.classList.contains('open')) closePanel(); });
-      modeButtons.forEach(button => button.addEventListener('click', () => setMode(button.dataset.mode)));
-      quick.addEventListener('click', event => {
-        const button = event.target.closest('button[data-prompt]');
-        if (!button) return;
-        setMode(button.dataset.mode || 'chat');
-        submitMessage(button.dataset.prompt);
-      });
-      form.addEventListener('submit', event => {
-        event.preventDefault();
-        const message = input.value;
-        input.value = '';
-        submitMessage(message);
-      });
-      input.addEventListener('keydown', event => {
-        if (event.key === 'Enter' && !event.shiftKey) {
-          event.preventDefault();
-          form.requestSubmit();
+
+      /* ---------- image ---------- */
+      async function prepareImage(file) {
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) throw new Error('فقط تصویر JPG، PNG یا WebP پذیرفته می‌شود.');
+        if (file.size > 10 * 1024 * 1024) throw new Error('حجم عکس بیشتر از ۱۰ مگابایت است.');
+        const url = URL.createObjectURL(file);
+        try {
+          const img = await new Promise((res, rej) => {
+            const i = new Image(); i.onload = () => res(i);
+            i.onerror = () => rej(new Error('این عکس خوانده نشد؛ فایل دیگری امتحان کن.')); i.src = url;
+          });
+          const scale = Math.min(1, 1280 / Math.max(img.naturalWidth, img.naturalHeight));
+          const w = Math.max(1, Math.round(img.naturalWidth * scale)), h = Math.max(1, Math.round(img.naturalHeight * scale));
+          const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h); ctx.drawImage(img, 0, 0, w, h);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+          const data = dataUrl.split(',')[1] || '';
+          if (!data || data.length > 4400000) throw new Error('حجم عکس پس از فشرده‌سازی هنوز زیاد است؛ عکس کوچک‌تری انتخاب کن.');
+          return { data, preview: dataUrl, name: file.name };
+        } finally { URL.revokeObjectURL(url); }
+      }
+      function renderAttach() {
+        attachBox.classList.toggle('on', !!image);
+        if (image) { attachImg.src = image.preview; attachName.textContent = image.name; }
+        else { attachImg.removeAttribute('src'); attachName.textContent = ''; }
+      }
+
+      /* ---------- send ---------- */
+      function errorText(status, d) {
+        if (d && d.error) return d.error;
+        if (status === 429) return 'تعداد درخواست‌ها زیاد است یا سهمیه تمام شده؛ کمی بعد دوباره تلاش کن.';
+        if (status >= 500) return 'سرور موقتاً در دسترس نیست؛ دوباره تلاش کن.';
+        return 'ارتباط با QAB AI برقرار نشد.';
+      }
+      async function submit(raw) {
+        if (busy) return;
+        let text = String(raw || '').trim();
+        if (!text && !image) return;
+        if (mode === 'analyze' && !image) { addMsg('برای تحلیل، اول یک عکس انتخاب کن (دکمه 🖼 کنار کادر پیام).', 'bot', true); return; }
+        if (!navigator.onLine) { addMsg('به نظر می‌رسد اینترنتت قطع است؛ اتصال را بررسی کن و دوباره بفرست.', 'bot', true); return; }
+        if (image && mode !== 'analyze') setMode('analyze');
+        if (!text) text = 'این عکس را تحلیل کن.';
+        input.value = ''; autosize();
+        const sendImage = image; image = null; renderAttach();
+
+        const userNode = addMsg(text, 'user');
+        if (sendImage) { const t = el('img', 'thumb'); t.alt = 'عکس ارسال‌شده'; t.src = sendImage.preview; userNode.prepend(t); }
+        history.push({ role: 'user', content: sendImage ? text + ' (عکس پیوست شد)' : text });
+
+        setBusy(true);
+        controller = new AbortController();
+        const typing = showTyping();
+        const body = { mode, messages: history.slice(-10), directory: getDirectory() };
+        if (mode === 'chat' || mode === 'analyze') body.stream = true; else body.structured = true;
+        if (sendImage) body.image = { mimeType: 'image/jpeg', data: sendImage.data };
+
+        let botNode = null, full = '';
+        try {
+          const res = await fetch(ENDPOINT, {
+            method: 'POST', signal: controller.signal,
+            headers: { 'Content-Type': 'application/json', apikey: PUBLISHABLE_KEY },
+            body: JSON.stringify(body)
+          });
+          if (!res.ok) { const d = await res.json().catch(() => ({})); throw new Error(errorText(res.status, d)); }
+          if ((res.headers.get('content-type') || '').includes('text/event-stream') && res.body) {
+            typing.remove();
+            botNode = addMsg('', 'bot'); botNode.classList.add('streaming');
+            const reader = res.body.getReader(), dec = new TextDecoder(); let buf = '';
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              buf += dec.decode(value, { stream: true });
+              let i;
+              while ((i = buf.indexOf('\n\n')) >= 0) {
+                const chunk = buf.slice(0, i); buf = buf.slice(i + 2);
+                const line = chunk.split('\n').find(l => l.startsWith('data:'));
+                if (!line) continue;
+                let ev; try { ev = JSON.parse(line.slice(5)); } catch (e) { continue; }
+                if (ev.error) throw new Error(ev.error);
+                if (ev.t) { full += ev.t; scheduleRender(botNode, full); }
+              }
+            }
+            botNode.classList.remove('streaming');
+            if (!full.trim()) throw new Error('پاسخی دریافت نشد.');
+            renderRich(botNode, full);
+            history.push({ role: 'assistant', content: full });
+          } else {
+            const d = await res.json(); typing.remove(); handleStructured(d);
+          }
+          saveSession();
+        } catch (err) {
+          typing.remove();
+          if (err && err.name === 'AbortError') {
+            if (botNode) {
+              botNode.classList.remove('streaming');
+              if (full.trim()) { renderRich(botNode, full); history.push({ role: 'assistant', content: full }); } else botNode.remove();
+            }
+            if (!botNode || !full.trim()) history.push({ role: 'assistant', content: '(پاسخ متوقف شد)' });
+            addMsg('پاسخ‌گویی متوقف شد.', 'bot');
+            saveSession();
+          } else {
+            if (botNode) botNode.remove();
+            if (history.length && history[history.length - 1].role === 'user') history.pop();
+            const offline = !navigator.onLine || err instanceof TypeError;
+            addMsg(offline ? 'ارتباط با سرور برقرار نشد؛ اینترنتت را بررسی کن و دوباره تلاش کن.' : (err && err.message ? err.message : 'خطای ارتباطی رخ داد.'), 'bot', true);
+          }
+        } finally {
+          controller = null; setBusy(false); input.focus();
         }
+      }
+
+      /* ---------- events ---------- */
+      launcher.addEventListener('click', () => panel.classList.contains('open') ? closePanel() : openPanel());
+      closeBtn.addEventListener('click', closePanel);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('open')) closePanel(); });
+      modeButtons.forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+      uploadBtn.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', async () => {
+        const f = fileInput.files && fileInput.files[0]; fileInput.value = '';
+        if (!f) return;
+        try { image = await prepareImage(f); renderAttach(); setMode('analyze'); input.focus(); }
+        catch (e) { addMsg(e.message || 'بارگذاری عکس ناموفق بود.', 'bot', true); }
       });
-      input.addEventListener('input', () => {
-        input.style.height = 'auto';
-        input.style.height = Math.min(input.scrollHeight, 110) + 'px';
+      attachRemove.addEventListener('click', () => { image = null; renderAttach(); });
+      clearBtn.addEventListener('click', () => {
+        if (controller) controller.abort();
+        history = []; image = null; renderAttach();
+        try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+        messagesEl.textContent = ''; showWelcome(); setBusy(false);
       });
+      favBtn.addEventListener('click', () => { renderFavs(); favView.classList.add('open'); });
+      favBack.addEventListener('click', () => favView.classList.remove('open'));
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        if (busy) { if (controller) controller.abort(); return; }
+        submit(input.value);
+      });
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); if (!busy) form.requestSubmit(); }
+      });
+      input.addEventListener('input', autosize);
+
+      updateFavCount(); setMode('chat'); restoreSession();
     })();
   </script>
 
