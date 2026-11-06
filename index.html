@@ -2027,6 +2027,40 @@
     html.pose-camera-open{overflow:hidden}
     @media(max-width:760px){.pose-camera-promo{grid-template-columns:1fr}.pose-camera-open{width:100%}.pose-live-modal{padding:0}.pose-live-shell{width:100%;height:100dvh;max-height:100dvh;border-radius:0}.pose-live-layout{grid-template-columns:1fr;padding:10px}.pose-live-stage{width:min(100%,520px);margin-inline:auto;max-height:54dvh;min-height:260px}.pose-live-controls{display:grid;grid-template-columns:1fr 1fr}.pose-live-control:first-child{grid-column:1/-1}.pose-live-buttons{grid-column:1/-1}.pose-live-help{grid-column:1/-1}}
 
+
+
+    /* QAB AI assistant */
+    .qab-ai-launcher{position:fixed;z-index:1200;right:22px;left:auto;bottom:22px;border:0;border-radius:999px;padding:13px 19px;background:#111;color:#fff;box-shadow:0 12px 35px #0003;display:flex;align-items:center;gap:10px;font:inherit;font-weight:800;cursor:pointer;transition:transform .2s,box-shadow .2s}
+    .qab-ai-launcher:hover{transform:translateY(-3px);box-shadow:0 16px 38px #0004}
+    .qab-ai-launcher .ai-spark{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#111;font-size:17px}
+    .qab-ai-panel{position:fixed;z-index:1201;right:22px;left:auto;bottom:86px;width:min(410px,calc(100vw - 28px));height:min(620px,calc(100dvh - 120px));background:#fff;color:#171717;border:1px solid #e8e8e8;border-radius:23px;box-shadow:0 22px 70px #0002;display:none;overflow:hidden;direction:rtl}
+    .qab-ai-panel.open{display:flex;flex-direction:column;animation:qabAiIn .22s ease-out}
+    @keyframes qabAiIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .qab-ai-head{padding:17px 18px;background:#111;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .qab-ai-brand{display:flex;align-items:center;gap:11px}
+    .qab-ai-logo{width:39px;height:39px;border-radius:13px;background:#fff;color:#111;display:grid;place-items:center;font-weight:900;font-size:19px}
+    .qab-ai-brand strong{display:block;font-size:15px;letter-spacing:.3px}
+    .qab-ai-brand small{display:block;color:#c7c7c7;font-size:11px;margin-top:3px}
+    .qab-ai-close{width:34px;height:34px;border:1px solid #ffffff3a;background:#ffffff12;color:#fff;border-radius:50%;font-size:20px;cursor:pointer}
+    .qab-ai-modes{display:flex;gap:7px;padding:12px 13px 8px;overflow:auto;border-bottom:1px solid #eee}
+    .qab-ai-mode{white-space:nowrap;border:1px solid #e5e5e5;background:#fff;color:#555;border-radius:999px;padding:7px 11px;font:inherit;font-size:11px;cursor:pointer}
+    .qab-ai-mode.active{background:#111;color:#fff;border-color:#111}
+    .qab-ai-messages{flex:1;overflow:auto;padding:15px 13px;display:flex;flex-direction:column;gap:11px;background:#fafafa}
+    .qab-ai-msg{max-width:91%;padding:11px 13px;border-radius:15px;font-size:13px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
+    .qab-ai-msg.bot{align-self:flex-start;background:#fff;border:1px solid #ededed;border-bottom-right-radius:5px}
+    .qab-ai-msg.user{align-self:flex-end;background:#171717;color:#fff;border-bottom-left-radius:5px}
+    .qab-ai-msg.error{border-color:#f1caca;background:#fff7f7;color:#9a2525}
+    .qab-ai-typing{align-self:flex-start;color:#777;font-size:12px;padding:5px 9px}
+    .qab-ai-quick{display:flex;gap:7px;overflow:auto;padding:9px 12px;border-top:1px solid #eee;background:#fff}
+    .qab-ai-quick button{flex:0 0 auto;border:1px solid #e7e7e7;border-radius:999px;background:#fff;padding:7px 10px;font:inherit;font-size:11px;color:#444;cursor:pointer}
+    .qab-ai-compose{display:flex;align-items:flex-end;gap:8px;padding:11px 12px 13px;background:#fff;border-top:1px solid #eee}
+    .qab-ai-compose textarea{flex:1;resize:none;min-height:43px;max-height:110px;border:1px solid #e5e5e5;border-radius:14px;padding:10px 12px;font:inherit;font-size:13px;outline:none;direction:rtl;background:#fafafa}
+    .qab-ai-compose textarea:focus{border-color:#777;background:#fff}
+    .qab-ai-send{width:44px;height:43px;flex:0 0 44px;border:0;border-radius:14px;background:#111;color:#fff;font-size:19px;cursor:pointer}
+    .qab-ai-send:disabled{opacity:.45;cursor:not-allowed}
+    .qab-ai-footnote{text-align:center;color:#999;font-size:10px;padding:0 10px 9px;background:#fff}
+    @media(max-width:520px){.qab-ai-launcher{right:14px;left:auto;bottom:14px;padding:11px 15px}.qab-ai-panel{left:8px;right:8px;bottom:74px;width:auto;height:min(650px,calc(100dvh - 92px));border-radius:20px}.qab-ai-msg{font-size:12px}}
+
   </style>
 </head>
 
@@ -5648,6 +5682,151 @@ const POSES = [
   </script>
 
 
+
+  <button class="qab-ai-launcher" id="qabAiLauncher" type="button" aria-controls="qabAiPanel" aria-expanded="false">
+    <span class="ai-spark">✦</span><span>QAB AI</span>
+  </button>
+  <section class="qab-ai-panel" id="qabAiPanel" aria-label="دستیار هوشمند قاب" aria-hidden="true">
+    <header class="qab-ai-head">
+      <div class="qab-ai-brand"><div class="qab-ai-logo">Q</div><div><strong>QAB AI</strong><small>دستیار هوشمند دنیای عکاسی</small></div></div>
+      <button class="qab-ai-close" id="qabAiClose" type="button" aria-label="بستن">×</button>
+    </header>
+    <nav class="qab-ai-modes" aria-label="حالت دستیار">
+      <button class="qab-ai-mode active" type="button" data-mode="chat">گفت‌وگو</button>
+      <button class="qab-ai-mode" type="button" data-mode="pose">مربی ژست</button>
+      <button class="qab-ai-mode" type="button" data-mode="recommend">پیشنهاد عکاس</button>
+    </nav>
+    <div class="qab-ai-messages" id="qabAiMessages" aria-live="polite">
+      <div class="qab-ai-msg bot">سلام! من QAB AI هستم ✦\nبرای انتخاب عکاس، ایده ژست، نورپردازی، دوربین یا رزرو عکاسی کمکت می‌کنم. از کجا شروع کنیم؟</div>
+    </div>
+    <div class="qab-ai-quick" id="qabAiQuick">
+      <button type="button" data-prompt="برای عکاسی پرتره در فضای باز ۵ ژست خاص پیشنهاد بده." data-mode="pose">ایده ژست پرتره</button>
+      <button type="button" data-prompt="برای عکاسی پرتره در تبریز عکاس مناسب پیشنهاد بده." data-mode="recommend">پیدا کردن عکاس</button>
+      <button type="button" data-prompt="برای عکاسی پرتره با نور پنجره چه تنظیماتی پیشنهاد می‌کنی؟" data-mode="chat">تنظیمات دوربین</button>
+    </div>
+    <form class="qab-ai-compose" id="qabAiForm">
+      <textarea id="qabAiInput" rows="1" maxlength="1400" placeholder="پیامت رو برای QAB AI بنویس..." aria-label="پیام به QAB AI"></textarea>
+      <button class="qab-ai-send" id="qabAiSend" type="submit" aria-label="ارسال پیام">➤</button>
+    </form>
+    <div class="qab-ai-footnote">پاسخ‌ها با هوش مصنوعی تولید می‌شوند؛ اطلاعات رزرو را از پروفایل عکاس بررسی کن.</div>
+  </section>
+  <script>
+    (() => {
+      const launcher = document.getElementById('qabAiLauncher');
+      const panel = document.getElementById('qabAiPanel');
+      const close = document.getElementById('qabAiClose');
+      const form = document.getElementById('qabAiForm');
+      const input = document.getElementById('qabAiInput');
+      const send = document.getElementById('qabAiSend');
+      const messagesEl = document.getElementById('qabAiMessages');
+      const modeButtons = [...document.querySelectorAll('.qab-ai-mode')];
+      const quick = document.getElementById('qabAiQuick');
+      if (!launcher || !panel || !form || !input || !send || !messagesEl) return;
+
+      const endpoint = 'https://yhjwttinwgsekgbmdijw.supabase.co/functions/v1/qab-ai';
+      // Publishable key only. Never put a Grok (xAI) secret or Supabase secret key in this file.
+      const supabasePublishableKey = 'sb_publishable_KbGaMcx2t7kndWIx27giag_LYsKjtVc';
+      let mode = 'chat';
+      let busy = false;
+      const history = [];
+
+      function openPanel() {
+        panel.classList.add('open');
+        panel.setAttribute('aria-hidden', 'false');
+        launcher.setAttribute('aria-expanded', 'true');
+        setTimeout(() => input.focus(), 80);
+      }
+      function closePanel() {
+        panel.classList.remove('open');
+        panel.setAttribute('aria-hidden', 'true');
+        launcher.setAttribute('aria-expanded', 'false');
+      }
+      function addMessage(text, who, isError = false) {
+        const node = document.createElement('div');
+        node.className = 'qab-ai-msg ' + who + (isError ? ' error' : '');
+        node.textContent = text;
+        messagesEl.appendChild(node);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        return node;
+      }
+      function setMode(next) {
+        mode = next;
+        modeButtons.forEach(button => button.classList.toggle('active', button.dataset.mode === mode));
+      }
+      function getDirectory() {
+        try {
+          if (typeof photographers === 'undefined') return [];
+          return Object.values(photographers).map(p => ({
+            name: p.name || '', location: p.location || '', bio: p.bio || '',
+            styles: Array.isArray(p.styles) ? p.styles : [],
+            shotRate: Number.isFinite(Number(p.shotRate)) ? Number(p.shotRate) : null,
+            telegram: p.telegram || null
+          }));
+        } catch (e) { return []; }
+      }
+      async function submitMessage(raw) {
+        const message = String(raw || '').trim();
+        if (!message || busy) return;
+        busy = true;
+        send.disabled = true;
+        input.disabled = true;
+        addMessage(message, 'user');
+        history.push({ role: 'user', content: message });
+        const typing = document.createElement('div');
+        typing.className = 'qab-ai-typing';
+        typing.textContent = 'QAB AI در حال فکر کردنه…';
+        messagesEl.appendChild(typing);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'apikey': supabasePublishableKey },
+            body: JSON.stringify({ mode, messages: history.slice(-8), directory: getDirectory() })
+          });
+          const data = await res.json().catch(() => ({}));
+          typing.remove();
+          if (!res.ok) throw new Error(data.error || 'ارتباط با QAB AI برقرار نشد.');
+          const answer = String(data.answer || 'پاسخی دریافت نشد.');
+          history.push({ role: 'assistant', content: answer });
+          addMessage(answer, 'bot');
+        } catch (error) {
+          typing.remove();
+          addMessage(error && error.message ? error.message : 'خطای ارتباطی رخ داد.', 'bot', true);
+        } finally {
+          busy = false;
+          send.disabled = false;
+          input.disabled = false;
+          input.focus();
+        }
+      }
+      launcher.addEventListener('click', () => panel.classList.contains('open') ? closePanel() : openPanel());
+      close.addEventListener('click', closePanel);
+      document.addEventListener('keydown', event => { if (event.key === 'Escape' && panel.classList.contains('open')) closePanel(); });
+      modeButtons.forEach(button => button.addEventListener('click', () => setMode(button.dataset.mode)));
+      quick.addEventListener('click', event => {
+        const button = event.target.closest('button[data-prompt]');
+        if (!button) return;
+        setMode(button.dataset.mode || 'chat');
+        submitMessage(button.dataset.prompt);
+      });
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const message = input.value;
+        input.value = '';
+        submitMessage(message);
+      });
+      input.addEventListener('keydown', event => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          form.requestSubmit();
+        }
+      });
+      input.addEventListener('input', () => {
+        input.style.height = 'auto';
+        input.style.height = Math.min(input.scrollHeight, 110) + 'px';
+      });
+    })();
+  </script>
 
 
 </body>
