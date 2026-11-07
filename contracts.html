@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>EHSAN NAMI | مدیریت قراردادها</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f1f1f2;--card:#fff;--ink:#101012;--mut:#6b6b73;--line:#e2e2e6;--soft:#f6f6f7;--btn:#101012;--btnt:#fff;--ok:#1f7a4d;--bad:#b3261e;--warn:#9a6a00;--r:18px}
+[data-theme=dark]{--bg:#0e0e10;--card:#18181b;--ink:#f3f3f5;--mut:#9a9aa3;--line:#2a2a30;--soft:#1f1f23;--btn:#f3f3f5;--btnt:#101012;--ok:#58c88f;--bad:#ff8a80;--warn:#e8b64a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:400 14px/1.8 Vazirmatn,Tahoma,sans-serif;padding:0 0 env(safe-area-inset-bottom)}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(14px + env(safe-area-inset-top)) 16px 10px;max-width:1040px;margin:0 auto}
+.brand b{display:block;font-size:22px;font-weight:800;letter-spacing:.5px;direction:ltr;text-align:right}
+.brand span{color:var(--mut);font-size:11.5px;direction:ltr;display:block;text-align:right}
+nav{display:flex;gap:6px;overflow:auto;padding:0 16px 8px;max-width:1040px;margin:0 auto;scrollbar-width:none}
+nav button{white-space:nowrap;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 15px;cursor:pointer}
+nav button.on{background:var(--btn);color:var(--btnt);border-color:var(--btn)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.stat small{color:var(--mut);display:block}.stat b{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+.stat.big{grid-column:span 2}.stat.big b{font-size:28px}
+h2{font-size:16px;margin-bottom:10px}h3{font-size:14px;margin:6px 0}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.sp{justify-content:space-between}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:7px 14px;cursor:pointer}
+.btn.p{background:var(--btn);color:var(--btnt);border-color:var(--btn)}.btn.d{color:var(--bad)}.btn.s{padding:3px 10px;font-size:12px}
+.btn:disabled{opacity:.5;cursor:wait}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}.tbl th{color:var(--mut);font-weight:500;text-align:right;padding:6px}.tbl td{padding:8px 6px;border-top:1px solid var(--line);vertical-align:middle}
+.scroll{overflow:auto}
+.tag{display:inline-block;border-radius:999px;padding:0 10px;font-size:12px;background:var(--soft);border:1px solid var(--line)}
+.tag.ok{color:var(--ok)}.tag.bad{color:var(--bad)}.tag.warn{color:var(--warn)}
+input,select,textarea{width:100%;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:8px 11px}
+textarea{min-height:120px;resize:vertical}
+label{display:block;font-size:12px;color:var(--mut);margin:8px 0 2px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+dialog{border:0;border-radius:22px;background:var(--card);color:var(--ink);width:min(560px,94vw);max-height:92vh;padding:18px;margin:auto;box-shadow:0 20px 80px #0006}
+dialog::backdrop{background:#0008}
+.bars{display:flex;align-items:flex-end;gap:10px;height:120px}.bars div{flex:1;text-align:center;font-size:11px;color:var(--mut)}.bars i{display:block;background:var(--ink);border-radius:8px 8px 3px 3px;min-height:3px;margin-bottom:4px}
+.sum{background:var(--soft);border-radius:14px;padding:10px 14px;margin-top:10px}.sum div{display:flex;justify-content:space-between}
+#toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:var(--btn);color:var(--btnt);padding:9px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:99}#toast.on{opacity:1}
+.gate{max-width:420px;margin:20vh auto;text-align:center}
+.edit{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+@media(min-width:900px){.edit{grid-template-columns:340px minmax(0,1fr)}}
+#sheet{background:#fff;color:#111;width:100%;max-width:794px;margin:0 auto;padding:44px 48px;border:1px solid #ddd;box-shadow:0 8px 40px #0002;font-size:13px;line-height:2.05;text-align:justify}
+#sheet h1{text-align:center;font-size:20px;margin-bottom:4px}#sheet .no{text-align:center;color:#555;margin-bottom:18px}
+#sheet .parties{display:grid;grid-template-columns:1fr 1fr;gap:14px;border:1px solid #bbb;border-radius:10px;padding:12px;margin-bottom:14px}
+#sheet p{margin-bottom:6px}.sign{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:40px;text-align:center}.sign div{border-top:1px solid #111;padding-top:6px}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}header,nav,.noprint,#toast{display:none!important}.wrap{padding:0;max-width:none}#sheet{border:0;box-shadow:none;padding:0;max-width:none}}
+@media(max-width:560px){.f2{grid-template-columns:1fr}.stat.big{grid-column:span 1}#sheet{padding:22px 18px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="noprint">
+  <div class="brand"><b>EHSAN NAMI</b><span>Professional Video Editing &amp; Studio Services</span></div>
+  <div class="row"><button class="btn s" id="theme" type="button">تیره/روشن</button></div>
+</header>
+<nav class="noprint" id="nav"></nav>
+<main class="wrap" id="app"><div class="gate card" id="gate">در حال ورود…</div></main>
+<div id="toast"></div>
+<script>
+(() => {
+"use strict";
+const URL_ = "https://yhjwttinwgsekgbmdijw.supabase.co/functions/v1/contracts";
+const KEY = "sb_publishable_KbGaMcx2t7kndWIx27giag_LYsKjtVc"; // public key; the private token stays in the URL hash
+const $ = s => document.querySelector(s);
+let token = "", S = null, view = "dash", cur = null, busy = false;
+
+/* ---------- helpers ---------- */
+const h = (t, a, ...k) => {
+  const e = document.createElement(t); let val;
+  for (const [x, v] of Object.entries(a || {})) {
+    if (x === "class") e.className = v; else if (x === "value") val = v;
+    else if (x.startsWith("on")) e.addEventListener(x.slice(2), v);
+    else if (v !== false && v != null) e.setAttribute(x, v === true ? "" : v);
+  }
+  k.flat(9).forEach(c => c != null && c !== false && e.append(c.nodeType ? c : document.createTextNode(c)));
+  if (val !== undefined) e.value = val;
+  return e;
+};
+const toFa = v => String(v).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+const toEn = v => String(v).replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+const fmt = n => toFa(Math.round(Number(n) || 0).toLocaleString("en-US")).replace(/,/g, "٬");
+const toman = n => fmt(n) + " تومان";
+const MONTHS = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+function g2j(gy, gm, gd) { const g = [0,31,59,90,120,151,181,212,243,273,304,334]; let jy = gy <= 1600 ? 0 : 979; gy -= gy <= 1600 ? 621 : 1600; const gy2 = gm > 2 ? gy + 1 : gy; let days = 365 * gy + ~~((gy2 + 3) / 4) - ~~((gy2 + 99) / 100) + ~~((gy2 + 399) / 400) - 80 + gd + g[gm - 1]; jy += 33 * ~~(days / 12053); days %= 12053; jy += 4 * ~~(days / 1461); days %= 1461; if (days > 365) { jy += ~~((days - 1) / 365); days = (days - 1) % 365; } const jm = days < 186 ? 1 + ~~(days / 31) : 7 + ~~((days - 186) / 30); const jd = 1 + (days < 186 ? days % 31 : (days - 186) % 30); return [jy, jm, jd]; }
+function j2g(jy, jm, jd) { let gy = jy <= 979 ? 621 : 1600; jy -= jy <= 979 ? 0 : 979; let days = 365 * jy + ~~(jy / 33) * 8 + ~~(((jy % 33) + 3) / 4) + 78 + jd + (jm < 7 ? (jm - 1) * 31 : (jm - 7) * 30 + 186); gy += 400 * ~~(days / 146097); days %= 146097; if (days > 36524) { gy += 100 * ~~(--days / 36524); days %= 36524; if (days >= 365) days++; } gy += 4 * ~~(days / 1461); days %= 1461; if (days > 365) { gy += ~~((days - 1) / 365); days = (days - 1) % 365; } let gd = days + 1; const sal = [0,31,(gy % 4 === 0 && gy % 100 !== 0) || gy % 400 === 0 ? 29 : 28,31,30,31,30,31,31,30,31,30,31]; let gm = 0; for (; gm < 13 && gd > sal[gm]; gm++) gd -= sal[gm]; return [gy, gm, gd]; }
+const p2 = n => String(n).padStart(2, "0");
+const isoToJ = iso => { if (!iso) return ""; const [y, m, d] = iso.split("-").map(Number); const j = g2j(y, m, d); return toFa(j[0] + "/" + p2(j[1]) + "/" + p2(j[2])); };
+const isoToJLong = iso => { if (!iso) return "—"; const [y, m, d] = iso.split("-").map(Number); const j = g2j(y, m, d); return toFa(j[2]) + " " + MONTHS[j[1] - 1] + " " + toFa(j[0]); };
+function jToIso(txt) { if (!txt || !txt.trim()) return null; const m = toEn(txt).trim().match(/^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})$/); if (!m) throw new Error("تاریخ را به شکل ۱۴۰۵/۰۸/۱۶ وارد کن."); const [y, mo, d] = [+m[1], +m[2], +m[3]]; if (mo < 1 || mo > 12 || d < 1 || d > 31) throw new Error("تاریخ نامعتبر است."); const g = j2g(y, mo, d); return g[0] + "-" + p2(g[1]) + "-" + p2(g[2]); }
+const todayIso = () => { const n = new Date(); return n.getFullYear() + "-" + p2(n.getMonth() + 1) + "-" + p2(n.getDate()); };
+const addDays = (iso, n) => { const d = new Date(iso + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const num = v => Number(toEn(String(v)).replace(/[^\d]/g, "")) || 0;
+
+const CS = { draft: "پیش‌نویس", awaiting_signature: "در انتظار امضا", active: "فعال", in_progress: "در حال انجام", completed: "تکمیل‌شده", cancelled: "لغوشده" };
+const VS = { awaiting_raw: "در انتظار فایل خام", ready: "آماده تدوین", editing: "در حال تدوین", awaiting_approval: "در انتظار تأیید مشتری", needs_revision: "نیازمند اصلاح", completed: "تکمیل‌شده", delivered: "تحویل‌داده‌شده" };
+const PS = { unpaid: ["پرداخت‌نشده", "bad"], advance_paid: ["پیش‌پرداخت‌شده", "warn"], has_debt: ["دارای بدهی", "bad"], settled: ["تسویه‌شده", "ok"] };
+const ET = { simple: "تدوین ساده", pro: "تدوین حرفه‌ای" };
+const KINDS = { advance: "پیش‌پرداخت", final: "تسویه نهایی", extra: "سفارش اضافه" };
+
+let tt; function toast(m) { const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => t.classList.remove("on"), 3000); }
+
+async function api(action, extra = {}) {
+  let r;
+  try { r = await fetch(URL_, { method: "POST", headers: { "Content-Type": "application/json", apikey: KEY }, body: JSON.stringify({ action, token, ...extra }) }); }
+  catch (e) { throw new Error("اتصال اینترنت یا سرور برقرار نشد."); }
+  let d = null; try { d = await r.json(); } catch (e) {}
+  if (!r.ok) {
+    if (d && d.need_confirm && !extra.confirm && confirm(d.error + "\nادامه می‌دهی؟")) return api(action, { ...extra, confirm: true });
+    if (d && d.below_min && !(extra.contract || {}).allow_below_min && confirm(d.error + "\nبا تعداد کمتر ثبت شود؟")) return api(action, { ...extra, contract: { ...extra.contract, allow_below_min: true } });
+    throw new Error((d && d.error) || "خطا در ارتباط با سرور.");
+  }
+  return d;
+}
+async function run(action, extra, ok) {
+  if (busy) return; busy = true;
+  try { const d = await api(action, extra); if (d.settings) S = d; if (ok) ok(d); render(); }
+  catch (e) { toast(e.message); }
+  finally { busy = false; }
+}
+
+const fin = id => (S.finance.find(f => f.contract_id === id)) || { paid_amount: 0, debt_amount: 0, payment_status: "unpaid" };
+const cl = id => S.clients.find(c => c.id === id);
+const its = id => S.items.filter(i => i.contract_id === id);
+
+/* ---------- layout ---------- */
+const TABS = [["dash", "داشبورد"], ["clients", "مشتریان"], ["contracts", "قراردادها"], ["settings", "تنظیمات"]];
+function nav() { const n = $("#nav"); n.textContent = ""; TABS.forEach(([k, t]) => n.append(h("button", { class: view === k || (k === "contracts" && (view === "contract" || view === "sheet")) ? "on" : "", onclick: () => { view = k; render(); } }, t))); }
+function render() { nav(); const a = $("#app"); a.textContent = ""; ({ dash, clients, contracts, contract, sheet, settings })[view](a); }
+
+/* ---------- dashboard ---------- */
+function dash(a) {
+  const cs = S.contracts, pm = S.payments, vd = S.videos, now = g2j(...todayIso().split("-").map(Number));
+  const jm = iso => { const [y, m, d] = iso.split("-").map(Number); const j = g2j(y, m, d); return j[0] * 12 + j[1]; };
+  const nowM = now[0] * 12 + now[1];
+  const monthIncome = pm.filter(p => jm(p.paid_at) === nowM).reduce((s, p) => s + p.amount, 0);
+  const debt = cs.filter(c => c.status !== "cancelled").reduce((s, c) => s + fin(c.id).debt_amount, 0);
+  const st = (...x) => vd.filter(v => x.includes(v.status)).length;
+  const bars = []; for (let i = 5; i >= 0; i--) { const m = nowM - i; bars.push({ m, v: pm.filter(p => jm(p.paid_at) === m).reduce((s, p) => s + p.amount, 0) }); }
+  const mx = Math.max(1, ...bars.map(b => b.v));
+  a.append(
+    h("div", { class: "row", style: "margin-bottom:12px" },
+      h("button", { class: "btn p", onclick: () => clientForm() }, "+ مشتری جدید"),
+      h("button", { class: "btn p", onclick: () => contractForm() }, "+ قرارداد جدید"),
+      h("button", { class: "btn", onclick: () => { view = "contracts"; render(); } }, "مشاهده قراردادها")),
+    h("div", { class: "grid" },
+      stat("درآمد ماه جاری", toman(monthIncome), 1), stat("مجموع دریافتی", toman(pm.reduce((s, p) => s + p.amount, 0)), 1), stat("بدهی مشتریان", toman(debt), 1),
+      stat("مشتریان", fmt(S.clients.length)), stat("قرارداد فعال", fmt(cs.filter(c => ["active", "in_progress"].includes(c.status)).length)),
+      stat("قرارداد تکمیل‌شده", fmt(cs.filter(c => c.status === "completed").length)), stat("در حال تدوین", fmt(st("editing"))),
+      stat("در انتظار تدوین", fmt(st("awaiting_raw", "ready"))), stat("تحویل‌داده‌شده", fmt(st("delivered")))),
+    h("div", { class: "card" }, h("h2", null, "درآمد ۶ ماه اخیر"), h("div", { class: "bars" }, bars.map(b => h("div", null, h("i", { style: "height:" + Math.round(b.v / mx * 90) + "px", title: toman(b.v) }), MONTHS[(b.m - 1) % 12])))),
+    h("div", { class: "card" }, h("h2", null, "قراردادهای اخیر"), contractTable(cs.slice(0, 5))),
+    h("div", { class: "card" }, h("h2", null, "مشتریان اخیر"), S.clients.length ? S.clients.slice(0, 5).map(c => h("div", { class: "row sp", style: "padding:6px 0;border-top:1px solid var(--line)" }, h("span", null, c.full_name), h("span", { style: "color:var(--mut)", dir: "ltr" }, toFa(c.phone)))) : h("p", { style: "color:var(--mut)" }, "هنوز مشتری‌ای ثبت نشده؛ با «مشتری جدید» شروع کن.")));
+}
+const stat = (l, v, big) => h("div", { class: "stat" + (big ? " big" : "") }, h("small", null, l), h("b", null, v));
+
+/* ---------- clients ---------- */
+let q = "";
+function clients(a) {
+  const list = S.clients.filter(c => (c.full_name + c.phone + (c.business || "")).includes(toEn(q)) || (c.full_name + (c.business || "")).includes(q));
+  a.append(h("div", { class: "row sp", style: "margin-bottom:12px" }, h("input", { placeholder: "جست‌وجوی مشتری…", value: q, style: "max-width:300px", oninput: e => { q = e.target.value; clearTimeout(clients.t); clients.t = setTimeout(() => { render(); const i = $("#app input"); i.focus(); i.setSelectionRange(q.length, q.length); }, 250); } }), h("button", { class: "btn p", onclick: () => clientForm() }, "+ مشتری جدید")));
+  if (!list.length) return a.append(h("div", { class: "card" }, "مشتری‌ای پیدا نشد. با «مشتری جدید» یکی اضافه کن."));
+  a.append(h("div", { class: "card scroll" }, h("table", { class: "tbl" }, h("tr", null, ["نام", "تماس", "برند", "قرارداد", "ویدیو", "بدهی", ""].map(t => h("th", null, t))),
+    list.map(c => { const cc = S.contracts.filter(x => x.client_id === c.id); return h("tr", null, h("td", null, h("b", null, c.full_name)), h("td", { dir: "ltr" }, toFa(c.phone)), h("td", null, c.business || "—"), h("td", null, fmt(cc.length)), h("td", null, fmt(cc.reduce((s, x) => s + x.total_videos, 0))), h("td", null, toman(cc.filter(x => x.status !== "cancelled").reduce((s, x) => s + fin(x.id).debt_amount, 0))), h("td", { class: "row" }, h("button", { class: "btn s", onclick: () => clientForm(c) }, "ویرایش"), h("button", { class: "btn s", onclick: () => contractForm(null, c.id) }, "قرارداد"), h("button", { class: "btn s d", onclick: () => confirm("«" + c.full_name + "» حذف شود؟") && run("delete_client", { id: c.id }, () => toast("مشتری حذف شد.")) }, "حذف"))); }))));
+}
+function dlg(title, body, onSave, saveLabel = "ذخیره") {
+  const d = h("dialog", null, h("h2", null, title), body, h("div", { class: "row", style: "margin-top:14px" }, h("button", { class: "btn p", id: "dsave", onclick: async () => { try { await onSave(d); } catch (e) { toast(e.message); } } }, saveLabel), h("button", { class: "btn", onclick: () => d.close() }, "انصراف")));
+  d.addEventListener("close", () => d.remove()); document.body.append(d); d.showModal(); return d;
+}
+const fld = (l, i) => h("div", null, h("label", null, l), i);
+function clientForm(c, after) {
+  const v = c || {}; const f = {};
+  const mk = (k, l, ph) => fld(l, f[k] = h("input", { value: v[k] || "", placeholder: ph || "" }));
+  dlg(c ? "ویرایش مشتری" : "مشتری جدید", h("div", null, mk("full_name", "نام و نام خانوادگی"), mk("phone", "شماره تماس", "۰۹۱۲…"), mk("business", "نام کسب‌وکار یا برند (اختیاری)"), mk("email", "ایمیل (اختیاری)"), mk("address", "آدرس (اختیاری)"), fld("یادداشت", f.notes = h("textarea", { value: v.notes || "" }))),
+    async d => { const client = { id: v.id }; for (const k in f) client[k] = f[k].value; const before = new Set(S.clients.map(x => x.id)); const r = await api("save_client", { client }); S = r; d.close(); toast("مشتری ذخیره شد."); render(); const nw = S.clients.find(x => !before.has(x.id)); if (after && nw) after(nw.id); });
+}
+
+/* ---------- contracts ---------- */
+function contractTable(list) {
+  if (!list.length) return h("p", { style: "color:var(--mut)" }, "هنوز قراردادی ثبت نشده؛ «قرارداد جدید» را بزن.");
+  return h("div", { class: "scroll" }, h("table", { class: "tbl" }, h("tr", null, ["شماره", "مشتری", "تاریخ", "مبلغ کل", "باقی‌مانده بدهی", "وضعیت", "مالی"].map(t => h("th", null, t))),
+    list.map(c => { const f = fin(c.id), p = PS[f.payment_status]; return h("tr", { style: "cursor:pointer", onclick: () => { cur = c.id; view = "contract"; render(); } }, h("td", { dir: "ltr" }, toFa(c.number)), h("td", null, (cl(c.client_id) || {}).full_name), h("td", null, isoToJ(c.start_date)), h("td", null, toman(c.total_amount)), h("td", null, toman(f.debt_amount)), h("td", null, h("span", { class: "tag" }, CS[c.status])), h("td", null, h("span", { class: "tag " + p[1] }, p[0]))); })));
+}
+let cq = "", cf = "";
+function contracts(a) {
+  const list = S.contracts.filter(c => (!cf || c.status === cf) && (!cq || (c.number + ((cl(c.client_id) || {}).full_name || "")).includes(cq) || toFa(c.number).includes(cq)));
+  a.append(h("div", { class: "row sp", style: "margin-bottom:12px" }, h("div", { class: "row" }, h("input", { placeholder: "جست‌وجو (شماره یا مشتری)", value: cq, style: "max-width:240px", onchange: e => { cq = e.target.value.trim(); render(); } }), h("select", { style: "max-width:160px", onchange: e => { cf = e.target.value; render(); }, value: cf }, h("option", { value: "" }, "همه‌ی وضعیت‌ها"), Object.entries(CS).map(([k, t]) => h("option", { value: k }, t)))), h("button", { class: "btn p", onclick: () => contractForm() }, "+ قرارداد جدید")), h("div", { class: "card" }, contractTable(list)));
+}
+function contractForm(c, clientId) {
+  if (!S.clients.length) { toast("اول یک مشتری ثبت کن."); return clientForm(null, id => contractForm(null, id)); }
+  const s = S.settings, its0 = c ? its(c.id) : [], g = t => its0.find(i => i.edit_type === t) || {};
+  const f = {}; const today = todayIso();
+  const sel = f.client = h("select", { value: c ? c.client_id : clientId || S.clients[0].id }, S.clients.map(x => h("option", { value: x.id }, x.full_name + " — " + toFa(x.phone))));
+  const sum = h("div", { class: "sum" });
+  const mkPrice = (t, def) => { const o = g(t); return { qty: h("input", { inputmode: "numeric", value: o.qty ? toFa(o.qty) : (t === "simple" && !c ? toFa(s.min_videos) : "۰"), oninput: calc }), price: h("input", { inputmode: "numeric", value: toFa(o.unit_price != null ? o.unit_price : def), oninput: calc }), def }; };
+  f.simple = mkPrice("simple", s.price_simple_contract); f.pro = mkPrice("pro", s.price_pro_contract);
+  f.start = h("input", { value: isoToJ(c ? c.start_date : today) }); f.end = h("input", { value: isoToJ(c ? c.end_date : addDays(today, 30)) });
+  f.collab = h("input", { value: c ? c.collaboration_type : "ماهانه" });
+  const min = c ? c.min_videos : s.min_videos, pct = c ? c.advance_percent : s.advance_percent;
+  function calc() {
+    const q1 = num(f.simple.qty.value), q2 = num(f.pro.qty.value), tot = q1 * num(f.simple.price.value) + q2 * num(f.pro.price.value), adv = Math.round(tot * pct / 100), n = q1 + q2;
+    sum.textContent = ""; sum.append(h("div", null, h("span", null, "تعداد کل"), h("b", null, fmt(n) + " ویدیو" + (n > min ? " (" + fmt(n - min) + " اضافه)" : n < min ? " (کمتر از حداقل " + fmt(min) + ")" : ""))), h("div", null, h("span", null, "مبلغ کل"), h("b", null, toman(tot))), h("div", null, h("span", null, "پیش‌پرداخت " + toFa(pct) + "٪"), h("b", null, toman(adv))), h("div", null, h("span", null, "باقی‌مانده پس از تحویل"), h("b", null, toman(tot - adv))));
+  }
+  const row = (t, o) => h("div", { class: "f2" }, fld(ET[t] + " — تعداد", o.qty), fld("قیمت هر ویدیو (تومان)", o.price));
+  const body = h("div", null, fld("مشتری", sel), h("div", { class: "f2" }, fld("تاریخ شروع (شمسی)", f.start), fld("تاریخ پایان (شمسی)", f.end)), fld("نوع همکاری", f.collab), row("simple", f.simple), row("pro", f.pro), sum);
+  calc();
+  dlg(c ? "ویرایش قرارداد " + toFa(c.number) : "قرارداد جدید", body, async d => {
+    const items = []; for (const t of ["simple", "pro"]) { const qty = num(f[t].qty.value); if (qty > 0) items.push({ edit_type: t, qty, unit_price: num(f[t].price.value) }); }
+    if (items.some(i => i.unit_price !== (i.edit_type === "simple" ? (c ? g("simple").unit_price : s.price_simple_contract) : (c ? g("pro").unit_price : s.price_pro_contract))) && !confirm("قیمت از تعرفه‌ی ثبت‌شده فرق دارد. با تأیید مالک ادامه بدهم؟")) return;
+    const r = await api("save_contract", { contract: { id: c && c.id, client_id: sel.value, start_date: jToIso(f.start.value), end_date: jToIso(f.end.value), collaboration_type: f.collab.value, items, terms_text: c ? c.terms_text : null } });
+    S = r; d.close(); cur = r.saved_id; view = "contract"; toast("قرارداد ذخیره شد."); render();
+  });
+}
+
+function contract(a) {
+  const c = S.contracts.find(x => x.id === cur); if (!c) { view = "contracts"; return render(); }
+  const f = fin(c.id), p = PS[f.payment_status], client = cl(c.client_id) || {}, vids = S.videos.filter(v => v.contract_id === c.id), pays = S.payments.filter(x => x.contract_id === c.id);
+  a.append(
+    h("div", { class: "row sp", style: "margin-bottom:12px" }, h("button", { class: "btn", onclick: () => { view = "contracts"; render(); } }, "← قراردادها"),
+      h("div", { class: "row" }, h("button", { class: "btn", onclick: () => contractForm(c) }, "ویرایش"), h("button", { class: "btn p", onclick: () => { view = "sheet"; render(); } }, "متن قرارداد و چاپ"), h("button", { class: "btn d", onclick: () => confirm("این قرارداد حذف شود؟") && run("delete_contract", { id: c.id }, () => { view = "contracts"; toast("قرارداد حذف شد."); }) }, "حذف"))),
+    h("div", { class: "card" }, h("div", { class: "row sp" }, h("div", null, h("h2", { dir: "ltr", style: "text-align:right" }, toFa(c.number)), h("div", null, client.full_name, " · ", toFa(client.phone || ""))), h("div", null, h("label", null, "وضعیت قرارداد"), h("select", { value: c.status, onchange: e => run("set_status", { id: c.id, status: e.target.value }, () => toast("وضعیت تغییر کرد.")) }, Object.entries(CS).map(([k, t]) => h("option", { value: k }, t))))), h("div", { style: "color:var(--mut);margin-top:6px" }, "از ", isoToJLong(c.start_date), " تا ", isoToJLong(c.end_date))),
+    h("div", { class: "grid" }, stat("مبلغ کل", toman(c.total_amount), 1), stat("پیش‌پرداخت", toman(c.advance_amount)), stat("باقی‌مانده", toman(c.remaining_amount)), stat("پرداخت‌شده", toman(f.paid_amount)), h("div", { class: "stat" }, h("small", null, "وضعیت مالی"), h("span", { class: "tag " + p[1] }, p[0]), h("div", null, h("b", null, toman(f.debt_amount)), h("small", null, "بدهی مشتری")))),
+    h("div", { class: "card" }, h("h2", null, "ثبت پرداخت"), payForm(c, f), pays.length ? h("div", { class: "scroll" }, h("table", { class: "tbl" }, h("tr", null, ["تاریخ", "نوع", "مبلغ", "روش", "پیگیری", ""].map(t => h("th", null, t))), pays.map(x => h("tr", null, h("td", null, isoToJ(x.paid_at)), h("td", null, KINDS[x.kind]), h("td", null, toman(x.amount)), h("td", null, x.method || "—"), h("td", null, x.reference ? toFa(x.reference) : "—"), h("td", null, h("button", { class: "btn s d", onclick: () => run("delete_payment", { id: x.id }, () => toast("پرداخت حذف شد.")) }, "حذف")))))) : h("p", { style: "color:var(--mut);margin-top:8px" }, "پرداختی ثبت نشده. پیش‌پرداخت را قبل از شروع کار ثبت کن.")),
+    h("div", { class: "card" }, h("div", { class: "row sp" }, h("h2", null, "ویدیوها (" + fmt(vids.length) + " از " + fmt(c.total_videos) + ")"), h("button", { class: "btn", onclick: () => run("sync_videos", { contract_id: c.id }, () => toast("فهرست ویدیوها به‌روز شد.")) }, vids.length ? "همگام‌سازی با قرارداد" : "ساخت فهرست ویدیوها")),
+      vids.length ? h("div", { class: "scroll" }, h("table", { class: "tbl" }, h("tr", null, ["#", "نوع", "وضعیت", "دریافت فایل خام", "تحویل مورد انتظار", "تحویل واقعی"].map(t => h("th", null, t))), vids.map(v => h("tr", null, h("td", null, fmt(v.seq)), h("td", null, ET[v.edit_type]), h("td", null, h("select", { value: v.status, onchange: e => run("save_video", { video: { id: v.id, status: e.target.value } }) }, Object.entries(VS).map(([k, t]) => h("option", { value: k }, t)))), h("td", null, h("input", { value: isoToJ(v.raw_received_at), placeholder: "۱۴۰۵/۰۸/۱۶", style: "min-width:104px", onchange: e => { try { run("save_video", { video: { id: v.id, raw_received_at: jToIso(e.target.value) } }); } catch (x) { toast(x.message); } } })), h("td", null, isoToJ(v.expected_delivery) || "—"), h("td", null, isoToJ(v.delivered_at) || "—"))))) : h("p", { style: "color:var(--mut)" }, "با «ساخت فهرست ویدیوها» برای هر ویدیوی قرارداد یک ردیف ساخته می‌شود.")));
+}
+function payForm(c, f) {
+  const sug = f.paid_amount === 0 ? c.advance_amount : f.debt_amount;
+  const k = h("select", { value: f.paid_amount === 0 ? "advance" : "final" }, Object.entries(KINDS).map(([a, t]) => h("option", { value: a }, t)));
+  const am = h("input", { inputmode: "numeric", value: sug ? toFa(sug) : "" }), dt = h("input", { value: isoToJ(todayIso()) }), me = h("input", { placeholder: "کارت به کارت، نقدی…" }), rf = h("input", { placeholder: "اختیاری" });
+  return h("div", null, h("div", { class: "f2" }, fld("نوع پرداخت", k), fld("مبلغ (تومان)", am), fld("تاریخ پرداخت (شمسی)", dt), fld("روش پرداخت", me)), fld("شماره پیگیری", rf),
+    h("button", { class: "btn p", style: "margin:10px 0", onclick: () => { try { run("add_payment", { payment: { contract_id: c.id, kind: k.value, amount: num(am.value), paid_at: jToIso(dt.value), method: me.value, reference: toEn(rf.value) } }, () => toast("پرداخت ثبت شد.")); } catch (e) { toast(e.message); } } }, "ثبت پرداخت"));
+}
+
+/* ---------- contract text + print ---------- */
+function terms(c, s, list) {
+  const sim = list.find(i => i.edit_type === "simple"), pro = list.find(i => i.edit_type === "pro"), ex = c.extra_videos;
+  const tar = (n, i) => i ? "تعرفه " + n + " برای هر ویدیو " + toman(i.unit_price) + " است و تعداد " + fmt(i.qty) + " ویدیو از این نوع سفارش داده شده است." : "در این قرارداد سفارشی برای " + n + " ثبت نشده است.";
+  return [
+    "ماده ۱ - موضوع قرارداد: تدوین ویدیوهای ارسالی کارفرما توسط مجری، به‌صورت همکاری " + c.collaboration_type + ".",
+    "ماده ۲ - مدت قرارداد: از " + isoToJLong(c.start_date) + " تا " + isoToJLong(c.end_date) + ".",
+    "ماده ۳ - حداقل سفارش ماهانه " + fmt(c.min_videos) + " ویدیو است. مجموع ویدیوهای این قرارداد " + fmt(c.total_videos) + " ویدیو است.",
+    "ماده ۴ - مدت هر ویدیو بین " + fmt(c.video_min_sec) + " تا " + fmt(c.video_max_sec) + " ثانیه است.",
+    "ماده ۵ - " + tar("تدوین ساده", sim),
+    "ماده ۶ - " + tar("تدوین حرفه‌ای", pro),
+    "ماده ۷ - سفارش بیش از " + fmt(c.min_videos) + " ویدیو بر اساس تعرفه‌ی همین قرارداد محاسبه و به مبلغ کل اضافه می‌شود. تعداد ویدیوهای اضافه در این قرارداد: " + fmt(ex) + " ویدیو به مبلغ " + toman(c.extra_amount) + ".",
+    "ماده ۸ - مبلغ کل قرارداد " + toman(c.total_amount) + " است.",
+    "ماده ۹ - پیش‌پرداخت: " + toFa(c.advance_percent) + " درصد مبلغ کل، معادل " + toman(c.advance_amount) + "، پیش از شروع کار پرداخت می‌شود.",
+    "ماده ۱۰ - تسویه: مبلغ باقی‌مانده، معادل " + toman(c.remaining_amount) + "، پس از تحویل ویدیوهای توافق‌شده پرداخت می‌شود.",
+    "ماده ۱۱ - زمان تحویل هر ویدیو " + fmt(c.delivery_days_min) + " تا " + fmt(c.delivery_days_max) + " روز کاری پس از دریافت کامل فایل‌های خام و توضیحات موردنیاز است. در صورت تأخیر کارفرما در ارسال فایل یا تأیید، زمان‌بندی متناسب با آن تغییر می‌کند.",
+    "ماده ۱۲ - برای هر ویدیو " + fmt(c.free_revisions) + " مرحله اصلاح جزئی رایگان در نظر گرفته می‌شود. تغییرات اساسی در سبک تدوین یا درخواست‌های خارج از توافق اولیه شامل هزینه‌ی جداگانه است.",
+    "ماده ۱۳ - تهیه و ارسال فایل‌های خام و توضیحات لازم بر عهده‌ی کارفرما است.",
+    "ماده ۱۴ - مجری صرفاً مسئولیت تدوین ویدیوهای ارسالی را بر عهده دارد و هیچ‌گونه مسئولیتی در قبال فیلم‌برداری، ضبط و تهیه‌ی فایل خام ندارد.",
+    "ماده ۱۵ - فایل نهایی پس از تأیید کارفرما و رعایت شرایط پرداخت این قرارداد تحویل داده می‌شود.",
+    "ماده ۱۶ - فسخ: هر یک از طرفین می‌تواند با اطلاع کتبی قبلی قرارداد را فسخ کند. در این صورت کارهای انجام‌شده تا آن تاریخ محاسبه و پرداخت می‌شود و پیش‌پرداخت بابت کارهای انجام‌شده تهاتر خواهد شد.",
+    "ماده ۱۷ - محرمانگی: طرفین متعهدند اطلاعات و محتوای تبادل‌شده را محرمانه نگه دارند و بدون اجازه‌ی کتبی طرف مقابل در اختیار دیگران قرار ندهند.",
+    "ماده ۱۸ - این قرارداد در دو نسخه‌ی هم‌ارزش تنظیم و با امضای طرفین معتبر است."
+  ].join("\n");
+}
+function sheet(a) {
+  const c = S.contracts.find(x => x.id === cur); if (!c) { view = "contracts"; return render(); }
+  const s = S.settings, client = cl(c.client_id) || {}, list = its(c.id);
+  const ta = h("textarea", { style: "min-height:360px", value: c.terms_text || terms(c, s, list) });
+  const sh = h("div", { id: "sheet" });
+  const draw = () => {
+    sh.textContent = "";
+    sh.append(h("h1", null, "قرارداد تدوین ویدیو"), h("div", { class: "no" }, "شماره قرارداد: ", toFa(c.number), " | تاریخ: ", isoToJLong(todayIso())),
+      h("div", { class: "parties" }, h("div", null, h("b", null, "مجری: "), s.owner_name, " (", s.owner_name_en, ")", h("br"), s.owner_title, s.owner_phone ? h("div", null, "تلفن: ", toFa(s.owner_phone)) : null), h("div", null, h("b", null, "کارفرما: "), client.full_name, client.business ? h("div", null, client.business) : null, h("div", null, "تلفن: ", toFa(client.phone || "")))),
+      ta.value.split("\n").filter(l => l.trim()).map(l => h("p", null, l)),
+      h("div", { class: "sign" }, h("div", null, "امضای مجری", h("br"), s.owner_name_en), h("div", null, "امضای کارفرما", h("br"), client.full_name)));
+  };
+  ta.addEventListener("input", draw); draw();
+  a.append(h("div", { class: "row sp noprint", style: "margin-bottom:12px" }, h("button", { class: "btn", onclick: () => { view = "contract"; render(); } }, "← بازگشت"),
+    h("div", { class: "row" }, h("button", { class: "btn", onclick: () => { ta.value = terms(c, s, list); draw(); } }, "بازسازی متن"), h("button", { class: "btn", onclick: () => run("save_contract", { contract: { id: c.id, client_id: c.client_id, start_date: c.start_date, end_date: c.end_date, collaboration_type: c.collaboration_type, items: list.map(i => ({ edit_type: i.edit_type, qty: i.qty, unit_price: i.unit_price })), terms_text: ta.value } }, () => toast("متن قرارداد ذخیره شد.")) }, "ذخیره متن"), h("button", { class: "btn p", onclick: () => window.print() }, "چاپ / ذخیره PDF"))),
+    h("div", { class: "edit" }, h("div", { class: "card noprint" }, h("h2", null, "ویرایش متن"), ta, h("p", { style: "color:var(--mut);font-size:12px;margin-top:6px" }, "در پنجره‌ی چاپ، «Save as PDF» را بزن تا PDF فارسی A4 ساخته شود.")), sh));
+}
+
+/* ---------- settings ---------- */
+function settings(a) {
+  const s = S.settings, f = {};
+  const mk = (k, l, money) => fld(l, f[k] = h("input", { value: money ? toFa(s[k]) : (typeof s[k] === "number" ? toFa(s[k]) : s[k] || ""), inputmode: money || typeof s[k] === "number" ? "numeric" : null }));
+  a.append(h("div", { class: "card" }, h("h2", null, "اطلاعات مالک"), h("div", { class: "f2" }, mk("owner_name", "نام"), mk("owner_name_en", "نام انگلیسی"), mk("owner_title", "عنوان شغلی"), mk("owner_phone", "تلفن"), mk("owner_email", "ایمیل")), mk("owner_address", "آدرس")),
+    h("div", { class: "card" }, h("h2", null, "تعرفه‌ها (فقط برای قراردادهای جدید)"), h("div", { class: "f2" }, mk("price_simple_plain", "ساده — بدون قرارداد ماهانه", 1), mk("price_simple_contract", "ساده — با قرارداد ماهانه", 1), mk("price_pro_plain", "حرفه‌ای — بدون قرارداد ماهانه", 1), mk("price_pro_contract", "حرفه‌ای — با قرارداد ماهانه", 1))),
+    h("div", { class: "card" }, h("h2", null, "شرایط قراردادهای جدید"), h("div", { class: "f2" }, mk("min_videos", "حداقل سفارش (ویدیو)"), mk("advance_percent", "درصد پیش‌پرداخت"), mk("free_revisions", "اصلاحات رایگان"), mk("delivery_days_min", "حداقل روز تحویل"), mk("delivery_days_max", "حداکثر روز تحویل"), mk("video_min_sec", "حداقل مدت ویدیو (ثانیه)"), mk("video_max_sec", "حداکثر مدت ویدیو (ثانیه)"))),
+    h("button", { class: "btn p", onclick: () => { const o = {}; const txt = ["owner_name", "owner_name_en", "owner_title", "owner_phone", "owner_email", "owner_address"]; for (const k in f) o[k] = txt.includes(k) ? f[k].value : num(f[k].value); run("save_settings", { settings: o }, () => toast("تنظیمات ذخیره شد؛ قراردادهای قبلی تغییر نکردند.")); } }, "ذخیره تنظیمات"));
+}
+
+/* ---------- boot ---------- */
+function readToken() { let r = ""; try { r = decodeURIComponent((location.hash || "").replace(/^#/, "")); } catch (e) {} return r.replace(/^t=/, "").trim(); }
+$("#theme").addEventListener("click", () => { const d = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = d; try { localStorage.setItem("es-theme", d); } catch (e) {} });
+try { const t = localStorage.getItem("es-theme"); if (t) document.documentElement.dataset.theme = t; else if (matchMedia("(prefers-color-scheme: dark)").matches) document.documentElement.dataset.theme = "dark"; } catch (e) {}
+(async () => {
+  token = readToken(); const gate = $("#gate");
+  if (!token) { gate.textContent = "لینک ورود معتبر نیست. از همان لینک اختصاصی مدیریت (manage.html#t=…) استفاده کن و آدرس را به contracts.html تغییر بده."; return; }
+  try { S = await api("load"); } catch (e) { gate.textContent = e.message; return; }
+  render();
+})();
+})();
+</script>
+</body>
+</html>
